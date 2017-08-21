@@ -14,20 +14,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.MainActivity">
+        <activity android:name=".Views.Activity.MainActivity">
+
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity android:name=".Views.Activity.LoginActivity" />
+        <activity android:name=".Views.Activity.RequisitionsActivity" />
+        <activity android:name=".Views.Activity.RequisitionDetailActivity" />
+        <activity android:name=".Views.Activity.FormRequisitionActivity" />
+        <activity android:name=".Views.Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".Views.LoginActivity" />
-        <activity android:name=".Views.RequisitionsActivity" />
-        <activity android:name=".Views.RequisitionDetailActivity" />
-        <activity android:name=".Views.FormRequisitionActivity"></activity>
     </application>
 
 </manifest>
