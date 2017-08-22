@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.hics.biofields.R;
+import com.hics.biofields.Views.Dialogs.RecoveryPasswordActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,12 +21,17 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.act_login_enter)
     void onLoginClick(){
-        start(MainActivity.class);
+        start(MainActivity.class,true);
     }
 
-    private void start(Class<?> aClass) {
+    @OnClick(R.id.act_login_recovery)
+    void onRecoveryOpenClick(){start(RecoveryPasswordActivity.class,false);}
+
+    private void start(Class<?> aClass,boolean isFinished ) {
         Intent intent = new Intent(this, aClass);
         startActivity(intent);
-        finish();
+        if (isFinished) {
+            finish();
+        }
     }
 }

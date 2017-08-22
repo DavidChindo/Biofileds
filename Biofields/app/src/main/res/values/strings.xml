@@ -15,16 +15,26 @@
         completions."
     </string>
 
+    <!-- Generic Text-->
+    <string name="accept">Aceptar</string>
+    <string name="reject">Rechazar</string>
+    <string name="sent">Enviar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="reason">Comentarios</string>
     <!-- Splash Activity-->
     <string name="content_description">BioFields</string>
     <string name="text_version">Version %s</string>
 
-    <!-- Login Acitivyt -->
+    <!-- Login Acitivity -->
     <string name="act_login_edt_user">Usuario</string>
     <string name="act_login_edt_password">Contraseña</string>
     <string name="act_login_btn_login">Ingresar</string>
     <string name="act_login_btn_recovery_pwd">Recuperar Contraseña</string>
 
+    <!-- Recovery Password Activity-->
+    <string name="act_recovery_title">Recuperar Contraseña</string>
+    <string name="act_recovery_email">Correo Electrónico</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
