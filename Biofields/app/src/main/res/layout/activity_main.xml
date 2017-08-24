@@ -9,10 +9,11 @@
     <in.galaxyofandroid.awesometablayout.AwesomeTabBar
         android:id="@+id/tabBar"
         app:atb_indicatorHeight="2dp"
-        app:atb_indicatorColor="#bebebe"
+        app:atb_indicatorColor="@color/colorAccent"
         app:atb_imageHeight="30dp"
         app:atb_imageWidth="30dp"
         app:atb_imagePosition="top"
+        app:atb_tabWidth="28dp"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteY="0dp"

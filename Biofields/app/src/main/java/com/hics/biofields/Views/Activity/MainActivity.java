@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPager pager=(ViewPager)findViewById(R.id.pager);
         pager.setAdapter(new RequisitionAdapter(getSupportFragmentManager()));
         tabBar.setupWithViewPager(pager);
-
     }
+
+
 }

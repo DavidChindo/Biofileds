@@ -1,9 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
     android:layout_width="match_parent"
+    android:fillViewport="true"
     android:layout_height="match_parent"
-    tools:context="com.hics.biofields.Views.Activity.FormRequisitionActivity">
+    android:padding="@dimen/margin_four">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cards_gral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_four">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/font_title_reverse"
+                    android:text="Nueva Requisición"/>
+            </LinearLayout>
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/act_form_company"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/colorPrimaryDark"
+                app:ms_arrowSize="16dp"
+                app:ms_floatingLabelColor="@android:color/black"
+                app:ms_floatingLabelText="Empresa"
+                app:ms_hint="Seleccionar"
+
+                app:ms_multiline="true" />
+
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/act_form_center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/colorPrimaryDark"
+                app:ms_arrowSize="16dp"
+                app:ms_floatingLabelColor="@android:color/black"
+                app:ms_floatingLabelText="Center"
+                app:ms_hint="Seleccionar"
+                app:ms_multiline="true" />
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/act_form_itembudge"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/colorPrimaryDark"
+                app:ms_arrowSize="16dp"
+                app:ms_floatingLabelColor="@android:color/black"
+                app:ms_floatingLabelText="Partida de Presupuesto"
+                app:ms_hint="Seleccionar"
+                app:ms_multiline="true" />
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/act_form_site"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/colorPrimaryDark"
+                app:ms_arrowSize="8dp"
+                app:ms_floatingLabelColor="@android:color/black"
+                app:ms_floatingLabelText="Sitio de Entrega"
+                app:ms_hint="Seleccionar"
+                app:ms_multiline="true" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/act_form_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/act_form_comments"
+                    android:maxLength="300"/>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            card_view:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_four">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/font_title_reverse"
+                        android:text="Información Presupuesto"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/font_body_italic"
+                    android:text="@string/act_form_info_item"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/act_form_poa"
+                    style="@style/font_title"/>
+
+                <RadioGroup
+                    android:id="@+id/act_form_poa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Si"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"/>
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/act_form_includerepleace"
+                    style="@style/font_title"/>
+
+                <RadioGroup
+                    android:id="@+id/act_form_includereplace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Si"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"/>
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/act_form_delete"
+                    style="@style/font_title"/>
+
+                <RadioGroup
+                    android:id="@+id/act_form_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Si"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"/>
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/act_form_indespensable"
+                    style="@style/font_title"/>
+
+                <RadioGroup
+                    android:id="@+id/act_form_indispensable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Si"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"/>
+                </RadioGroup>
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+</LinearLayout>
+</ScrollView>

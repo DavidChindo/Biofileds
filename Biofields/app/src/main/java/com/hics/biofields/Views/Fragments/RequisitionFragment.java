@@ -50,7 +50,7 @@ public class RequisitionFragment extends Fragment {
         listView.setAdapter(msAdapter);
 
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

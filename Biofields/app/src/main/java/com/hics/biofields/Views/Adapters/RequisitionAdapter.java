@@ -19,18 +19,20 @@ public class RequisitionAdapter  extends AwesomeTabBarAdapter
 {
     ArrayList<Fragment> fragments=new ArrayList<>();
     ArrayList<String> titles=new ArrayList<>();
-    int[] colors={R.color.colorPrimaryDark,R.color.colorPrimaryDark,R.color.colorPrimaryDark};
+    int[] colors={R.color.colorPrimaryDark,R.color.colorPrimaryDark,R.color.colorPrimaryDark,R.color.colorPrimaryDark};
     int[] textColors={R.color.colorWhite};
-    int[] icons={R.drawable.ic_folder,R.drawable.ic_more,R.drawable.ic_close};
+    int[] icons={R.drawable.ic_folder,R.mipmap.ic_folder_tracing,R.drawable.ic_more,R.drawable.ic_close};
 
     public RequisitionAdapter(FragmentManager fragmentManager)
     {
         super(fragmentManager);
         fragments.add(new RequisitionFragment());
+        fragments.add(new RequisitionFragment());
         fragments.add(new FormRequisitionFragment());
         fragments.add(new SettingsFragment());
 
-        titles.add("Requisiciones");
+        titles.add("Por Aprobar");
+        titles.add("Seguimientos");
         titles.add("Solcitud");
         titles.add("Cerrar Sesión");
     }

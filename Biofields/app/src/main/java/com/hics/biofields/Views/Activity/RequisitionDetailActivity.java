@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.hics.biofields.R;
 
 import butterknife.BindView;
@@ -14,7 +15,7 @@ import butterknife.OnClick;
 public class RequisitionDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.act_detail_ln_services)LinearLayout itemsLn;
-
+    @BindView(R.id.animation_view)LottieAnimationView animationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +24,13 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         for (int i = 0; i < 6; i++) {
             addItems();
         }
+        annimation();
+    }
+
+    private void annimation(){
+        animationView.setAnimation("money.json");
+        animationView.loop(true);
+        animationView.playAnimation();
     }
 
     private void addItems(){

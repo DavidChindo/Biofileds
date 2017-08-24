@@ -46,4 +46,12 @@
         <item name="android:paddingStart">@dimen/margin_six</item>
     </style>
 
+    <style name="font_body_italic">
+        <item name="android:textSize">@dimen/font_size_12</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:paddingBottom">@dimen/margin_four</item>
+        <item name="android:paddingStart">@dimen/margin_six</item>
+    </style>
+
 </resources>
