@@ -51,7 +51,13 @@
     <style name="font_title">
         <item name="android:textSize">@dimen/font_size_14</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/font_title_gray</item>
+        <item name="android:padding">@dimen/margin_four</item>
+    </style>
+
+    <style name="font_title_detail">
+        <item name="android:textSize">@dimen/font_size_14</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:padding">@dimen/margin_four</item>
     </style>
 
@@ -63,14 +69,14 @@
 
     <style name="font_body">
         <item name="android:textSize">@dimen/font_size_12</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/font_gray</item>
         <item name="android:paddingBottom">@dimen/margin_four</item>
         <item name="android:paddingStart">@dimen/margin_six</item>
     </style>
 
     <style name="font_body_light">
         <item name="android:textSize">@dimen/font_size_12</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/font_title_gray</item>
         <item name="android:paddingBottom">@dimen/margin_four</item>
         <item name="android:paddingStart">@dimen/margin_six</item>
     </style>

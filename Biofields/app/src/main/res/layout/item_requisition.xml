@@ -2,13 +2,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ln"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="4dp">
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
+        android:id="@+id/card_view_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -17,7 +18,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_rectangle"
             android:orientation="vertical"
             android:padding="4dp">
 
@@ -29,102 +29,133 @@
                     android:id="@+id/item_requisition_num"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.7"
                     android:layout_marginTop="4dp"
                     android:text="No. 222"
-                    android:textColor="#157787"
-                    android:textSize="12sp"
-                    />
-                <TextView
-                    android:id="@+id/item_requisition_amount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:layout_marginTop="4dp"
-                    android:text="Monto $ 22,000,000.00"
-                    android:gravity="end"
-                    android:layout_marginEnd="@dimen/margin_two"
-                    android:textColor="#157787"
-                    android:textSize="12sp" />
+                    style="@style/font_title" />
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@mipmap/timer_clock"
+                  android:layout_margin="@dimen/margin_eigth"/>
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginEnd="@dimen/margin_six"
+                android:layout_marginStart="@dimen/margin_six"
+                android:layout_marginTop="@dimen/margin_eigth"
+                android:layout_marginBottom="@dimen/margin_eigth"
+                android:background="@color/silver">
+            </View>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/item_requisition_item"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:layout_marginTop="4dp"
-                    android:text="Compañia:"
-                    android:textColor="#157787"
-                    android:textSize="12sp"
-                    />
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:layout_marginTop="4dp"
-                    android:text="assasa"
-                    android:textColor="#157787"
-                    android:textSize="12sp"
+                    android:layout_marginStart="@dimen/margin_four"
+                    android:layout_marginEnd="@dimen/margin_four"
+                    android:layout_marginTop="@dimen/margin_eigth"
+                    android:text="Procter &amp; Gamble"
+                    style="@style/font_body_light"
                     android:maxLines="2"
+                    android:gravity="center|start"
+                    android:drawableStart="@mipmap/building"
+                    android:drawablePadding="@dimen/margin_four"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:layout_marginTop="4dp"
-                    android:text="Descripcióm"
-                    android:textColor="#157787"
-                    android:textSize="12sp"
-                    />
                 <TextView
                     android:id="@+id/item_requisition_description"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:layout_marginTop="4dp"
-                    android:text="Pago de Derechos"
+                    android:layout_marginStart="@dimen/margin_four"
+                    android:layout_marginEnd="@dimen/margin_four"
+                    android:layout_marginTop="@dimen/margin_eigth"
+                    android:text="Pago de derecho Pago de derecho Pago de derecho Pago de derecho"
+                    style="@style/font_body_light"
                     android:maxLines="2"
-                    android:textColor="#157787"
-                    android:textSize="12sp" />
+                    android:gravity="center|start"
+                    android:drawableStart="@mipmap/info"
+                    android:drawablePadding="@dimen/margin_four"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/item_requisition_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_four"
+                    android:layout_marginEnd="@dimen/margin_four"
+                    android:layout_marginTop="@dimen/margin_eigth"
+                    android:text="22 Febrero 2017"
+                    style="@style/font_body_light"
+                    android:maxLines="2"
+                    android:gravity="center|start"
+                    android:drawableStart="@mipmap/calendar"
+                    android:drawablePadding="@dimen/margin_four"
+                    />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_bottom"
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginEnd="@dimen/margin_six"
+                android:layout_marginStart="@dimen/margin_six"
+                android:layout_marginTop="@dimen/margin_eigth"
+                android:layout_marginBottom="@dimen/margin_eigth"
+                android:background="@color/silver">
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/spinner_size">
 
                 <TextView
                     android:id="@+id/item_requisition_status"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:layout_marginTop="4dp"
                     android:text="No enviada"
-                    android:textColor="#157787"
+                    android:textColor="@color/colorWhite"
                     android:textSize="12sp"
+                    android:background="@drawable/shape_status_not_sent"
+                    android:padding="@dimen/margin_six"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.3"
                     />
                 <TextView
-                    android:id="@+id/item_requisition_urgent"
-                    android:layout_width="0dp"
+                    android:id="@+id/item_requisition_amount"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:layout_marginTop="4dp"
-                    android:text="Pago de Derechos"
-                    android:maxLines="2"
-                    android:textColor="@color/red"
+                    android:text="22,000,000.00"
                     android:gravity="end"
+                    android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/margin_two"
-                    android:textSize="12sp" />
+                    android:drawableStart="@mipmap/coins"
+                    style="@style/font_title"
+                    android:padding="@dimen/margin_four"
+                    />
             </LinearLayout>
 
         </LinearLayout>

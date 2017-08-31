@@ -44,15 +44,15 @@ public class RequisitionsAdapter extends ArrayAdapter<String> {
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
-
         }
         holder.title.setText(mListAnswer.get(position));
+
         return convertView;
     }
 
     class ViewHolder{
 
-        @BindView(R.id.title)TextView title;
+        @BindView(R.id.item_requisition_item)TextView title;
         public ViewHolder(View v){
             ButterKnife.bind(this, v);
         }

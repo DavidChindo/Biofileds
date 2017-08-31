@@ -15,12 +15,16 @@
         completions."
     </string>
 
+    <!-- URL -->
+    <string name="url_qa">http://workflowbf.azurewebsites.net/workflow/v1/index.php/</string>
+
     <!-- Generic Text-->
     <string name="accept">Aceptar</string>
     <string name="reject">Rechazar</string>
     <string name="sent">Enviar</string>
     <string name="cancel">Cancelar</string>
     <string name="reason">Comentarios</string>
+    <string name="dialog_error_memory_low">La aplicación se está quedando sin memoria, por favor cierra las demás aplicaciones para un correcto funcionamiento</string>
     <!-- Splash Activity-->
     <string name="content_description">BioFields</string>
     <string name="text_version">Version %s</string>
