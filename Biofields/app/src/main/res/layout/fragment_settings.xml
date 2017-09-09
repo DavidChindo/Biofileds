@@ -1,14 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hics.biofields.Views.Fragments.SettingsFragment">
+    tools:context="com.hics.biofields.Views.Fragments.SettingsFragment"
+    android:orientation="vertical"
+    android:background="@color/blue_background">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Button
+        android:id="@+id/fr_setting_logout"
+        android:text="@string/close_sesion"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Configuracion" />
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:background="@color/colorWhite"
+        android:textColor="@color/blue_icon"
+        android:textStyle="normal"
+        android:textAllCaps="false"
+        android:paddingStart="@dimen/margin_eigth"
+        />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/fr_settings_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_version_complete"
+        style="@style/font_title_detail"
+        android:layout_marginTop="@dimen/margin_sixteen"
+        android:padding="@dimen/margin_eigth"
+        android:background="@color/white_background"/>
+
+</LinearLayout>

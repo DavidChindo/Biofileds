@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center">
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
-        android:src="@mipmap/splash" />
+        android:src="@drawable/background" />
 
     <LinearLayout
         android:id="@+id/main_Login_linear"
@@ -23,7 +24,7 @@
             android:layout_width="320dp"
             android:layout_height="220dp"
             android:padding="48dp"
-            android:src="@mipmap/ico_logo"
+            android:src="@drawable/img_logo"
             android:id="@+id/act_login_img_logo"/>
 
         <android.support.design.widget.TextInputLayout
@@ -37,8 +38,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_sixteen"
                 android:layout_marginRight="@dimen/margin_sixteen"
-                android:drawableLeft="@android:drawable/stat_notify_chat"
-                android:drawableStart="@android:drawable/stat_notify_chat"
+                android:drawableLeft="@drawable/ic_login_usr"
+                android:drawableStart="@drawable/ic_login_usr"
+                android:drawableTint="@color/colorWhite"
                 android:drawablePadding="8dp"
                 android:hint="@string/act_login_edt_user"
                 android:inputType="text"
@@ -59,28 +61,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_sixteen"
                 android:layout_marginRight="@dimen/margin_sixteen"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@android:drawable/ic_lock_idle_lock"
-                android:drawableStart="@android:drawable/ic_lock_idle_lock"
+                android:drawablePadding="@dimen/margin_eigth"
+                android:drawableLeft="@drawable/ic_login_pass"
+                android:drawableStart="@drawable/ic_login_pass"
+                android:drawableTint="@color/colorWhite"
                 android:hint="@string/act_login_edt_password"
                 android:inputType="textPassword"
                 android:maxLength="100"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                />
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/act_login_enter"
+            style="@style/StrokeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_sixteen"
             android:layout_marginRight="@dimen/margin_sixteen"
-            android:layout_marginTop="@dimen/margin_sixteen"
-            style="@style/StrokeButton"
+            android:layout_marginTop="@dimen/margin_sixty"
             android:elevation="@dimen/raised_button"
             android:text="@string/act_login_btn_login"
-            android:textAllCaps="false"
-             />
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

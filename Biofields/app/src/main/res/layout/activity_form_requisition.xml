@@ -6,12 +6,23 @@
     android:layout_width="match_parent"
     android:fillViewport="true"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_four">
+    android:padding="@dimen/margin_four"
+    android:background="@color/blue_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/margin_twelve">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/font_title"
+            android:text="Generales"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            />
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -25,71 +36,120 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/margin_four">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/font_title_reverse"
-                    android:text="Nueva Requisición"/>
-            </LinearLayout>
+            android:padding="@dimen/margin_four">>
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/act_form_company"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:ms_arrowColor="@color/colorPrimaryDark"
-                app:ms_arrowSize="16dp"
-                app:ms_floatingLabelColor="@android:color/black"
+                app:ms_arrowColor="@color/silver"
+                app:ms_arrowSize="8dp"
+                app:ms_floatingLabelColor="@color/gray_font_form"
                 app:ms_floatingLabelText="Empresa"
-                app:ms_hint="Seleccionar"
-
-                app:ms_multiline="true" />
+                app:ms_hint="Empresa"
+                app:ms_multiline="true"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"/>
 
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/act_form_center"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:ms_arrowColor="@color/colorPrimaryDark"
-                app:ms_arrowSize="16dp"
-                app:ms_floatingLabelColor="@android:color/black"
-                app:ms_floatingLabelText="Center"
-                app:ms_hint="Seleccionar"
-                app:ms_multiline="true" />
+                app:ms_arrowColor="@color/silver"
+                app:ms_arrowSize="8dp"
+                app:ms_floatingLabelColor="@color/gray_font_form"
+                app:ms_floatingLabelText="Centro de costo del autorizador"
+                app:ms_hint="Centro de costo del autorizador"
+                app:ms_multiline="true"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"/>
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/act_form_itembudge"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:ms_arrowColor="@color/colorPrimaryDark"
-                app:ms_arrowSize="16dp"
-                app:ms_floatingLabelColor="@android:color/black"
-                app:ms_floatingLabelText="Partida de Presupuesto"
-                app:ms_hint="Seleccionar"
-                app:ms_multiline="true" />
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/act_form_site"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                app:ms_arrowColor="@color/colorPrimaryDark"
+                app:ms_arrowColor="@color/silver"
                 app:ms_arrowSize="8dp"
-                app:ms_floatingLabelColor="@android:color/black"
-                app:ms_floatingLabelText="Sitio de Entrega"
-                app:ms_hint="Seleccionar"
-                app:ms_multiline="true" />
+                app:ms_floatingLabelColor="@color/gray_font_form"
+                app:ms_floatingLabelText="Partida de Presupuesto"
+                app:ms_hint="Partida de Presupuesto"
+                app:ms_multiline="true"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve">
+
+                <EditText
+                    android:id="@+id/act_form_provider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Proveedor"
+                    android:focusable="false"
+                    android:maxLength="300"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardUseCompatPadding="true"
+                android:padding="16dp"
+                android:elevation="8dp">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/act_form_provider_list"
+                    android:visibility="gone"
+                    android:dividerHeight="2px"
+                    ></ListView>
+            </android.support.v7.widget.CardView>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve">
+
+                <EditText
+                    android:id="@+id/act_form_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/act_form_description"
+                    android:maxLines="4"
+                    android:focusable="false"
+                    android:maxLength="300" />
+            </android.support.design.widget.TextInputLayout>
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/act_form_site"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/silver"
+                app:ms_arrowSize="8dp"
+                app:ms_floatingLabelColor="@color/gray_font_form"
+                app:ms_floatingLabelText="Sitio de entrega"
+                app:ms_hint="Sitio de entrega"
+                app:ms_multiline="true"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve">
 
                 <EditText
                     android:id="@+id/act_form_comments"
@@ -97,12 +157,89 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="@string/act_form_comments"
-                    android:maxLength="300"/>
+                    android:focusable="false"
+                    android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/act_form_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/silver"
+                app:ms_arrowSize="8dp"
+                app:ms_floatingLabelColor="@color/gray_font_form"
+                app:ms_floatingLabelText="Moneda de pago"
+                app:ms_hint="Moneda de pago"
+                app:ms_multiline="true"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/act_form_billed"
+                style="@style/font_title"
+                android:textStyle="normal"
+                android:textColor="@color/gray_font_form"
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:layout_marginEnd="@dimen/margin_twelve"/>
+
+            <RadioGroup
+                android:id="@+id/act_form_billed_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:layout_marginEnd="@dimen/margin_twelve">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"/>
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/act_form_wednesday"
+                style="@style/font_title"
+                android:textStyle="normal"
+                android:textColor="@color/gray_font_form"
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:layout_marginEnd="@dimen/margin_twelve"/>
+
+            <RadioGroup
+                android:id="@+id/act_form_urgent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:layout_marginEnd="@dimen/margin_twelve">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"/>
+            </RadioGroup>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/font_title"
+            android:text="Información del Presupuesto"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            android:layout_marginTop="@dimen/margin_twelve"
+            android:layout_marginBottom="@dimen/margin_eigth"/>
 
         <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -118,38 +255,36 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_four">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/font_title_reverse"
-                        android:text="Información Presupuesto"/>
-                </LinearLayout>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/font_body_italic"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve"
                     android:text="@string/act_form_info_item"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve"
                     android:text="@string/act_form_poa"
-                    style="@style/font_title"/>
+                    style="@style/font_title"
+                    android:textColor="@color/gray_font_form"
+                    android:textStyle="normal"/>
 
                 <RadioGroup
                     android:id="@+id/act_form_poa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Si"/>
+                        android:text="Si"
+                        android:checked="true"/>
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,13 +295,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/act_form_includerepleace"
-                    style="@style/font_title"/>
+                    style="@style/font_title"
+                    android:textColor="@color/gray_font_form"
+                    android:textStyle="normal"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve"/>
 
                 <RadioGroup
                     android:id="@+id/act_form_includereplace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -181,13 +322,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/act_form_delete"
-                    style="@style/font_title"/>
+                    style="@style/font_title"
+                    android:textStyle="normal"
+                    android:textColor="@color/gray_font_form"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve"/>
 
                 <RadioGroup
                     android:id="@+id/act_form_delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -202,13 +349,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/act_form_indespensable"
-                    style="@style/font_title"/>
+                    style="@style/font_title"
+                    android:textStyle="normal"
+                    android:textColor="@color/gray_font_form"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve"/>
 
                 <RadioGroup
                     android:id="@+id/act_form_indispensable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -219,9 +372,111 @@
                         android:text="No"/>
                 </RadioGroup>
 
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_twelve"
+    android:layout_marginBottom="@dimen/margin_four">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/font_title"
+        android:text="Archivos de Soporte"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:gravity="start"
+        android:layout_alignParentStart="true"/>
+    <Button
+        android:id="@+id/act_form_add_files"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_ico_add"
+        android:backgroundTint="@color/colorPrimary"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_form_files"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_four">
+
+        <LinearLayout
+            android:id="@+id/act_form_files_ln"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_twelve"
+            android:layout_marginBottom="@dimen/margin_four">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/font_title"
+                android:text="Partidas de Requisición"
+                android:textColor="@color/black"
+                android:textStyle="normal"
+                android:gravity="start"
+                android:layout_alignParentStart="true"/>
+            <Button
+                android:id="@+id/act_form_add_budge"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_ico_add"
+                android:backgroundTint="@color/colorPrimary"
+                android:gravity="end"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_form_budgeitems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            card_view:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_four">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/act_form_budgeitem_lv"></ListView>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/act_form_sent_requisition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/raised_button"
+            android:text="@string/accept"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white_background"
+            android:layout_marginStart="@dimen/margin_twelve"
+            android:layout_marginEnd="@dimen/margin_twelve"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
 </ScrollView>

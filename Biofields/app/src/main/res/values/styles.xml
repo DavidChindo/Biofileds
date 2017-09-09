@@ -32,7 +32,6 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-
         <item name="android:layout_marginBottom">16dp</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
@@ -77,6 +76,13 @@
     <style name="font_body_light">
         <item name="android:textSize">@dimen/font_size_12</item>
         <item name="android:textColor">@color/font_title_gray</item>
+        <item name="android:paddingBottom">@dimen/margin_four</item>
+        <item name="android:paddingStart">@dimen/margin_six</item>
+    </style>
+
+    <style name="font_body_company">
+        <item name="android:textSize">@dimen/font_size_12</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:paddingBottom">@dimen/margin_four</item>
         <item name="android:paddingStart">@dimen/margin_six</item>
     </style>

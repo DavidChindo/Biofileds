@@ -1,4 +1,4 @@
-package com.hics.biofields.Models;
+package com.hics.biofields.Models.Objects;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

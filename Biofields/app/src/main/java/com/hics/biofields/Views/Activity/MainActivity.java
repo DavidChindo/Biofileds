@@ -1,5 +1,6 @@
 package com.hics.biofields.Views.Activity;
 
+
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,12 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        toolbar.setTitle("Requsiciones");
+        toolbar.setTitle("Requisiciones");
         AwesomeTabBar tabBar=(AwesomeTabBar)findViewById(R.id.tabBar);
         ViewPager pager=(ViewPager)findViewById(R.id.pager);
         pager.setAdapter(new RequisitionAdapter(getSupportFragmentManager()));
         tabBar.setupWithViewPager(pager);
+        pager.setCurrentItem(1);
+        pager.setCurrentItem(0);
     }
-
 
 }

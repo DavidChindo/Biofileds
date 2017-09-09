@@ -1,13 +1,15 @@
 package com.hics.biofields.Views.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hics.biofields.Network.Responses.RequisitionItemResponse;
 import com.hics.biofields.R;
 
 import java.util.ArrayList;
@@ -19,20 +21,20 @@ import butterknife.ButterKnife;
  * Created by david.barrera on 8/21/17.
  */
 
-public class RequisitionsAdapter extends ArrayAdapter<String> {
+public class RequisitionsAdapter extends ArrayAdapter<RequisitionItemResponse> {
 
     private Context mContext;
-    private ArrayList<String> mListAnswer;
+    private ArrayList<RequisitionItemResponse> mRequisitions;
 
-    public RequisitionsAdapter(Context context, int resource, ArrayList<String> Answers) {
-        super(context, resource, Answers);
+    public RequisitionsAdapter(Context context, int resource, ArrayList<RequisitionItemResponse> requisitions) {
+        super(context, resource, requisitions);
         this.mContext = context;
-        this.mListAnswer = Answers;
+        this.mRequisitions = requisitions;
     }
 
     @Override
     public int getCount() {
-        return mListAnswer.size();
+        return mRequisitions.size();
     }
 
     @Override
@@ -45,19 +47,53 @@ public class RequisitionsAdapter extends ArrayAdapter<String> {
         }else{
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.title.setText(mListAnswer.get(position));
+        final RequisitionItemResponse requisition = mRequisitions.get(position);
+        holder.num.setText("No. "+requisition.getNumRequisition());
+        holder.title.setText(requisition.getCompanyNameRequisition());
+        holder.description.setText(requisition.getDescRequsition());
+        //holder.date.setText(requisition.getDateRequisition());
+        holder.providerTxt.setText(requisition.getSalesManNumberRequisition());
+        holder.amount.setText(requisition.getAmountRequsition());
+        if (requisition.getUrgentRequsition().toLowerCase().contains("urgente")){
+            holder.statusBar.setVisibility(View.VISIBLE);
+            holder.urgentTxt.setVisibility(View.VISIBLE);
+            holder.statusBarGray.setVisibility(View.GONE);
+        }else{
+            holder.statusBarGray.setVisibility(View.VISIBLE);
+            holder.statusBar.setVisibility(View.GONE);
+            holder.urgentTxt.setVisibility(View.GONE);
+        }
 
+
+        holder.status.setText(getStatus(requisition.getStatusRequisition()));
         return convertView;
     }
 
     class ViewHolder{
 
-        @BindView(R.id.item_requisition_item)TextView title;
+        @BindView(R.id.item_requisition_num)TextView num;
+        @BindView(R.id.item_requisition_item_company)TextView title;
+        @BindView(R.id.item_requisition_description)TextView description;
+        @BindView(R.id.item_requisition_date )TextView date;
+        @BindView(R.id.item_requisition_amount)TextView amount;
+        @BindView(R.id.item_requisition_status)TextView status;
+        @BindView(R.id.item_requisition_urgent)ImageView iconUrgent;
+        @BindView(R.id.item_requisition_statusbar)LinearLayout statusBar;
+        @BindView(R.id.item_requisition_statusbar_gray)LinearLayout statusBarGray;
+        @BindView(R.id.item_requisition_urgent_txt)TextView urgentTxt;
+        @BindView(R.id.item_requisition_provider)TextView providerTxt;
+
         public ViewHolder(View v){
             ButterKnife.bind(this, v);
         }
     }
 
+    private String getStatus(String status){
+        if (status.contains("<br>")){
+            return status.substring(0,status.indexOf("<")-1);
+        }else{
+            return "N/A";
+        }
+    }
+
 }
-
-

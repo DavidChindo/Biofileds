@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Biofields</string>
+    <string name="app_name">WorkflowManager</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -25,15 +25,26 @@
     <string name="cancel">Cancelar</string>
     <string name="reason">Comentarios</string>
     <string name="dialog_error_memory_low">La aplicación se está quedando sin memoria, por favor cierra las demás aplicaciones para un correcto funcionamiento</string>
+    <string name="network_error">No hay conexión a internet</string>
+    <string name="empty_list">No hay requisiciones</string>
+    <string name="form_pick_files">Selecciona el archivo</string>
+    <string name="total_budges">$ %d MXN</string>
+    <string name="validate_field">%s es requerido</string>
+    <string name="involved_name">\u2022 %s</string>
+    <string name="close_sesion">Cerrar Sesión</string>
+    <string name="text_version_complete">Version:  %s</string>
     <!-- Splash Activity-->
     <string name="content_description">BioFields</string>
-    <string name="text_version">Version %s</string>
+    <string name="text_version">V %s</string>
+
+
+
 
     <!-- Login Acitivity -->
     <string name="act_login_edt_user">Usuario</string>
     <string name="act_login_edt_password">Contraseña</string>
     <string name="act_login_btn_login">Ingresar</string>
-    <string name="act_login_btn_recovery_pwd">Recuperar Contraseña</string>
+    <string name="act_login_btn_recovery_pwd">Recuperar su contraseña</string>
 
     <!-- Recovery Password Activity-->
     <string name="act_recovery_title">Recuperar Contraseña</string>
@@ -43,10 +54,23 @@
 
     <!-- Form Requisition Activity -->
     <string name="act_form_comments">Anotaciones</string>
+    <string name="act_form_description">Descripción del requerimiento</string>
     <string name="act_form_info_item">Llenese sólo si conoce la información</string>
     <string name="act_form_poa">A) ¿Esta dentro del POA?</string>
     <string name="act_form_includerepleace">B) ¿Puede incluirse / reemplazar otra partida?</string>
     <string name="act_form_delete">C) ¿Se puede eliminar otra partida?</string>
     <string name="act_form_indespensable">D) ¿Es indispensable para la operación?</string>
+    <string name="act_form_billed">¿El proveedor ya le ha entregado factura?</string>
+    <string name="act_form_wednesday">¿Pago urgente (Próximo Miércoles)?</string>
+
+    <!-- Form Partidas(Budge) Activity -->
+    <string name="act_budge_notes">Notas</string>
+    <string name="act_budge_service_product">Producto / servicio</string>
+    <string name="act_budge_description">Descripción</string>
+    <string name="act_budge_uom">Unidad de medida</string>
+    <string name="act_budge_price">Precio unitario</string>
+    <string name="act_budge_qty">Cantidad</string>
+    <string name="act_budge_total">Total %d MXN</string>
+
 
 </resources>

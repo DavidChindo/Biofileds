@@ -19,9 +19,9 @@ public class RequisitionAdapter  extends AwesomeTabBarAdapter
 {
     ArrayList<Fragment> fragments=new ArrayList<>();
     ArrayList<String> titles=new ArrayList<>();
-    int[] colors={R.color.colorPrimaryDark,R.color.colorPrimaryDark,R.color.colorPrimaryDark,R.color.colorPrimaryDark};
-    int[] textColors={R.color.colorWhite};
-    int[] icons={R.drawable.ic_folder,R.mipmap.ic_folder_tracing,R.drawable.ic_more,R.drawable.ic_close};
+    int[] colors={R.color.gray_tab,R.color.gray_tab,R.color.gray_tab,R.color.gray_tab};
+    int[] textColors={R.color.gray_icon_unselected,R.color.gray_icon_unselected,R.color.gray_icon_unselected,R.color.gray_icon_unselected};
+    int[] icons={R.drawable.ic_qbi_aut,R.drawable.ic_qbi_seg,R.drawable.ic_qbi_req,R.drawable.ic_qbi_logout};
 
     public RequisitionAdapter(FragmentManager fragmentManager)
     {
@@ -59,12 +59,13 @@ public class RequisitionAdapter  extends AwesomeTabBarAdapter
 
     @Override
     public int getTextColorResource(int position) {
-        return textColors[0];
+        return textColors[position];
     }
 
     @Override
     public int getIconResource(int position) {
         return icons[position];
     }
+
 }
 

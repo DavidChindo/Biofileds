@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center">
+
+    <ImageView
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/background"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="220dp"
+        android:background="@android:color/transparent"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/margin_thirtytwo"
+        android:layout_marginStart="@dimen/margin_thirtytwo"
+        >
+        <TextView
+            android:id="@+id/title_select_company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar empresa"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_forty"/>
+        <Spinner
+            android:id="@+id/act_select_companies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_twelve"
+            android:background="@color/white_background"
+            android:layout_marginStart="@dimen/margin_twelve"></Spinner>
+
+        <Button
+            android:id="@+id/act_select_accept"
+            style="@style/StrokeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_sixteen"
+            android:layout_marginRight="@dimen/margin_sixteen"
+            android:layout_marginTop="@dimen/margin_sixty"
+            android:elevation="@dimen/raised_button"
+            android:text="@string/accept"
+            android:textAllCaps="false"
+            android:layout_alignParentBottom="true"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white_background"
+            android:alpha="0.4"></View>
+    </RelativeLayout>
+
+
+
+</FrameLayout>

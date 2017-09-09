@@ -26,6 +26,12 @@
     <dimen name="margin_sixteen">16dp</dimen>
     <dimen name="margin_thirtytwo">32dp</dimen>
     <dimen name="margin_forty">40dp</dimen>
+    <dimen name="margin_fortyfour">44dp</dimen>
+    <dimen name="margin_fortyeight">48dp</dimen>
+    <dimen name="margin_fiftytwo">52dp</dimen>
+    <dimen name="margin_fiftyfour">56dp</dimen>
+    <dimen name="margin_sixty">60dp</dimen>
+    <dimen name="margin_sixtyfour">604dp</dimen>
 
     <dimen name="font_size_eigth">8sp</dimen>
     <dimen name="font_size_12">12sp</dimen>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_four"
+    android:background="@color/blue_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/font_title"
+            android:text="Crear partidas de requisición"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            />
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_eigth"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_four">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:layout_marginStart="@dimen/margin_twelve">
+
+                    <EditText
+                        android:id="@+id/act_budge_notes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/act_budge_notes"
+                        android:maxLength="300"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:text="@string/act_budge_service_product"
+                    style="@style/font_title"
+                    android:textColor="@color/gray_font_form"
+                    android:textStyle="normal"/>
+
+                <RadioGroup
+                    android:id="@+id/act_budge_productservice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginEnd="@dimen/margin_twelve">
+                    <RadioButton
+                        android:id="@+id/act_budge_productservice_yes"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:text="Producto" />
+                    <RadioButton
+                        android:id="@+id/act_budge_productservice_not"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:text="Servicio"/>
+                </RadioGroup>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:layout_marginStart="@dimen/margin_twelve">
+
+                <EditText
+                        android:id="@+id/act_budge_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/act_budge_description"
+                        android:maxLength="300"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardUseCompatPadding="true"
+                    android:padding="16dp"
+                    android:elevation="8dp">
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:id="@+id/act_budge_description_list"
+                        android:visibility="gone"
+                        android:dividerHeight="2px"
+                        ></ListView>
+                </android.support.v7.widget.CardView>
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/act_budge_uom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_arrowColor="@color/silver"
+                    app:ms_arrowSize="8dp"
+                    app:ms_floatingLabelColor="@color/gray_font_form"
+                    app:ms_floatingLabelText="@string/act_budge_uom"
+                    app:ms_hint="@string/act_budge_uom"
+                    app:ms_multiline="true"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    app:ms_enableErrorLabel="true"
+                    app:ms_errorColor="@color/red"
+                    />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:layout_marginStart="@dimen/margin_twelve">
+
+                    <EditText
+                        android:id="@+id/act_budge_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/act_budge_price"
+                        android:inputType="numberDecimal"
+                        android:maxLength="20" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:layout_marginStart="@dimen/margin_twelve">
+
+                    <EditText
+                        android:id="@+id/act_budge_qty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/act_budge_qty"
+                        android:inputType="number"
+                        android:maxLength="20"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/act_budge_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:layout_marginStart="@dimen/margin_twelve"
+                    style="@style/font_title"
+                    android:text="@string/act_budge_total"
+                    android:textColor="@color/black"
+                    android:textStyle="normal"
+                    android:gravity="end"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_eigth">
+            <Button
+                android:id="@+id/act_budge_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:background="@color/red"
+                android:elevation="@dimen/raised_button"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:layout_marginEnd="@dimen/margin_four"
+                android:layout_marginStart="@dimen/margin_four"
+                android:textColor="@color/white_background"/>
+            <Button
+                android:id="@+id/act_budge_accept"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:elevation="@dimen/raised_button"
+                android:text="@string/accept"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white_background"
+                android:layout_marginStart="@dimen/margin_four"
+                android:layout_marginEnd="@dimen/margin_four"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

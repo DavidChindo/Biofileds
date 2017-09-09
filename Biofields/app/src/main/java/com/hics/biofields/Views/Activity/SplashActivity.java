@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.hics.biofields.BuildConfig;
+import com.hics.biofields.Library.Prefs;
+import com.hics.biofields.Library.Statics;
 import com.hics.biofields.R;
 
 import butterknife.BindView;
@@ -26,10 +28,14 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                start(LoginActivity.class);
+                Prefs prefs = Prefs.with(SplashActivity.this);
+                if (prefs.getBoolean(Statics.LOGIN_PREFS)){
+                    start(MainActivity.class);
+                }else{
+                    start(LoginActivity.class);
+                }
             }
         },2000);
-
     }
 
     private void setVerion(){

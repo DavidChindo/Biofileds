@@ -2,6 +2,8 @@ package com.hics.biofields.Network.Responses;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by david.barrera on 8/30/17.
  */
@@ -18,6 +20,8 @@ public class LoginResponse {
     private String messsage;
     @SerializedName("array")
     private ArrayResponse array;
+    @SerializedName("companies")
+    private ArrayList<CompanyResponse> companies;
 
     public boolean isError() {
         return error;
@@ -57,6 +61,14 @@ public class LoginResponse {
 
     public void setArray(ArrayResponse array) {
         this.array = array;
+    }
+
+    public ArrayList<CompanyResponse> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(ArrayList<CompanyResponse> companies) {
+        this.companies = companies;
     }
 
 }

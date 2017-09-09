@@ -30,8 +30,9 @@ public class FormRequisitionFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         startActivity(new Intent(getActivity(),FormRequisitionActivity.class));
     }
+
 }

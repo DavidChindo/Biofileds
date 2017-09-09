@@ -21,5 +21,4 @@ public class Urls {
             return context.getResources().getString(R.string.url_qa);
         }
     }
-
 }
