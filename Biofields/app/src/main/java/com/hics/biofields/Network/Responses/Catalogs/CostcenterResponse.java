@@ -19,6 +19,30 @@ public class CostcenterResponse extends RealmObject{
     @SerializedName("costcenter_number")
     private String constCenterNumber;
 
+    public String getCostCenterId() {
+        return costCenterId;
+    }
+
+    public void setCostCenterId(String costCenterId) {
+        this.costCenterId = costCenterId;
+    }
+
+    public String getCostCenterName() {
+        return costCenterName;
+    }
+
+    public void setCostCenterName(String costCenterName) {
+        this.costCenterName = costCenterName;
+    }
+
+    public String getConstCenterNumber() {
+        return constCenterNumber;
+    }
+
+    public void setConstCenterNumber(String constCenterNumber) {
+        this.constCenterNumber = constCenterNumber;
+    }
+
     @Override
     public String toString() {
         return this.costCenterName;

@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/margin_four">>
+            android:padding="@dimen/margin_four">
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/act_form_company"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="Proveedor"
-                    android:focusable="false"
+
                     android:maxLength="300"/>
             </android.support.design.widget.TextInputLayout>
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -127,7 +127,7 @@
                     android:layout_marginTop="8dp"
                     android:hint="@string/act_form_description"
                     android:maxLines="4"
-                    android:focusable="false"
+
                     android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="@string/act_form_comments"
-                    android:focusable="false"
+
                     android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
 
@@ -192,10 +192,12 @@
                 android:layout_marginStart="@dimen/margin_twelve"
                 android:layout_marginEnd="@dimen/margin_twelve">
                 <RadioButton
+                    android:id="@+id/act_form_billed_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Si"/>
                 <RadioButton
+                    android:id="@+id/act_form_billed_not"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No"/>
@@ -219,10 +221,12 @@
                 android:layout_marginStart="@dimen/margin_twelve"
                 android:layout_marginEnd="@dimen/margin_twelve">
                 <RadioButton
+                    android:id="@+id/act_form_urgent_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Si"/>
                 <RadioButton
+                    android:id="@+id/act_form_urgent_not"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No"/>
@@ -281,11 +285,13 @@
                     android:layout_marginStart="@dimen/margin_twelve"
                     android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
+                        android:id="@+id/act_form_poa_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Si"
                         android:checked="true"/>
                     <RadioButton
+                        android:id="@+id/act_form_poa_not"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"/>
@@ -309,10 +315,12 @@
                     android:layout_marginStart="@dimen/margin_twelve"
                     android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
+                        android:id="@+id/act_form_includereplace_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Si"/>
                     <RadioButton
+                        android:id="@+id/act_form_includereplace_not"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"/>
@@ -336,10 +344,12 @@
                     android:layout_marginStart="@dimen/margin_twelve"
                     android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
+                        android:id="@+id/act_form_delet_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Si"/>
                     <RadioButton
+                        android:id="@+id/act_form_delet_not"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"/>
@@ -363,10 +373,12 @@
                     android:layout_marginStart="@dimen/margin_twelve"
                     android:layout_marginEnd="@dimen/margin_twelve">
                     <RadioButton
+                        android:id="@+id/act_form_indispensable_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Si"/>
                     <RadioButton
+                        android:id="@+id/act_form_indispensable_not"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"/>

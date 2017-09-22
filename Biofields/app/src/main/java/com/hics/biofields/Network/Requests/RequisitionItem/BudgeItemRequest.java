@@ -1,21 +1,34 @@
 package com.hics.biofields.Network.Requests.RequisitionItem;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import org.greenrobot.eventbus.Subscribe;
+
 /**
  * Created by david.barrera on 9/5/17.
  */
 
 public class BudgeItemRequest {
 
+    @SerializedName("req_linenumber")
     private int idAutonumeric;
+    @SerializedName("reqitem_notas")
     private String notes;
+    @SerializedName("reqitem_item_number")
     private String idProduct;
+    @SerializedName("reqitem_cg_desc")
     private String descProduct;
+    @SerializedName("reqitem_uom")
     private String uom;
-    private String price;
-    private String qty;
+    @SerializedName("reqitem_price")
+    private double price;
+    @SerializedName("reqitem_qty")
+    private double qty;
+    @Expose(serialize = false)
     private String total;
 
-    public BudgeItemRequest(int idAutonumeric, String notes, String idProduct, String descProduct, String uom, String price, String qty, String total) {
+    public BudgeItemRequest(int idAutonumeric, String notes, String idProduct, String descProduct, String uom, double price, double qty, String total) {
         this.idAutonumeric = idAutonumeric;
         this.notes = notes;
         this.idProduct = idProduct;
@@ -66,19 +79,19 @@ public class BudgeItemRequest {
         this.uom = uom;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public String getQty() {
+    public double getQty() {
         return qty;
     }
 
-    public void setQty(String qty) {
+    public void setQty(double qty) {
         this.qty = qty;
     }
 
@@ -92,6 +105,7 @@ public class BudgeItemRequest {
 
     @Override
     public String toString() {
-        return this.descProduct;
+
+        return this.idProduct != null ? this.idProduct.equals("-1") ? this.descProduct : this.idProduct : this.notes;
     }
 }

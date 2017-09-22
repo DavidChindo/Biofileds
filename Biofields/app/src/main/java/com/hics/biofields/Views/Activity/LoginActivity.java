@@ -16,10 +16,11 @@ import com.google.gson.Gson;
 import com.hics.biofields.BioApp;
 import com.hics.biofields.Library.Connection;
 import com.hics.biofields.Library.DesignUtils;
+import com.hics.biofields.Library.JWTUtils;
 import com.hics.biofields.Library.LogicUtils;
-import com.hics.biofields.Library.Prefs;
 import com.hics.biofields.Library.Statics;
 import com.hics.biofields.Models.Managment.RealmManager;
+import com.hics.biofields.Models.Objects.BodyJwt;
 import com.hics.biofields.Models.Objects.User;
 import com.hics.biofields.Network.Requests.LoginRequest;
 import com.hics.biofields.Network.Responses.LoginResponse;
@@ -78,10 +79,21 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.code() == Statics.code_OK) {
                         mProgressDialog.dismiss();
+                        int id =  0; //Integer.parseInt(claim.asString());
+                        try {
+                            String jsonJwt = JWTUtils.decoded(response.body().getArray().getJwt());
+                            Gson gson = new Gson();
+                            BodyJwt userData = gson.fromJson(jsonJwt,BodyJwt.class);
+                            id = Integer.parseInt(userData.getUserData().getId());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         User user = new User();
                         user.setEmail(response.body().getEmail());
                         user.setCreatedAt(response.body().getCreated());
                         user.setJwt(response.body().getArray().getJwt());
+                        user.setId(id);
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.saveUser(user, realm);
                         Statics.PASS = pass;
@@ -124,8 +136,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /*
-    * Init permissions
-    * */
+     Init permissions
+    */
     @TargetApi(Build.VERSION_CODES.M)
     public void initPermissionsNative()
     {

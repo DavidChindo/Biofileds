@@ -2,6 +2,7 @@ package com.hics.biofields;
 
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+
 import com.hics.biofields.Network.Definitions.Urls;
 import com.hics.biofields.Network.HicsWebService;
 import com.hics.biofields.Network.RetrofitEnvironments;
@@ -34,7 +35,6 @@ public class BioApp extends Application implements ComponentCallbacks2 {
 
         //Alerts.showToastMessage(this,R.string.dialog_error_memory_low);
     }
-
 
     public static HicsWebService getHicsService() {
         return hicsService;

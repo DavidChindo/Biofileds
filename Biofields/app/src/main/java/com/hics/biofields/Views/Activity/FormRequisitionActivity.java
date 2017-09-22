@@ -1,8 +1,8 @@
 package com.hics.biofields.Views.Activity;
 
-import android.content.ContentResolver;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,9 +10,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.provider.SyncStateContract;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,55 +28,59 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.hics.biofields.BioApp;
 import com.hics.biofields.Library.Connection;
 import com.hics.biofields.Library.DesignUtils;
+import com.hics.biofields.Library.LogicUtils;
+import com.hics.biofields.Library.Prefs;
 import com.hics.biofields.Library.Statics;
 import com.hics.biofields.Library.Validators;
 import com.hics.biofields.Models.Managment.RealmManager;
+import com.hics.biofields.Network.FilesResponse;
+import com.hics.biofields.Network.Requests.FileRequest;
 import com.hics.biofields.Network.Requests.RequisitionItem.BudgeItemRequest;
-import com.hics.biofields.Network.Responses.BudgeItemResponse;
+import com.hics.biofields.Network.Requests.RequisitionRequest;
 import com.hics.biofields.Network.Responses.Catalogs.BudgetlistResponse;
 import com.hics.biofields.Network.Responses.Catalogs.CompanyCatResponse;
 import com.hics.biofields.Network.Responses.Catalogs.CostcenterResponse;
 import com.hics.biofields.Network.Responses.Catalogs.PaymentType;
 import com.hics.biofields.Network.Responses.Catalogs.SiteResponse;
-import com.hics.biofields.Network.Responses.Catalogs.UoMResponse;
 import com.hics.biofields.Network.Responses.Catalogs.VendorResponse;
-import com.hics.biofields.Network.Responses.CompanyResponse;
+import com.hics.biofields.Network.Responses.RequisitionResponse;
 import com.hics.biofields.Presenters.Events.BudgeItemEvent;
+import com.hics.biofields.Presenters.Events.CloseFormRequisitionEvent;
 import com.hics.biofields.R;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import butterknife.OnItemLongClick;
 import butterknife.OnItemSelected;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import io.realm.Realm;
 import io.realm.RealmList;
-
-import static android.R.attr.data;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FormRequisitionActivity extends AppCompatActivity {
 
@@ -108,6 +111,7 @@ public class FormRequisitionActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     public static final String TAG = FormRequisitionActivity.class.getSimpleName();
     public static final String folderOrigin = Environment.getExternalStorageDirectory() + "/" + Statics.NAME_FOLDER + "/";
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,56 +130,82 @@ public class FormRequisitionActivity extends AppCompatActivity {
         spPayment.setAdapter(new ArrayAdapter<PaymentType>(this,android.R.layout.simple_spinner_dropdown_item, PaymentType.paymentsType()));
         //realm.close();
         registerForContextMenu(budgeitemsLv);
-        providerEdt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        Prefs prefs = Prefs.with(FormRequisitionActivity.this);
+        if (prefs.getBoolean(Statics.IS_BIOFIELDS_PREFS)) {
+            providerEdt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+                }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (searching) {
-                    String word = providerEdt.getText().toString().toLowerCase().trim();
-                    RealmList<VendorResponse> listValues = new RealmList<>();
-                    if (word != null && !word.isEmpty() && word.length() > 2) {
-                        listValues.clear();
-                        listValues = RealmManager.findByProvider(VendorResponse.class,"name",word);
-                        if (listValues != null && listValues.size() > 0) {
-                            providersLv.setVisibility(View.VISIBLE);
-                            providersLv.setAdapter(new ArrayAdapter<VendorResponse>(FormRequisitionActivity.this,android.R.layout.simple_list_item_1,listValues));
-                            DesignUtils.setListViewHeightBasedOnChildrenAdapter(providersLv);
-                            providersLv.setPadding(0,0,0,0);
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (searching) {
+                        String word = providerEdt.getText().toString().toLowerCase().trim();
+                        RealmList<VendorResponse> listValues = new RealmList<>();
+                        if (word != null && !word.isEmpty() && word.length() > 2) {
+                            listValues.clear();
+                            listValues = RealmManager.findByProvider(VendorResponse.class, "name", word);
+                            if (listValues != null && listValues.size() > 0) {
+                                providersLv.setVisibility(View.VISIBLE);
+                                providersLv.setAdapter(new ArrayAdapter<VendorResponse>(FormRequisitionActivity.this, android.R.layout.simple_list_item_1, listValues));
+                                DesignUtils.setListViewHeightBasedOnChildrenAdapter(providersLv);
+                                providersLv.setPadding(0, 0, 0, 0);
+                            } else {
+                                listValues.clear();
+                                providersLv.setAdapter(null);
+                                providersLv.setAdapter(new ArrayAdapter<VendorResponse>(FormRequisitionActivity.this,
+                                        android.R.layout.simple_list_item_1, listValues));
+                                providersLv.setVisibility(View.GONE);
+                                DesignUtils.warningMessage(FormRequisitionActivity.this, "", "No existen resultados");
+                            }
                         } else {
                             listValues.clear();
+                            providersLv.setVisibility(View.GONE);
                             providersLv.setAdapter(null);
                             providersLv.setAdapter(new ArrayAdapter<VendorResponse>(FormRequisitionActivity.this,
                                     android.R.layout.simple_list_item_1, listValues));
-                            providersLv.setVisibility(View.GONE);
-                            DesignUtils.warningMessage(FormRequisitionActivity.this,"","No existen resultados");
                         }
-                    }else{
-                        listValues.clear();
-                        providersLv.setVisibility(View.GONE);
-                        providersLv.setAdapter(null);
-                        providersLv.setAdapter(new ArrayAdapter<VendorResponse>(FormRequisitionActivity.this,
-                                android.R.layout.simple_list_item_1, listValues));
                     }
-                }
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @OnClick(R.id.act_form_sent_requisition)
     void onSentRequisitionClick(){
         if(Connection.isConnected(this)){
             if (validateForm()){
-                Snackbar.make(getCurrentFocus(),"Se estara enviando la requisición...",Snackbar.LENGTH_LONG).show();
+                Gson gson = new Gson();
+                String json = gson.toJson(createRequisition());
+                Log.d(TAG,"JSON "+json);
+                Call<RequisitionResponse> call = BioApp.getHicsService().createRequisition("Bearer "+RealmManager.token(),createRequisition());
+                mProgressDialog = ProgressDialog.show(this, null, "Enviando...");
+                mProgressDialog.setCancelable(false);
+                call.enqueue(new Callback<RequisitionResponse>() {
+                    @Override
+                    public void onResponse(Call<RequisitionResponse> call, Response<RequisitionResponse> response) {
+                     mProgressDialog.dismiss();
+                        if (response.code() == Statics.code_OK_Get){
+                            //DesignUtils.successMessage(FormRequisitionActivity.this,"Crear Requisición",response.body().getMessage() +" con el número " +response.body().getReqNumber());
+                            uploadFiles(response.body().getReqNumber());
+                        }else{
+                            DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición","por el momento no es posible crear la requisición");
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<RequisitionResponse> call, Throwable t) {
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición",t.getLocalizedMessage());
+                    }
+                });
+
             }
         }else{
             DesignUtils.errorMessage(this,"Error de Red", "No hay conexión a internet");
@@ -271,9 +301,37 @@ public class FormRequisitionActivity extends AppCompatActivity {
             return false;
         }else if(!Validators.validateRadioGroup(indispensableRg,this,"¿Es indispensable para la operación?")){
             return false;
+        }else if(!Validators.validateArrayListString(files,this,"Archivos de Soporte")){
+            return false;
+        }else if(!Validators.validateArrayList(FormRequisitionActivity.budgeItemRequests,this,"Partidas de Requisición")){
+            return false;
         }else {
             return true;
         }
+    }
+
+    private RequisitionRequest createRequisition(){
+
+        int reqCompanyId = Integer.parseInt(((CompanyCatResponse)spCompany.getSelectedItem()).getCompanyId());
+        int reqCostCenterId = Integer.parseInt(((CostcenterResponse)spCenter.getSelectedItem()).getCostCenterId());
+        int reqRubroId = Integer.parseInt(((BudgetlistResponse)spItemBudge.getSelectedItem()).getRubroId());
+        String reqVendedor = providerEdt.getText().toString().trim();
+        String reqDesc = descriptionEdt.getText().toString().trim();
+        int reqSite = Integer.parseInt(((SiteResponse)spSite.getSelectedItem()).getSiteId());
+        String reqNotes = commentsEdt.getText().toString().trim();
+        int reqMonedaId = Integer.parseInt(((PaymentType)spPayment.getSelectedItem()).getId());
+        boolean reqFacturado =billedRg.getCheckedRadioButtonId() == R.id.act_form_billed_yes;
+        int reqUrgente =urgenteRg.getCheckedRadioButtonId() == R.id.act_form_urgent_yes ? 1 : 0;
+        boolean reqPOAa = poaRg.getCheckedRadioButtonId() == R.id.act_form_poa_yes;
+        boolean reqIncluirPOAb = reqPOAa ? includeRg.getCheckedRadioButtonId() == R.id.act_form_includereplace_yes :  Boolean.parseBoolean(null);
+        boolean reqDeletePOAc = reqPOAa ? deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_yes :  Boolean.parseBoolean(null);
+        boolean reqOperaciond = reqPOAa ? indispensableRg.getCheckedRadioButtonId() == R.id.act_form_indispensable_yes :  Boolean.parseBoolean(null);
+        ArrayList<BudgeItemRequest> reqitem = FormRequisitionActivity.budgeItemRequests;
+
+        RequisitionRequest requisitionRequest = new RequisitionRequest(reqCompanyId,reqCostCenterId,reqRubroId,reqVendedor,reqDesc,reqSite,reqNotes,reqMonedaId,reqFacturado,reqUrgente,
+                reqPOAa,reqIncluirPOAb,reqDeletePOAc,reqOperaciond,reqitem);
+
+        return requisitionRequest;
     }
 
     @Override
@@ -284,7 +342,7 @@ public class FormRequisitionActivity extends AppCompatActivity {
             if (data != null) {
                 uri = data.getData();
                   String wholeID = DocumentsContract.getDocumentId(uri);
-            String id = wholeID.split(":").length > 1 ? wholeID.split(":")[1]: wholeID.split(":")[0];
+                String id = wholeID.split(":").length > 1 ? wholeID.split(":")[1]: wholeID.split(":")[0];
                 String pathDest = isDownloadsDocument(uri) ? folderOrigin : folderOrigin + id;
                 try {
                     path = inputToFile(uri,pathDest);
@@ -303,9 +361,8 @@ public class FormRequisitionActivity extends AppCompatActivity {
         }
     }
 
-
     @Subscribe(sticky = true)
-    void onAddBudgeItem(BudgeItemEvent event){
+    public void onAddBudgeItem(BudgeItemEvent event){
         EventBus.getDefault().removeStickyEvent(event);
         budgeItemRequests.add(event.budgeItemRequest);
         budgeitemsLv.setAdapter(new ArrayAdapter<BudgeItemRequest>(this,android.R.layout.simple_list_item_1,budgeItemRequests));
@@ -404,6 +461,56 @@ public class FormRequisitionActivity extends AppCompatActivity {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
+    private String zip(ArrayList<String> filesm, String numRequisition){
+        return  LogicUtils.compressZip(this,numRequisition,filesm);
+    }
+
+    private void uploadFiles(final String numRequisition){
+        String path = zip(files,numRequisition);
+        File file = new File(path);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("zip/*"), file );
+        MultipartBody.Part body = MultipartBody.Part.createFormData("zipPackage",file.getPath(),requestFile);
+
+        Call<FilesResponse> call = BioApp.getHicsService().uploadFile("Bearer "+RealmManager.token(), body,Integer.parseInt(numRequisition));
+        mProgressDialog = ProgressDialog.show(this, null, "Subiendo...");
+        mProgressDialog.setCancelable(false);
+        call.enqueue(new Callback<FilesResponse>() {
+            @Override
+            public void onResponse(Call<FilesResponse> call, Response<FilesResponse> response) {
+                mProgressDialog.dismiss();
+                if (response.code() == Statics.code_OK){
+                    //DesignUtils.successMessage(FormRequisitionActivity.this,"Crear Requisición",response.body().getMessage());
+                    showDialog("Nueva Requisición","Se ha creado tú requisición "+numRequisition + " y " + response.body().getMessage());
+                }else{
+                    if (response.code() == Statics.code_BAD_REQUEST){
+                        uploadFiles(numRequisition);
+                    }else {
+                        DesignUtils.errorMessage(FormRequisitionActivity.this, "Crear Requisición", "Por el momento no se puede subir los archivos");
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<FilesResponse> call, Throwable t) {
+                mProgressDialog.dismiss();
+                t.printStackTrace();
+                DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición",t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void showDialog(String title, String msg){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        EventBus.getDefault().postSticky(new CloseFormRequisitionEvent(true));
+                    }
+                })
+                .show();
+    }
 
     @Override
     protected void onStart() {
@@ -417,4 +524,9 @@ public class FormRequisitionActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().postSticky(new CloseFormRequisitionEvent(true));
+    }
 }

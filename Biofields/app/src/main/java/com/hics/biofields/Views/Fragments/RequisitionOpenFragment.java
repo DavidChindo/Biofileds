@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,8 @@ import com.hics.biofields.Library.Statics;
 import com.hics.biofields.Models.Managment.RealmManager;
 import com.hics.biofields.Network.Responses.RequisitionItemResponse;
 import com.hics.biofields.Presenters.Events.RequisitionEvent;
+
+import com.hics.biofields.Presenters.Events.ResultsRequisitionsOpenSearch;
 import com.hics.biofields.Presenters.Events.ResultsRequisitionsSearch;
 import com.hics.biofields.R;
 import com.hics.biofields.Views.Activity.FormRequisitionActivity;
@@ -30,6 +31,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,18 +41,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RequisitionFragment extends Fragment {
 
-    @BindView(R.id.act_requisitions_list)ListView listView;
-    @BindView(R.id.fr_requisitions_error)TextView errorTxt;
-    @BindView(R.id.animation_error)LottieAnimationView animationView;
-    @BindView(R.id.swiperefresh_auth)SwipeRefreshLayout swiperefresh_auth;
+public class RequisitionOpenFragment extends Fragment {
+
+    @BindView(R.id.act_requisitions_open_list)ListView listView;
+    @BindView(R.id.fr_requisitions_open_error)TextView errorTxt;
+    @BindView(R.id.animation_error_open)LottieAnimationView animationView;
+    @BindView(R.id.swiperefresh_open)SwipeRefreshLayout swiperefresh_open;
     RequisitionsAdapter msAdapter;
     ArrayList<RequisitionItemResponse> requisitions;
     ProgressDialog mProgressDialog;
-    int optionSelect = -1;
 
-    public RequisitionFragment() {
+    public RequisitionOpenFragment() {
     }
 
     @Override
@@ -60,12 +62,12 @@ public class RequisitionFragment extends Fragment {
 
         msAdapter = new RequisitionsAdapter(getActivity(), R.layout.item_requisition, requisitions);
         listView.setAdapter(msAdapter);
-        requisitionsAuth();
-        swiperefresh_auth.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        requisitionsOpen();
+        swiperefresh_open.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swiperefresh_auth.setRefreshing(true);
-                requisitionsAuth();
+                swiperefresh_open.setRefreshing(true);
+                requisitionsOpen();
             }
         });
     }
@@ -73,18 +75,18 @@ public class RequisitionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_requisition, container, false);
+        View view = inflater.inflate(R.layout.fragment_requisition_open, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
-    @OnItemClick(R.id.act_requisitions_list)
+    @OnItemClick(R.id.act_requisitions_open_list)
     void onOpenRequisition(int position){
-        EventBus.getDefault().postSticky(new RequisitionEvent(Integer.parseInt(requisitions.get(position).getNumRequisition()),true));
+        EventBus.getDefault().postSticky(new RequisitionEvent(Integer.parseInt(requisitions.get(position).getNumRequisition()),false));
         start(RequisitionDetailActivity.class);
     }
 
-    @OnClick(R.id.act_sync_btn_sync)
+    @OnClick(R.id.act_sync_btn_open_sync)
     void onNewRequisition(){
         startActivity(new Intent(getActivity(),FormRequisitionActivity.class));
     }
@@ -93,17 +95,16 @@ public class RequisitionFragment extends Fragment {
         Intent intent = new Intent(getActivity(), aClass);
         startActivity(intent);
     }
-
-    private void requisitionsAuth(){
+    private void requisitionsOpen(){
         if (Connection.isConnected(getActivity())) {
-            Call<ArrayList<RequisitionItemResponse>> call = BioApp.getHicsService().requisitionsAuth("Bearer " + RealmManager.token(), 1);
+            Call<ArrayList<RequisitionItemResponse>> call = BioApp.getHicsService().requisitionsOpen("Bearer " + RealmManager.token(), 1);
             mProgressDialog = ProgressDialog.show(getActivity(), null, "Cargando...");
             mProgressDialog.setCancelable(false);
             call.enqueue(new Callback<ArrayList<RequisitionItemResponse>>() {
                 @Override
                 public void onResponse(Call<ArrayList<RequisitionItemResponse>> call, Response<ArrayList<RequisitionItemResponse>> response) {
                     if (response.code() == Statics.code_OK_Get) {
-                        swiperefresh_auth.setRefreshing(false);
+                        swiperefresh_open.setRefreshing(false);
                         mProgressDialog.dismiss();
                         requisitions = response.body();
                         if (response.body().isEmpty() && response.body().size() < 1){
@@ -112,7 +113,7 @@ public class RequisitionFragment extends Fragment {
                             ArrayList<RequisitionItemResponse> requision = new ArrayList<RequisitionItemResponse>();
                             for (RequisitionItemResponse r : response.body()) {
                                 RequisitionItemResponse rtemp = r;
-                                rtemp.setNeedAuth("1");
+                                rtemp.setNeedAuth("2");
                                 rtemp.compoundPrimaryKey();
                                 requision.add(rtemp);
                             }
@@ -123,7 +124,7 @@ public class RequisitionFragment extends Fragment {
                             listView.setAdapter(msAdapter);
                         }
                     } else {
-                        swiperefresh_auth.setRefreshing(false);
+                        swiperefresh_open.setRefreshing(false);
                         mProgressDialog.dismiss();
                         annimation(0);
                         DesignUtils.errorMessage(getActivity(), "Error", "No fue posible obtener las requisiciones");
@@ -132,14 +133,14 @@ public class RequisitionFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<ArrayList<RequisitionItemResponse>> call, Throwable t) {
-                    swiperefresh_auth.setRefreshing(false);
+                    swiperefresh_open.setRefreshing(false);
                     mProgressDialog.dismiss();
                     annimation(0);
                     DesignUtils.errorMessage(getActivity(), "Error", t.getLocalizedMessage());
                 }
             });
         }else{
-            swiperefresh_auth.setRefreshing(false);
+            swiperefresh_open.setRefreshing(false);
             DesignUtils.errorMessage(getActivity(),"Error de Red","No hay conexión a internet");
             annimation(1);
         }
@@ -159,21 +160,20 @@ public class RequisitionFragment extends Fragment {
     }
 
     @Subscribe(sticky = true)
-    public void onLoadResults(ResultsRequisitionsSearch event){
+    public void onLoadResults(ResultsRequisitionsOpenSearch event){
         EventBus.getDefault().removeStickyEvent(event);
         if (event.requisitions != null){
-                errorTxt.setVisibility(View.GONE);
-                animationView.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
-                listView.setAdapter(null);
-                msAdapter = new RequisitionsAdapter(getActivity(), R.layout.item_requisition, event.requisitions);
-                listView.setAdapter(msAdapter);
+            errorTxt.setVisibility(View.GONE);
+            animationView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            listView.setAdapter(null);
+            msAdapter = new RequisitionsAdapter(getActivity(), R.layout.item_requisition, event.requisitions);
+            listView.setAdapter(msAdapter);
         }else{
             listView.setVisibility(View.GONE);
             annimation(2);
         }
     }
-
     @Override
     public void onStart() {
         super.onStart();

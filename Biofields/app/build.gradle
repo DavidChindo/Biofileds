@@ -8,9 +8,9 @@ android {
     defaultConfig {
         applicationId "com.hics.biofields"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 24
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,6 +30,7 @@ dependencies {
     compile('com.github.ganfra:material-spinner:1.1.1') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
+
 
     compile 'com.github.ganfra:material-spinner:1.1.1'
     compile 'com.android.support:appcompat-v7:25.3.1'

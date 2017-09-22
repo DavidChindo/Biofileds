@@ -1,23 +1,15 @@
 package com.hics.biofields.Network.Responses;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
-
 /**
- * Created by david.barrera on 8/31/17.
+ * Created by david.barrera on 9/15/17.
  */
 
-public class RequisitionItemResponse extends RealmObject {
+public class RequisitionDetailResponse {
 
-    @PrimaryKey
-    @Expose(serialize = false)
-    private String uniqueKey;
     @SerializedName("req_number")
     private String numRequisition;
     @SerializedName("req_desc")
@@ -54,23 +46,10 @@ public class RequisitionItemResponse extends RealmObject {
     private String authDafRequisition;
     @SerializedName("auth_dg")
     private String authDgRequisition;
-    @Ignore
     @SerializedName("reqitems")
     private ArrayList<BudgeItemResponse> items;
-    @Expose(serialize = false)
-    private String needAuth;
-
-    public void compoundPrimaryKey() {
-            this.uniqueKey = String.format("%s%s", this.numRequisition, this.needAuth);
-    }
-
-    public String getNeedAuth() {
-        return needAuth;
-    }
-
-    public void setNeedAuth(String needAuth) {
-        this.needAuth = needAuth;
-    }
+    @SerializedName("reqfiles")
+    private ArrayList<FilesReqResponse> files;
 
     public String getNumRequisition() {
         return numRequisition;
@@ -224,8 +203,11 @@ public class RequisitionItemResponse extends RealmObject {
         this.items = items;
     }
 
-    @Override
-    public String toString() {
-        return this.descRequsition;
+    public ArrayList<FilesReqResponse> getFiles() {
+        return files;
+    }
+
+    public void setFiles(ArrayList<FilesReqResponse> files) {
+        this.files = files;
     }
 }

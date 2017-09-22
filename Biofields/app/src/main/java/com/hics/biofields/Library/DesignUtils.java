@@ -20,6 +20,15 @@ import org.aviran.cookiebar2.CookieBar;
 
 public class DesignUtils {
 
+    public static void successMessage(Activity activity, String title, String message){
+        CookieBar.Build(activity)
+                .setTitle(title)
+                .setMessage(message)
+                .setBackgroundColor(R.color.green)
+                .setTitleColor(R.color.colorWhite)
+                .show();
+    }
+
     public static void errorMessage(Activity activity, String title, String message){
         CookieBar.Build(activity)
                 .setTitle(title)

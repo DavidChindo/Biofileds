@@ -1,10 +1,17 @@
 package com.hics.biofields.Views.Activity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -12,19 +19,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.gson.Gson;
+import com.hics.biofields.BioApp;
+import com.hics.biofields.Library.Connection;
+import com.hics.biofields.Library.DesignUtils;
+import com.hics.biofields.Library.Statics;
+import com.hics.biofields.Models.Managment.RealmManager;
+import com.hics.biofields.Network.Requests.RequisitionAuthRequest;
 import com.hics.biofields.Network.Responses.BudgeItemResponse;
-import com.hics.biofields.Network.Responses.RequisitionItemResponse;
+import com.hics.biofields.Network.Responses.FilesReqResponse;
+import com.hics.biofields.Network.Responses.RequisitionAuthResponse;
+import com.hics.biofields.Network.Responses.RequisitionDetailResponse;
+import com.hics.biofields.Network.Responses.ResponseGeneric;
+import com.hics.biofields.Presenters.Events.CloseFormRequisitionEvent;
 import com.hics.biofields.Presenters.Events.RequisitionEvent;
 import com.hics.biofields.R;
+import com.hics.biofields.Views.Adapters.FilesDetailAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RequisitionDetailActivity extends AppCompatActivity {
 
@@ -47,8 +71,12 @@ public class RequisitionDetailActivity extends AppCompatActivity {
     @BindView(R.id.act_detail_ln_services) LinearLayout servicesLn;
     @BindView(R.id.card_validations)CardView validationCard;
     @BindView(R.id.act_detail_ln_involves)LinearLayout involvesLn;
+    @BindView(R.id.act_requisition_det_btns)LinearLayout lnBtn;
 
     private ArrayList<Integer> prices = new ArrayList<Integer>();
+    String reason = "";
+    RequisitionDetailResponse mItemResponse;
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +108,7 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         servicesLn.addView(child);
     }
 
+
     private void addItemTotal(ArrayList<Integer> mPrices){
         if (!mPrices.isEmpty()) {
             View child = getLayoutInflater().inflate(R.layout.item_detail_total_budge, null);
@@ -106,11 +135,13 @@ public class RequisitionDetailActivity extends AppCompatActivity {
     @Subscribe(sticky = true)
     public void onRequisitionEvent(RequisitionEvent event){
         EventBus.getDefault().removeStickyEvent(event);
-        mapField(event.requisition);
+        lnBtn.setVisibility(event.showBtn ? View.VISIBLE : View.GONE);
+        requisitionDetail(event.reqNumber);
     }
 
-    private void  mapField(RequisitionItemResponse itemResponse){
+    private void  mapField(RequisitionDetailResponse itemResponse){
         if (itemResponse != null){
+            mItemResponse = itemResponse;
             numTxt.setText("No. "+itemResponse.getNumRequisition());
             companyTxt.setText(itemResponse.getCompanyNameRequisition());
             descriptionTxt.setText(itemResponse.getDescRequsition());
@@ -130,6 +161,11 @@ public class RequisitionDetailActivity extends AppCompatActivity {
             addInvolved(itemResponse.getBuyerRequisition());
             addInvolved(itemResponse.getAuditorRequisition());
 
+            if (!itemResponse.getFiles().isEmpty()){
+                filesLv.setAdapter(new FilesDetailAdapter(this,R.layout.item_files_detail,itemResponse.getFiles()));
+                DesignUtils.setListViewHeightBasedOnChildrenAdapter(filesLv);
+            }
+
             if (!itemResponse.getItems().isEmpty()){
                 for(int i=0; i < itemResponse.getItems().size(); i ++){
                     addItems(itemResponse.getItems().get(i));
@@ -147,14 +183,142 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         }
     }
 
+    @OnItemClick(R.id.act_detail_files)
+    void onFileOpenClick(int position){
+        if (position >= 0){
+            Uri uri = Uri.parse(((FilesReqResponse) filesLv.getItemAtPosition(position)).getUrl());
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+    }
+
     @OnClick(R.id.act_detail_cancel)
     void onRejectRequisitionClick(){
-        validationCard.setVisibility(View.VISIBLE);
+        validationCard.setVisibility(View.GONE);
+        showDialog();
     }
 
     @OnClick(R.id.act_detail_sent)
     void onAcceptRequisition(){
-        Toast.makeText(this,"Se estara enviando la aceptacion de la requisicion",Toast.LENGTH_LONG).show();
+        mProgressDialog = ProgressDialog.show(this, null, "Enviando...");
+        mProgressDialog.setCancelable(false);
+        sentAuthorization(reason,true);
+    }
+
+    private void requisitionDetail(int id){
+        if(Connection.isConnected(this)){
+            Call<ArrayList<RequisitionDetailResponse>> call = BioApp.getHicsService().requisitionDetail("Bearer "+RealmManager.token(),id);
+            mProgressDialog = ProgressDialog.show(this, null, "Consultando...");
+            mProgressDialog.setCancelable(false);
+            call.enqueue(new Callback<ArrayList<RequisitionDetailResponse>>() {
+                @Override
+                public void onResponse(Call<ArrayList<RequisitionDetailResponse>> call, Response<ArrayList<RequisitionDetailResponse>> response) {
+                    mProgressDialog.dismiss();
+                    if (response.code() == Statics.code_OK_Get){
+                        if(response.body().size() > 0 && !response.body().isEmpty()){
+                            mapField(response.body().get(0));
+                        }
+                    }else{
+                        Toast.makeText(RequisitionDetailActivity.this,"Por el momento no se puede visualizar el detalle de la requisición", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<RequisitionDetailResponse>> call, Throwable t) {
+                    mProgressDialog.dismiss();
+                    Toast.makeText(RequisitionDetailActivity.this,t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+        }else{
+            Toast.makeText(this, "No hay conexión a intern", Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+
+    private void sentAuthorization(String reason,boolean isAuthorization){
+        if (Connection.isConnected(this)) {
+            if (mItemResponse != null) {
+                RequisitionAuthRequest requisitionAuthRequest = new RequisitionAuthRequest(Integer.parseInt(mItemResponse.getNumRequisition()),
+                        isAuthorization, reason, RealmManager.usrID());
+                Gson gson = new Gson();
+                String json = gson.toJson(requisitionAuthRequest);
+                Log.d("JSONREQUISITION", json);
+                Call<RequisitionAuthResponse> call = BioApp.getHicsService().sentRequisitionAuth("Bearer " + RealmManager.token(), requisitionAuthRequest);
+
+                call.enqueue(new Callback<RequisitionAuthResponse>() {
+                    @Override
+                    public void onResponse(Call<RequisitionAuthResponse> call, Response<RequisitionAuthResponse> response) {
+                        mProgressDialog.dismiss();
+                        if (response.code() == Statics.code_OK_Get) {
+                            Log.d(RequisitionDetailActivity.class.getSimpleName(), response.body().getMessage());
+                            showDialog("Autorizar Requisición",response.body().getMessage());
+                        } else {
+                            try {
+                                Gson gson = new Gson();
+                                ResponseGeneric respone = gson.fromJson(response.errorBody().string(),ResponseGeneric.class);
+                                showDialog("Autorizar Requisición",respone.getMessage());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RequisitionAuthResponse> call, Throwable t) {
+                        mProgressDialog.dismiss();
+                        t.printStackTrace();
+                    }
+                });
+            }
+        }else{
+            DesignUtils.errorMessage(this,"Autorizar Requisición","No hay conexión a internet");
+        }
+    }
+
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Comentarios");
+        final EditText input = new EditText(this);
+
+        builder.setView(input);
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mProgressDialog = ProgressDialog.show(RequisitionDetailActivity.this, null, "Enviando...");
+                mProgressDialog.setCancelable(false);
+                if (!input.getText().toString().trim().isEmpty()){
+                    reason = input.getText().toString().trim();
+                    sentAuthorization(reason,false);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    private void showDialog(String title, String msg){
+        android.support.v7.app.AlertDialog.Builder builder;
+        builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        EventBus.getDefault().postSticky(new CloseFormRequisitionEvent(true));
+                    }
+                })
+                .show();
     }
 
     @Override

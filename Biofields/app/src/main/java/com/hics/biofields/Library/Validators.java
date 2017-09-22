@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.hics.biofields.Network.Requests.RequisitionItem.BudgeItemRequest;
+import com.hics.biofields.Network.Responses.BudgeItemResponse;
 import com.hics.biofields.R;
+
+import java.util.ArrayList;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
@@ -45,6 +49,22 @@ public class Validators {
             return false;
         }
         return  true;
+    }
+
+    public static boolean validateArrayList(ArrayList<BudgeItemRequest> arrayListl, Activity activity, String question){
+        if (arrayListl.isEmpty() && arrayListl.size() <= 0 ){
+            DesignUtils.errorMessage(activity,"Campo Obligatorio", activity.getString(R.string.validate_field, question));
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateArrayListString(ArrayList<String> arrayListl, Activity activity, String question){
+        if (arrayListl.isEmpty() && arrayListl.size() <= 0 ){
+            DesignUtils.errorMessage(activity,"Campo Obligatorio", activity.getString(R.string.validate_field, question));
+            return false;
+        }
+        return true;
     }
 
 }

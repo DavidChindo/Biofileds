@@ -24,6 +24,7 @@
     <color name="status_not_sent">#d0d2d3</color>
     <color name="gray_icon">#a7adbc</color>
     <color name="blue_icon">#00a2e1</color>
+    <color name="blue_strong">#0d76a5</color>
     <color name="gray_icon_unselected">#8c9093</color>
     <color name="gray_tab">#F7F7F7</color>
     <color name="orange">#FFA500</color>

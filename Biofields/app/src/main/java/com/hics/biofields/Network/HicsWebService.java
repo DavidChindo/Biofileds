@@ -7,6 +7,8 @@ package com.hics.biofields.Network;
 import com.hics.biofields.Network.Requests.LoginCompanyRequest;
 import com.hics.biofields.Network.Requests.LoginRequest;
 import com.hics.biofields.Network.Requests.RecoveryPasswordRequest;
+import com.hics.biofields.Network.Requests.RequisitionAuthRequest;
+import com.hics.biofields.Network.Requests.RequisitionRequest;
 import com.hics.biofields.Network.Responses.Catalogs.BudgetlistResponse;
 import com.hics.biofields.Network.Responses.Catalogs.CompanyCatResponse;
 import com.hics.biofields.Network.Responses.Catalogs.CostcenterResponse;
@@ -15,40 +17,34 @@ import com.hics.biofields.Network.Responses.Catalogs.ItemResponse;
 import com.hics.biofields.Network.Responses.Catalogs.SiteResponse;
 import com.hics.biofields.Network.Responses.Catalogs.UoMResponse;
 import com.hics.biofields.Network.Responses.Catalogs.VendorResponse;
-import com.hics.biofields.Network.Responses.CompanyResponse;
 import com.hics.biofields.Network.Responses.LoginResponse;
 import com.hics.biofields.Network.Responses.RecoveryPasswordResponse;
+import com.hics.biofields.Network.Responses.RequisitionAuthResponse;
+import com.hics.biofields.Network.Responses.RequisitionDetailResponse;
 import com.hics.biofields.Network.Responses.RequisitionItemResponse;
+import com.hics.biofields.Network.Responses.RequisitionResponse;
 import com.hics.biofields.Network.Responses.ResponseGeneric;
 
 import java.util.ArrayList;
 
 import io.realm.RealmList;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
-import retrofit2.http.PartMap;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface HicsWebService {
 
     @POST("POST/login/v2/login")
     Call<LoginResponse> Login(@Body LoginRequest loginRequest);
 
-    @POST("POST/login/v2/login/company")
+    @POST("POST/login/v3/login/company")
     Call<LoginResponse> LoginCompany(@Header("Authorization")String authorization, @Body LoginCompanyRequest loginCompanyRequest);
 
     @GET("GET/requisitions/open/{req_id}")
@@ -58,12 +54,29 @@ public interface HicsWebService {
     @GET("GET/requisitions/auth/{req_id}")
     Call<ArrayList<RequisitionItemResponse>> requisitionsAuth(@Header("Authorization") String authorization,
                                                               @Path("req_id") int id);
+
+    @GET("GET/requisition/info/{req_id}")
+    Call<ArrayList<RequisitionDetailResponse>> requisitionDetail(@Header("Authorization") String authorization,
+                                                                 @Path("req_id") int id);
+
     @PUT("PUT/recoverypasswd")
     Call<RecoveryPasswordResponse> recoveryPassword(@Body RecoveryPasswordRequest recoveryPasswordRequest);
 
     @POST("POST/logout")
     Call<ResponseGeneric> logout(@Header("Authorization") String authorization);
 
+    @POST("POST/requisition/save")
+    Call<RequisitionResponse> createRequisition(@Header("Authorization") String authorization, @Body RequisitionRequest requisitionRequest);
+
+    @Multipart
+    @POST("POST/requisition/uploadFile")
+    Call<FilesResponse> uploadFile(@Header("Authorization") String authorization,
+                                   @Part MultipartBody.Part file,
+                                        @Part("req_number") int reqNumber);
+
+    @POST("POST/requisition/auth")
+    Call<RequisitionAuthResponse> sentRequisitionAuth(@Header("Authorization") String authorization,
+                                                      @Body RequisitionAuthRequest requisitionAuthRequest);
     //region Catalog
 
     @GET("GET/list/verify/{catalog}/{date}")

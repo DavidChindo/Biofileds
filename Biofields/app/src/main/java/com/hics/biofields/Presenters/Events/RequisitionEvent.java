@@ -8,9 +8,11 @@ import com.hics.biofields.Network.Responses.RequisitionItemResponse;
 
 public class RequisitionEvent {
 
-    public RequisitionItemResponse requisition;
+    public int reqNumber;
+    public boolean showBtn;
 
-    public RequisitionEvent(RequisitionItemResponse requisition) {
-        this.requisition = requisition;
+    public RequisitionEvent(int reqNumber,boolean showBtn) {
+        this.reqNumber = reqNumber;
+        this.showBtn = showBtn;
     }
 }

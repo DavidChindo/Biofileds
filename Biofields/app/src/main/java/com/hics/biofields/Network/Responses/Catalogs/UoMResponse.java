@@ -17,7 +17,21 @@ public class UoMResponse extends RealmObject {
     @SerializedName("uom_descrip")
     private String uomDescip;
 
+    public String getUomName() {
+        return uomName;
+    }
 
+    public void setUomName(String uomName) {
+        this.uomName = uomName;
+    }
+
+    public String getUomDescip() {
+        return uomDescip;
+    }
+
+    public void setUomDescip(String uomDescip) {
+        this.uomDescip = uomDescip;
+    }
 
     @Override
     public String toString() {

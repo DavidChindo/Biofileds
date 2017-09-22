@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import com.hics.biofields.R;
 import com.hics.biofields.Views.Fragments.FormRequisitionFragment;
 import com.hics.biofields.Views.Fragments.RequisitionFragment;
+import com.hics.biofields.Views.Fragments.RequisitionOpenFragment;
 import com.hics.biofields.Views.Fragments.SettingsFragment;
 
 import android.support.v4.app.FragmentManager;
@@ -27,7 +28,7 @@ public class RequisitionAdapter  extends AwesomeTabBarAdapter
     {
         super(fragmentManager);
         fragments.add(new RequisitionFragment());
-        fragments.add(new RequisitionFragment());
+        fragments.add(new RequisitionOpenFragment());
         fragments.add(new FormRequisitionFragment());
         fragments.add(new SettingsFragment());
 

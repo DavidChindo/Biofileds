@@ -19,6 +19,30 @@ public class BudgetlistResponse extends RealmObject{
     @SerializedName("rubro_empresa_id")
     private String rubroEmpresaId;
 
+    public String getRubroId() {
+        return rubroId;
+    }
+
+    public void setRubroId(String rubroId) {
+        this.rubroId = rubroId;
+    }
+
+    public String getRubroDesc() {
+        return rubroDesc;
+    }
+
+    public void setRubroDesc(String rubroDesc) {
+        this.rubroDesc = rubroDesc;
+    }
+
+    public String getRubroEmpresaId() {
+        return rubroEmpresaId;
+    }
+
+    public void setRubroEmpresaId(String rubroEmpresaId) {
+        this.rubroEmpresaId = rubroEmpresaId;
+    }
+
     @Override
     public String toString() {
         return this.rubroDesc;

@@ -13,6 +13,7 @@ public class User extends RealmObject {
     private String email;
     private String createdAt;
     private String jwt;
+    private int id;
 
     public String getEmail() {
         return email;
@@ -38,6 +39,11 @@ public class User extends RealmObject {
         this.jwt = jwt;
     }
 
+    public int getId() {
+        return id;
+    }
 
-
+    public void setId(int id) {
+        this.id = id;
+    }
 }

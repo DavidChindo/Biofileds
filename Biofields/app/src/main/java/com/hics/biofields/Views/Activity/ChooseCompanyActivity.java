@@ -74,7 +74,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
         }
     }
 
-    private void loginCompany(String company){
+    private void loginCompany(final String company){
         String pass = Statics.PASS;
         LoginCompanyRequest loginRequest = new LoginCompanyRequest();
         loginRequest.setEmail(RealmManager.user());
@@ -86,20 +86,20 @@ public class ChooseCompanyActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.code() == Statics.code_OK_Get) {
+                if (response.code() == Statics.code_OK) {
                     Statics.PASS = "" ;
+                    Prefs prefs = Prefs.with(ChooseCompanyActivity.this);
+                    prefs.putBoolean(Statics.IS_BIOFIELDS_PREFS, company.toLowerCase().contains("biofields")? true : false);
                     User user = new User();
                     user.setEmail(response.body().getEmail());
                     user.setCreatedAt(response.body().getCreated());
                     user.setJwt(response.body().getArray().getJwt());
-                    Prefs prefs = Prefs.with(ChooseCompanyActivity.this);
                     Realm realm = Realm.getDefaultInstance();
+                    user.setId(RealmManager.usrID());
                     RealmManager.saveUser(user, realm);
                     realm.close();
                     mProgressDialog.setMessage("Descargando catalogos(1/8)...");
                     catalogVendor();
-                    /*prefs.putBoolean(Statics.LOGIN_PREFS,true);
-                    start(MainActivity.class, true);*/
                 } else {
                     try {
                         mProgressDialog.dismiss();
@@ -132,17 +132,21 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         mProgressDialog.setMessage("Descargando catalogos(2/8)...");
                         catalogCompany();
                     } else {
-
                         Log.d("LISTA", "" + response);
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<VendorResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }
@@ -161,15 +165,20 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         catalogCostCenter();
                     } else {
                         Log.d("LISTA", "" + response);
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<CompanyCatResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }
@@ -188,15 +197,20 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         catalogBudgetList();
                     } else {
                         Log.d("LISTA", "" + response);
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<CostcenterResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }
@@ -215,15 +229,20 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         catalogSite();
                     } else {
                         Log.d("LISTA", "" + response);
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<BudgetlistResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }
@@ -242,15 +261,20 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         catalogExpense();
                     } else {
                         Log.d("LISTA", "" + response);
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<SiteResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }
@@ -269,15 +293,20 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         catalogItem();
                     } else {
                         Log.d("LISTA", "" + response);
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<ExpenseResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }
@@ -296,15 +325,20 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         catalogUoM();
                     } else {
                         Log.d("LISTA", "" + response);
+                        mProgressDialog.dismiss();
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<ItemResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }
@@ -324,16 +358,22 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         prefs.putBoolean(Statics.LOGIN_PREFS, true);
                         start(MainActivity.class, true);
                     } else {
+                        mProgressDialog.dismiss();
                         Log.d("LISTA", "" + response);
+                        DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga","Por el momento no se pueden descargar los catalogos");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RealmList<UoMResponse>> call, Throwable t) {
                     Log.d("Failure", "t " + t.getLocalizedMessage());
+                    mProgressDialog.dismiss();
+                    DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error Descarga",t.getLocalizedMessage());
+
                 }
             });
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(ChooseCompanyActivity.this,"Error de Red","Se ha interrumpido la conexión a internet");
         }
     }

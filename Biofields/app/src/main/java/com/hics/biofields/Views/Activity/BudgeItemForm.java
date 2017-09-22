@@ -7,15 +7,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.hics.biofields.Library.DesignUtils;
+import com.hics.biofields.Library.Prefs;
+import com.hics.biofields.Library.Statics;
 import com.hics.biofields.Library.Validators;
 import com.hics.biofields.Models.Managment.RealmManager;
 import com.hics.biofields.Network.Requests.RequisitionItem.BudgeItemRequest;
+import com.hics.biofields.Network.Responses.Catalogs.ExpenseResponse;
 import com.hics.biofields.Network.Responses.Catalogs.ItemResponse;
 import com.hics.biofields.Network.Responses.Catalogs.UoMResponse;
 import com.hics.biofields.Network.Responses.Catalogs.VendorResponse;
@@ -25,9 +30,11 @@ import com.hics.biofields.R;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -44,10 +51,11 @@ public class BudgeItemForm extends AppCompatActivity {
     @BindView(R.id.act_budge_price)EditText priceEdt;
     @BindView(R.id.act_budge_qty)EditText qtyEdt;
     @BindView(R.id.act_budge_total)TextView totalTxt;
+    @BindView(R.id.act_budge_item_ln)LinearLayout productserviceLn;
 
     public boolean searching = true;
-
-
+    public boolean searchItem = true;
+    public boolean isBiofieldsCompany = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +66,11 @@ public class BudgeItemForm extends AppCompatActivity {
     }
 
     private void initFields(){
+        Prefs prefs = Prefs.with(BudgeItemForm.this);
+        isBiofieldsCompany = prefs.getBoolean(Statics.IS_BIOFIELDS_PREFS);
+        productserviceLn.setVisibility(isBiofieldsCompany ? View.VISIBLE : View.GONE);
         Realm realm = Realm.getDefaultInstance();
-    spUOM.setAdapter(new ArrayAdapter<UoMResponse>(this,android.R.layout.simple_spinner_dropdown_item, RealmManager.list(realm,UoMResponse.class)));
+        spUOM.setAdapter(new ArrayAdapter<UoMResponse>(this,android.R.layout.simple_spinner_dropdown_item, RealmManager.list(realm,UoMResponse.class)));
 
         descriptionEdt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,32 +87,58 @@ public class BudgeItemForm extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (searching) {
                     String word = descriptionEdt.getText().toString().toLowerCase().trim();
-                    RealmList<ItemResponse> listValues = new RealmList<>();
-                    if (word != null && !word.isEmpty() && word.length() > 2) {
-                        listValues.clear();
-                        listValues = RealmManager.findByDescription(ItemResponse.class,"companyId",FormRequisitionActivity.idCompanyGlobal,"itemDesc",word);
-                        if (listValues != null && listValues.size() > 0) {
-                            lvDescriptions.setVisibility(View.VISIBLE);
-                            lvDescriptions.setAdapter(new ArrayAdapter<ItemResponse>(BudgeItemForm.this,android.R.layout.simple_list_item_1,listValues));
-                            DesignUtils.setListViewHeightBasedOnChildrenAdapter(lvDescriptions);
-                            lvDescriptions.setPadding(0,0,0,0);
+                    if (searchItem) {
+                        RealmList<ItemResponse> listValues = new RealmList<>();
+                        if (word != null && !word.isEmpty() && word.length() > 2) {
+                            listValues.clear();
+                            listValues = RealmManager.findByDescription(ItemResponse.class, "companyId", FormRequisitionActivity.idCompanyGlobal, "itemDesc", word);
+                            if (listValues != null && listValues.size() > 0) {
+                                lvDescriptions.setVisibility(View.VISIBLE);
+                                lvDescriptions.setAdapter(new ArrayAdapter<ItemResponse>(BudgeItemForm.this, android.R.layout.simple_list_item_1, listValues));
+                                DesignUtils.setListViewHeightBasedOnChildrenAdapter(lvDescriptions);
+                                lvDescriptions.setPadding(0, 0, 0, 0);
+                            } else {
+                                listValues.clear();
+                                lvDescriptions.setAdapter(null);
+                                lvDescriptions.setAdapter(new ArrayAdapter<ItemResponse>(BudgeItemForm.this,
+                                        android.R.layout.simple_list_item_1, listValues));
+                                lvDescriptions.setVisibility(View.GONE);
+                                DesignUtils.warningMessage(BudgeItemForm.this, "", "No existen resultados");
+                            }
                         } else {
                             listValues.clear();
+                            lvDescriptions.setVisibility(View.GONE);
                             lvDescriptions.setAdapter(null);
                             lvDescriptions.setAdapter(new ArrayAdapter<ItemResponse>(BudgeItemForm.this,
                                     android.R.layout.simple_list_item_1, listValues));
-                            lvDescriptions.setVisibility(View.GONE);
-                            DesignUtils.warningMessage(BudgeItemForm.this,"","No existen resultados");
                         }
                     }else{
-                        listValues.clear();
-                        lvDescriptions.setVisibility(View.GONE);
-                        lvDescriptions.setAdapter(null);
-                        lvDescriptions.setAdapter(new ArrayAdapter<ItemResponse>(BudgeItemForm.this,
-                                android.R.layout.simple_list_item_1, listValues));
+                        RealmList<ExpenseResponse> listValues = new RealmList<>();
+                        if (word != null && !word.isEmpty() && word.length() > 2) {
+                            listValues.clear();
+                            listValues = RealmManager.findByProvider(ExpenseResponse.class,"expcatDesc",word);
+                            if (listValues != null && listValues.size() > 0) {
+                                lvDescriptions.setVisibility(View.VISIBLE);
+                                lvDescriptions.setAdapter(new ArrayAdapter<ExpenseResponse>(BudgeItemForm.this, android.R.layout.simple_list_item_1, listValues));
+                                DesignUtils.setListViewHeightBasedOnChildrenAdapter(lvDescriptions);
+                                lvDescriptions.setPadding(0, 0, 0, 0);
+                            } else {
+                                listValues.clear();
+                                lvDescriptions.setAdapter(null);
+                                lvDescriptions.setAdapter(new ArrayAdapter<ExpenseResponse>(BudgeItemForm.this,
+                                        android.R.layout.simple_list_item_1, listValues));
+                                lvDescriptions.setVisibility(View.GONE);
+                                DesignUtils.warningMessage(BudgeItemForm.this, "", "No existen resultados");
+                            }
+                        } else {
+                            listValues.clear();
+                            lvDescriptions.setVisibility(View.GONE);
+                            lvDescriptions.setAdapter(null);
+                            lvDescriptions.setAdapter(new ArrayAdapter<ExpenseResponse>(BudgeItemForm.this,
+                                    android.R.layout.simple_list_item_1, listValues));
+                        }
                     }
                 }
-
             }
         });
 
@@ -120,10 +157,10 @@ public class BudgeItemForm extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!priceEdt.getText().toString().trim().isEmpty() && !qtyEdt.getText().toString().trim().isEmpty()){
-                    int price = Integer.parseInt(priceEdt.getText().toString().trim());
-                    int qty = Integer.parseInt(s.toString());
-                    int total = price * qty;
-                    totalTxt.setText(getResources().getString(R.string.act_budge_total,total));
+                    double price = Double.parseDouble(priceEdt.getText().toString().trim());
+                    double qty = Double.parseDouble(s.toString());
+                    double total = price * qty;
+                    totalTxt.setText(getResources().getString(R.string.act_budge_total, String.valueOf(total)));
                     totalTxt.setVisibility(View.VISIBLE);
                 }
             }
@@ -143,10 +180,10 @@ public class BudgeItemForm extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!priceEdt.getText().toString().trim().isEmpty() && !qtyEdt.getText().toString().trim().isEmpty()){
-                    int price = Integer.parseInt(qtyEdt.getText().toString().trim());
-                    int qty = Integer.parseInt(s.toString());
-                    int total = price * qty;
-                    totalTxt.setText(getResources().getString(R.string.act_budge_total,total));
+                    double price = Double.parseDouble(qtyEdt.getText().toString().trim());
+                    double qty = Double.parseDouble(s.toString());
+                    double total = price * qty;
+                    totalTxt.setText(getResources().getString(R.string.act_budge_total,String.valueOf(total)));
                     totalTxt.setVisibility(View.VISIBLE);
                 }
             }
@@ -156,10 +193,18 @@ public class BudgeItemForm extends AppCompatActivity {
     private boolean validateForm(){
         if (!Validators.validateEdt(notesEdt,this,"Notas")){
             return false;
-        }else if(!Validators.validateRadioGroup(productservicerg,this,"Producto / Servicio")){
-            return false;
-        }else if (!Validators.validateEdt(descriptionEdt,this,"Descripcion (Producto / Servicio)")){
-            return false;
+        }else if(isBiofieldsCompany){
+                if (!Validators.validateRadioGroup(productservicerg,this,"Producto / Servicio")){
+                return false;
+            }else{
+                    return true;
+                }
+        }else if(isBiofieldsCompany){
+                if(!Validators.validateEdt(descriptionEdt,this,"Descripcion (Producto / Servicio)")){
+                   return false;
+                }else{
+                    return true;
+                }
         }else  if(!Validators.validateSpiner(spUOM,this,"Unidad de medida")){
             return false;
         }else if(!Validators.validateEdt(priceEdt,this,"Precio unitario")){
@@ -172,11 +217,12 @@ public class BudgeItemForm extends AppCompatActivity {
     }
 
     private BudgeItemRequest budgeItemRequest(){
-        String productService = productservicerg.getCheckedRadioButtonId() == R.id.act_budge_productservice_yes ? "Producto" : "Servicio";
+        boolean productService = productservicerg.getCheckedRadioButtonId() == R.id.act_budge_productservice_yes ? true : false;
         BudgeItemRequest budgeItemRequest = new BudgeItemRequest(idAutonumeric(FormRequisitionActivity.budgeItemRequests),
-                notesEdt.getText().toString().trim(),productService,
-                    descriptionEdt.getText().toString().trim(),((UoMResponse)spUOM.getSelectedItem()).toString(),
-                        priceEdt.getText().toString().trim(),qtyEdt.getText().toString().trim(),totalTxt.getText().toString());
+                notesEdt.getText().toString().trim(),isBiofieldsCompany ? productService  ? descriptionEdt.getText().toString().trim() : "-1" : null,
+                isBiofieldsCompany ? !productService  ? descriptionEdt.getText().toString().trim() : "-1" : null,((UoMResponse)spUOM.getSelectedItem()).toString(),
+                Double.parseDouble(priceEdt.getText().toString().trim()),Double.parseDouble(qtyEdt.getText().toString().trim()),
+                totalTxt.getText().toString());
 
         return budgeItemRequest;
 
@@ -190,9 +236,33 @@ public class BudgeItemForm extends AppCompatActivity {
     void onProviderClick(int position){
         DesignUtils.hideKeyboard(this);
         searching = false;
-        descriptionEdt.setText(((ItemResponse) lvDescriptions.getItemAtPosition(position)).getItemDesc());
+        boolean productService = productservicerg.getCheckedRadioButtonId() == R.id.act_budge_productservice_yes ? true : false;
+        if (productService) {
+            descriptionEdt.setText(((ItemResponse) lvDescriptions.getItemAtPosition(position)).getItemDesc());
+        }else{
+            descriptionEdt.setText(((ExpenseResponse) lvDescriptions.getItemAtPosition(position)).getExpcatDesc());
+        }
         lvDescriptions.setVisibility(View.GONE);
         searching = true;
+    }
+
+    @OnCheckedChanged({R.id.act_budge_productservice_yes, R.id.act_budge_productservice_not})
+    public void onRadioButtonCheckChanged(CompoundButton button, boolean checked) {
+        if(checked) {
+            descriptionEdt.setEnabled(true);
+            switch (button.getId()) {
+                case R.id.act_budge_productservice_yes:
+                    descriptionEdt.setText("");
+                        descriptionEdt.setHint("Ingrese producto");
+                        searchItem = true;
+                    break;
+                case R.id.act_budge_productservice_not:
+                    descriptionEdt.setText("");
+                    descriptionEdt.setHint(R.string.act_budge_description);
+                    searchItem = false;
+                    break;
+            }
+        }
     }
 
     @OnClick(R.id.act_budge_cancel)

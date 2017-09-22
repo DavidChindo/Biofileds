@@ -3,6 +3,9 @@ package com.hics.biofields.Models.Managment;
 import android.content.Context;
 
 import com.hics.biofields.Models.Objects.User;
+import com.hics.biofields.Network.Responses.RequisitionItemResponse;
+
+import java.util.ArrayList;
 
 import io.realm.Case;
 import io.realm.Realm;
@@ -64,6 +67,15 @@ public class RealmManager {
         });
     }
 
+    public static <T extends RealmObject> void insert(Realm realm, final ArrayList<T> items) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(items);
+            }
+        });
+    }
+
     public static <T extends RealmObject> T findFirst(Realm realm, Class<T> tClass) {
         if (realm == null) {
             realm = Realm.getDefaultInstance();
@@ -85,6 +97,27 @@ public class RealmManager {
         }
         realm.close();
         return realmList;
+    }
+
+    public static ArrayList<RequisitionItemResponse> findByWord(String value,String needAuth){
+        ArrayList<RequisitionItemResponse> requisitions = new ArrayList<RequisitionItemResponse>();
+        Realm realm = Realm.getDefaultInstance();
+            RealmResults<RequisitionItemResponse> realmResultsprev = realm.where(RequisitionItemResponse.class).equalTo("needAuth", needAuth).findAll();
+            RealmResults<RequisitionItemResponse> realmResults  = realmResultsprev.where().contains("numRequisition", value, Case.INSENSITIVE)
+                    .or().contains("descRequsition", value, Case.INSENSITIVE).or().contains("companyNameRequisition", value, Case.INSENSITIVE)
+                    .or().contains("statusRequisition", value, Case.INSENSITIVE).or().contains("amountRequsition", value, Case.INSENSITIVE)
+                    .or().contains("urgentRequsition", value, Case.INSENSITIVE).findAllAsync();
+        if (!value.isEmpty()) {
+            for (RequisitionItemResponse r : realmResults) {
+                requisitions.add(r);
+            }
+        }else{
+            for (RequisitionItemResponse r : realmResultsprev) {
+                requisitions.add(r);
+            }
+        }
+
+        return requisitions != null && requisitions.size() > 0 ? requisitions : null;
     }
 
     public static <T extends RealmObject> RealmList<T> findByDescription(Class<T> aClass,String fieldName,String value,String fieldName2,String value2) {
@@ -138,5 +171,20 @@ public class RealmManager {
         }
         realm.close();
         return user;
+    }
+
+    public static int  usrID() {
+        Realm realm = Realm.getDefaultInstance();
+        int id = -1;
+        if (realm == null) {
+            realm = Realm.getDefaultInstance();
+            id = realm.where(User.class).findFirst().getId();
+        } else {
+            if (!realm.isClosed()) {
+                id = realm.where(User.class).findFirst().getId();
+            }
+        }
+        realm.close();
+        return id;
     }
 }

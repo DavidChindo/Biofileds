@@ -19,6 +19,30 @@ public class SiteResponse extends RealmObject {
     @SerializedName("site_name")
     private String siteName;
 
+    public String getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(String siteId) {
+        this.siteId = siteId;
+    }
+
+    public String getSiteNumber() {
+        return siteNumber;
+    }
+
+    public void setSiteNumber(String siteNumber) {
+        this.siteNumber = siteNumber;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
     @Override
     public String toString() {
         return this.siteName;
