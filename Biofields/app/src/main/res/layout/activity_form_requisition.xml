@@ -22,6 +22,7 @@
             android:text="Generales"
             android:textColor="@color/black"
             android:textStyle="normal"
+            android:visibility="gone"
             />
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -60,7 +61,7 @@
                 app:ms_arrowSize="8dp"
                 app:ms_floatingLabelColor="@color/gray_font_form"
                 app:ms_floatingLabelText="Centro de costo del autorizador"
-                app:ms_hint="Centro de costo del autorizador"
+                app:ms_hint="Centro del Costo"
                 app:ms_multiline="true"
                 android:layout_marginEnd="@dimen/margin_twelve"
                 android:layout_marginStart="@dimen/margin_twelve"/>
@@ -75,8 +76,10 @@
                 app:ms_floatingLabelText="Partida de Presupuesto"
                 app:ms_hint="Partida de Presupuesto"
                 app:ms_multiline="true"
+                android:visibility="gone"
                 android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve"/>
+                android:layout_marginStart="@dimen/margin_twelve"
+                />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

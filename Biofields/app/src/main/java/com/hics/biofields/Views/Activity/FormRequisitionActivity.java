@@ -217,7 +217,10 @@ public class FormRequisitionActivity extends AppCompatActivity {
         if (position > 0) {
             String idCompany = ((CompanyCatResponse) spCompany.getItemAtPosition(position)).getCompanyId();
             FormRequisitionActivity.idCompanyGlobal = idCompany;
+            spItemBudge.setVisibility(View.VISIBLE);
             spItemBudge.setAdapter(new ArrayAdapter<BudgetlistResponse>(this, android.R.layout.simple_spinner_dropdown_item, RealmManager.findById(BudgetlistResponse.class, "rubroEmpresaId", idCompany)));
+        }else{
+            spItemBudge.setVisibility(View.GONE);
         }
     }
 
@@ -263,7 +266,6 @@ public class FormRequisitionActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         }else{
             intent = new Intent(Intent.ACTION_GET_CONTENT);
         }
@@ -276,18 +278,23 @@ public class FormRequisitionActivity extends AppCompatActivity {
 
     private boolean validateForm(){
         if (!Validators.validateSpiner(spCompany,this,"Empresa")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Empresa"));
             return false;
-        }else if(!Validators.validateSpiner(spCenter,this,"Centro de costo del autorizador")){
+        }else if(!Validators.validateSpiner(spCenter,this,"Centro del Costo")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Centro del Costo"));
             return false;
         }else if (!Validators.validateSpiner(spItemBudge,this,"Partida de presupuesto")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Partida de presupuesto"));
             return false;
         }else  if(!Validators.validateEdt(providerEdt,this,"Proveedor")){
             return false;
         }else if(!Validators.validateEdt(descriptionEdt,this,"Descripción del requerimiento")){
             return false;
         }else if(!Validators.validateSpiner(spSite,this,"Sitio de entrega")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Sitio de entrega"));
             return false;
         }else if(!Validators.validateSpiner(spPayment,this,"Moneda de pago")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Moneda de pago"));
             return false;
         }else if(!Validators.validateRadioGroup(billedRg,this,"¿El proveedor ya le ha entregado factura?")){
             return false;
@@ -339,25 +346,48 @@ public class FormRequisitionActivity extends AppCompatActivity {
         Uri uri = null;
         String path;
         if (requestCode == READ_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                uri = data.getData();
+          if (data.getClipData() != null && data.getClipData().getItemCount() > 1) {
+              int max = data.getClipData().getItemCount() > 3 ? 3 : data.getClipData().getItemCount();
+              for (int i =0; i < max ; i++) {
+                  Uri pathUri = data.getClipData().getItemAt(i).getUri();
+                  String wholeID = DocumentsContract.getDocumentId(pathUri);
+                  String id = wholeID.split(":").length > 1 ? wholeID.split(":")[1] : wholeID.split(":")[0];
+                  String pathDest = isDownloadsDocument(pathUri) ? folderOrigin : folderOrigin + id;
+                  try {
+                      path = inputToFile(pathUri, pathDest);
+                      String[] paths = path.split("/");
+                      String name = paths[paths.length - 1];
+                      addItems(pathDest, name);
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                      if (e.getLocalizedMessage().contains("such")) {
+                          DesignUtils.errorMessage(this, "Selección de archivo", "El archivo seleccionado no existe o se ha movido de su ubicación");
+                      } else {
+                          DesignUtils.errorMessage(this, "Selección de archivo", e.getLocalizedMessage());
+                      }
+                  }
+              }
+          }else {
+              if (data != null) {
+                  uri = data.getData();
                   String wholeID = DocumentsContract.getDocumentId(uri);
-                String id = wholeID.split(":").length > 1 ? wholeID.split(":")[1]: wholeID.split(":")[0];
-                String pathDest = isDownloadsDocument(uri) ? folderOrigin : folderOrigin + id;
-                try {
-                    path = inputToFile(uri,pathDest);
-                    String[] paths =  path.split("/");
-                    String name = paths[paths.length - 1];
-                    addItems(pathDest,name);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    if (e.getLocalizedMessage().contains("such")){
-                        DesignUtils.errorMessage(this, "Selección de archivo", "El archivo seleccionado no existe o se ha movido de su ubicación");
-                    }else{
-                        DesignUtils.errorMessage(this, "Selección de archivo", e.getLocalizedMessage());
-                    }
-                }
-            }
+                  String id = wholeID.split(":").length > 1 ? wholeID.split(":")[1] : wholeID.split(":")[0];
+                  String pathDest = isDownloadsDocument(uri) ? folderOrigin : folderOrigin + id;
+                  try {
+                      path = inputToFile(uri, pathDest);
+                      String[] paths = path.split("/");
+                      String name = paths[paths.length - 1];
+                      addItems(path, name);
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                      if (e.getLocalizedMessage().contains("such")) {
+                          DesignUtils.errorMessage(this, "Selección de archivo", "El archivo seleccionado no existe o se ha movido de su ubicación");
+                      } else {
+                          DesignUtils.errorMessage(this, "Selección de archivo", e.getLocalizedMessage());
+                      }
+                  }
+              }
+          }
         }
     }
 
@@ -447,7 +477,8 @@ public class FormRequisitionActivity extends AppCompatActivity {
             }
         }else{
             InputStream inputStream = getContentResolver().openInputStream(uri);
-            File f = new File(ruta);
+            ruta = ruta.contains("/Download") ? ruta.replace("/Download","") : ruta;
+            File f = new File(uri.toString().contains("image")? ruta + ".jpg" : ruta);
             byte[] buffer = new byte[inputStream.available()];
             inputStream.read(buffer);
             OutputStream outStream = new FileOutputStream(f);
@@ -478,15 +509,11 @@ public class FormRequisitionActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<FilesResponse> call, Response<FilesResponse> response) {
                 mProgressDialog.dismiss();
-                if (response.code() == Statics.code_OK){
+                if (response.code() == Statics.code_OK_Get){
                     //DesignUtils.successMessage(FormRequisitionActivity.this,"Crear Requisición",response.body().getMessage());
                     showDialog("Nueva Requisición","Se ha creado tú requisición "+numRequisition + " y " + response.body().getMessage());
                 }else{
-                    if (response.code() == Statics.code_BAD_REQUEST){
-                        uploadFiles(numRequisition);
-                    }else {
-                        DesignUtils.errorMessage(FormRequisitionActivity.this, "Crear Requisición", "Por el momento no se puede subir los archivos");
-                    }
+                    DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición","Por el momento no es posible subir los archivos");
                 }
             }
             @Override

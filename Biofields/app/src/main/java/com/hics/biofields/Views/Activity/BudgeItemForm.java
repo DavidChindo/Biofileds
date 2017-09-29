@@ -191,19 +191,49 @@ public class BudgeItemForm extends AppCompatActivity {
     }
 
     private boolean validateForm(){
-        if (!Validators.validateEdt(notesEdt,this,"Notas")){
+        if (!Validators.validateEdt(notesEdt,this,"Descripción general")){
             return false;
         }else if(isBiofieldsCompany){
                 if (!Validators.validateRadioGroup(productservicerg,this,"Producto / Servicio")){
                 return false;
             }else{
-                    return true;
+                 if(isBiofieldsCompany){
+                        if(!Validators.validateEdt(descriptionEdt,this,"Descripcion (Producto / Servicio)")){
+                            return false;
+                        }else{
+                            if(!Validators.validateSpiner(spUOM,this,"Unidad de medida")){
+                                return false;
+                            }else if(!Validators.validateEdt(priceEdt,this,"Precio unitario")){
+                                return false;
+                            }else if(!Validators.validateEdt(qtyEdt,this,"Cantidad")){
+                                return false;
+                            }else {
+                                return true;
+                            }
+                        }
+                    }else  if(!Validators.validateSpiner(spUOM,this,"Unidad de medida")){
+                        return false;
+                    }else if(!Validators.validateEdt(priceEdt,this,"Precio unitario")){
+                        return false;
+                    }else if(!Validators.validateEdt(qtyEdt,this,"Cantidad")){
+                        return false;
+                    }else {
+                        return true;
+                    }
                 }
         }else if(isBiofieldsCompany){
                 if(!Validators.validateEdt(descriptionEdt,this,"Descripcion (Producto / Servicio)")){
                    return false;
                 }else{
-                    return true;
+                    if(!Validators.validateSpiner(spUOM,this,"Unidad de medida")){
+                        return false;
+                    }else if(!Validators.validateEdt(priceEdt,this,"Precio unitario")){
+                        return false;
+                    }else if(!Validators.validateEdt(qtyEdt,this,"Cantidad")){
+                        return false;
+                    }else {
+                        return true;
+                    }
                 }
         }else  if(!Validators.validateSpiner(spUOM,this,"Unidad de medida")){
             return false;

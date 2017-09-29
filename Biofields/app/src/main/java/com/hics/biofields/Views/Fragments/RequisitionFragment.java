@@ -148,13 +148,15 @@ public class RequisitionFragment extends Fragment {
     private void annimation(int isEmpty){
         errorTxt.setText(isEmpty == 0  ? R.string.empty_list : isEmpty == 1 ?  R.string.network_error : R.string.not_results);
         errorTxt.setVisibility(View.VISIBLE);
-        animationView.setVisibility(View.VISIBLE);
-        animationView.setAnimation(isEmpty == 1 ?   "network_wifi.json" : "shrug.json");
         if (isEmpty == 1) {
-            animationView.setBackgroundColor(R.color.gray_font_form);
+            animationView.setVisibility(View.VISIBLE);
+            animationView.setAnimation("network_wifi.json");
+            if (isEmpty == 1) {
+                animationView.setBackgroundColor(R.color.gray_font_form);
+            }
+            animationView.loop(true);
+            animationView.playAnimation();
         }
-        animationView.loop(true);
-        animationView.playAnimation();
         listView.setVisibility(View.GONE);
     }
 

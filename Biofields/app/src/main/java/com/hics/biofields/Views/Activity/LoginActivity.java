@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                         && perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                         && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 } else {
-                    DesignUtils.errorMessage(LoginActivity.this,"Pemisos Aplicación","Permisos denegados por el usuario");
+                    //DesignUtils.errorMessage(LoginActivity.this,"Pemisos Aplicación","Permisos denegados por el usuario");
                 }
             }
             break;

@@ -123,21 +123,21 @@
                         ></ListView>
                 </android.support.v7.widget.CardView>
                 </LinearLayout>
+
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/act_budge_uom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_twelve"
+                    android:layout_marginStart="@dimen/margin_twelve"
                     app:ms_arrowColor="@color/silver"
                     app:ms_arrowSize="8dp"
+                    app:ms_enableErrorLabel="true"
+                    app:ms_errorColor="@color/red"
                     app:ms_floatingLabelColor="@color/gray_font_form"
                     app:ms_floatingLabelText="@string/act_budge_uom"
                     app:ms_hint="@string/act_budge_uom"
-                    app:ms_multiline="true"
-                    android:layout_marginEnd="@dimen/margin_twelve"
-                    android:layout_marginStart="@dimen/margin_twelve"
-                    app:ms_enableErrorLabel="true"
-                    app:ms_errorColor="@color/red"
-                    />
+                    app:ms_multiline="true" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -178,6 +178,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_twelve"
                     android:layout_marginStart="@dimen/margin_twelve"
+                    android:layout_marginTop="@dimen/margin_eigth"
+                    android:layout_marginBottom="@dimen/margin_eigth"
                     style="@style/font_title"
                     android:text="@string/act_budge_total"
                     android:textColor="@color/black"

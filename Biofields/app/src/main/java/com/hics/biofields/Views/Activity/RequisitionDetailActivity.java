@@ -40,7 +40,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,7 +106,8 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         if (budge != null){
             budgeItem.setText(budge.getDescBudge());
             qtyItem.setText(budge.getQtyBudge());
-            amountItem.setText(budge.getPriceBudge());
+
+            amountItem.setText(DecimalFormat.getNumberInstance(Locale.getDefault()).format(Double.parseDouble(budge.getPriceBudge())));
             prices.add(Integer.parseInt(budge.getPriceBudge()));
         }
         servicesLn.addView(child);
@@ -113,21 +118,21 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         if (!mPrices.isEmpty()) {
             View child = getLayoutInflater().inflate(R.layout.item_detail_total_budge, null);
             TextView totalTxt = (TextView) child.findViewById(R.id.item_total_amount);
-            int total = 0;
+            Double total = 0.0;
             for (int i = 0; i < mPrices.size(); i++) {
                 total += mPrices.get(i);
             }
-            totalTxt.setText(getString(R.string.total_budges, total));
+            totalTxt.setText(getString(R.string.total_budges, DecimalFormat.getNumberInstance(Locale.getDefault()).format(total)));
 
             servicesLn.addView(child);
         }
     }
 
-    private void addInvolved(String name){
+    private void addInvolved(String name,String role){
         if (!name.isEmpty()){
             View involvedLn = getLayoutInflater().inflate(R.layout.item_involved,null);
             TextView involvedTxt = (TextView) involvedLn.findViewById(R.id.item_involved_name);
-            involvedTxt.setText(getString(R.string.involved_name,name));
+            involvedTxt.setText(getString(R.string.involved_name,name,role));
             involvesLn.addView(involvedLn);
         }
     }
@@ -155,11 +160,11 @@ public class RequisitionDetailActivity extends AppCompatActivity {
             billedImg.setColorFilter(itemResponse.getBilledRequisition().toLowerCase().contains("no") ? getResources().getColor(R.color.red) : getResources().getColor(R.color.colorPrimary));
             urgentPayImg.setImageResource(itemResponse.getUrgentRequsition().toLowerCase().contains("urgente")  ? R.drawable.ic_yes : R.drawable.ic_no);
             urgentPayImg.setColorFilter(itemResponse.getUrgentRequsition().toLowerCase().contains("urgente") ? getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.red));
-            addInvolved(itemResponse.getApplicantRequisition());
-            addInvolved(itemResponse.getTitularRequisition());
-            addInvolved(itemResponse.getDirectorRequisition());
-            addInvolved(itemResponse.getBuyerRequisition());
-            addInvolved(itemResponse.getAuditorRequisition());
+            addInvolved(itemResponse.getApplicantRequisition(),getRole("solicitante"));
+            addInvolved(itemResponse.getTitularRequisition(),getRole("titular"));
+            addInvolved(itemResponse.getDirectorRequisition(),getRole("director"));
+            addInvolved(itemResponse.getBuyerRequisition(),getRole("comprador"));
+            addInvolved(itemResponse.getAuditorRequisition(),getRole("auditor"));
 
             if (!itemResponse.getFiles().isEmpty()){
                 filesLv.setAdapter(new FilesDetailAdapter(this,R.layout.item_files_detail,itemResponse.getFiles()));
@@ -172,6 +177,24 @@ public class RequisitionDetailActivity extends AppCompatActivity {
                 }
             }
             addItemTotal(prices);
+        }
+    }
+
+    private String getRole(String type){
+        switch (type){
+            case "solicitante":
+                return "Solicitante";
+            case "titular":
+                return "Comprador";
+            case "director":
+                return "Presupuesto";
+            case "comprador":
+                return "Aut N1";
+            case "auditor":
+                return "Aut N2";
+            default:
+                return "N/A";
+
         }
     }
 

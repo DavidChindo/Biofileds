@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WorkflowManager</string>
+    <string name="app_name">WorkFlow</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -29,9 +29,10 @@
     <string name="not_results">Sin resultados</string>
     <string name="empty_list">No hay requisiciones</string>
     <string name="form_pick_files">Selecciona el archivo</string>
-    <string name="total_budges">$ %d MXN</string>
+    <string name="total_budges">$ %s MXN</string>
     <string name="validate_field">%s es requerido</string>
-    <string name="involved_name">\u2022 %s</string>
+    <string name="involved_name"
+        formatted="false">\u2022 %s | %s </string>
     <string name="close_sesion">Cerrar Sesión</string>
     <string name="text_version_complete">Version:  %s</string>
     <!-- Splash Activity-->

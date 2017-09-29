@@ -2,10 +2,14 @@ package com.hics.biofields;
 
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.os.Environment;
 
+import com.hics.biofields.Library.Statics;
 import com.hics.biofields.Network.Definitions.Urls;
 import com.hics.biofields.Network.HicsWebService;
 import com.hics.biofields.Network.RetrofitEnvironments;
+
+import java.io.File;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -25,7 +29,7 @@ public class BioApp extends Application implements ComponentCallbacks2 {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().name("workflowmanager.realm").build();
         Realm.setDefaultConfiguration(config);
-
+        initDFolders();
     }
 
 
@@ -38,6 +42,17 @@ public class BioApp extends Application implements ComponentCallbacks2 {
 
     public static HicsWebService getHicsService() {
         return hicsService;
+    }
+
+    private void initDFolders(){
+        File storagePath = new File(Environment.getExternalStorageDirectory(), Statics.NAME_FOLDER);
+        try {
+            if (!storagePath.exists()){
+                storagePath.mkdirs();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
