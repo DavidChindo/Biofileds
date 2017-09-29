@@ -205,7 +205,6 @@ public class FormRequisitionActivity extends AppCompatActivity {
                         DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición",t.getLocalizedMessage());
                     }
                 });
-
             }
         }else{
             DesignUtils.errorMessage(this,"Error de Red", "No hay conexión a internet");
@@ -511,6 +510,7 @@ public class FormRequisitionActivity extends AppCompatActivity {
                 mProgressDialog.dismiss();
                 if (response.code() == Statics.code_OK_Get){
                     //DesignUtils.successMessage(FormRequisitionActivity.this,"Crear Requisición",response.body().getMessage());
+                    deleteFiles();
                     showDialog("Nueva Requisición","Se ha creado tú requisición "+numRequisition + " y " + response.body().getMessage());
                 }else{
                     DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición","Por el momento no es posible subir los archivos");
@@ -537,6 +537,17 @@ public class FormRequisitionActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    private void deleteFiles(){
+        if (!files.isEmpty()){
+            for (String f: files) {
+                File file = new  File(f);
+                if (file.exists()){
+                    Log.d(TAG,"FILE BORRADO "+file.delete());
+                }
+            }
+        }
     }
 
     @Override
