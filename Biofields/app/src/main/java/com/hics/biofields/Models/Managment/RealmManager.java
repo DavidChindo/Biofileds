@@ -31,22 +31,14 @@ public class RealmManager {
         });
     }
 
-    public static Realm deleteRealm(){
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-
-        try {
-            Realm.deleteRealm(realmConfiguration);
-            return Realm.getInstance(realmConfiguration);
-        } catch (RealmMigrationNeededException e){
-            try {
-                Realm.deleteRealm(realmConfiguration);
-                //Realm file has been deleted.
-                return Realm.getInstance(realmConfiguration);
-            } catch (Exception ex){
-                throw ex;
-                //No Realm file to remove.
+    public static void  deleteRealm(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
             }
-        }
+        });
     }
 
     public static <T extends RealmObject> RealmList<T> list(Realm realm, Class<T> aClass) {
@@ -91,6 +83,17 @@ public class RealmManager {
     public static <T extends RealmObject> RealmList<T> findByProvider(Class<T> aClass,String fieldName,String value) {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<T> realmResults = realm.where(aClass).contains(fieldName,value,Case.INSENSITIVE).findAllAsync();
+        RealmList<T> realmList = new RealmList<>();
+        for (T result : realmResults){
+            realmList.add(result);
+        }
+        realm.close();
+        return realmList;
+    }
+
+    public static <T extends RealmObject> RealmList<T> findByProviderNotRegister(Class<T> aClass,String fieldName,String value) {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<T> realmResults = realm.where(aClass).equalTo(fieldName,value).findAllAsync();
         RealmList<T> realmList = new RealmList<>();
         for (T result : realmResults){
             realmList.add(result);

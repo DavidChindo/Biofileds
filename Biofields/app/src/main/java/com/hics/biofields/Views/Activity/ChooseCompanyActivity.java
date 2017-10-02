@@ -98,7 +98,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                     user.setId(RealmManager.usrID());
                     RealmManager.saveUser(user, realm);
                     realm.close();
-                    mProgressDialog.setMessage("Descargando catalogos(1/8)...");
+                    mProgressDialog.setMessage("Descargando catálogos(1/8)...");
                     catalogVendor();
                 } else {
                     try {
@@ -129,7 +129,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.insert(realm, response.body());
                         realm.close();
-                        mProgressDialog.setMessage("Descargando catalogos(2/8)...");
+                        mProgressDialog.setMessage("Descargando catálogos(2/8)...");
                         catalogCompany();
                     } else {
                         Log.d("LISTA", "" + response);
@@ -161,7 +161,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.insert(realm, response.body());
                         realm.close();
-                        mProgressDialog.setMessage("Descargando catalogos(3/8)...");
+                        mProgressDialog.setMessage("Descargando catálogos(3/8)...");
                         catalogCostCenter();
                     } else {
                         Log.d("LISTA", "" + response);
@@ -193,7 +193,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.insert(realm, response.body());
                         realm.close();
-                        mProgressDialog.setMessage("Descargando catalogos(4/8)...");
+                        mProgressDialog.setMessage("Descargando catálogos(4/8)...");
                         catalogBudgetList();
                     } else {
                         Log.d("LISTA", "" + response);
@@ -225,7 +225,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.insert(realm, response.body());
                         realm.close();
-                        mProgressDialog.setMessage("Descargando catalogos(5/8)...");
+                        mProgressDialog.setMessage("Descargando catálogos(5/8)...");
                         catalogSite();
                     } else {
                         Log.d("LISTA", "" + response);
@@ -257,7 +257,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.insert(realm, response.body());
                         realm.close();
-                        mProgressDialog.setMessage("Descargando catalogos(6/8)...");
+                        mProgressDialog.setMessage("Descargando catálogos(6/8)...");
                         catalogExpense();
                     } else {
                         Log.d("LISTA", "" + response);
@@ -289,7 +289,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.insert(realm, response.body());
                         realm.close();
-                        mProgressDialog.setMessage("Descargando catalogos(7/8)...");
+                        mProgressDialog.setMessage("Descargando catálogos(7/8)...");
                         catalogItem();
                     } else {
                         Log.d("LISTA", "" + response);
@@ -321,7 +321,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                         Realm realm = Realm.getDefaultInstance();
                         RealmManager.insert(realm, response.body());
                         realm.close();
-                        mProgressDialog.setMessage("Descargando catalogos(8/8)...");
+                        mProgressDialog.setMessage("Descargando catálogos(8/8)...");
                         catalogUoM();
                     } else {
                         Log.d("LISTA", "" + response);

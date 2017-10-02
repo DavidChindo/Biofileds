@@ -70,7 +70,7 @@
     <string name="act_budge_uom">Unidad de medida</string>
     <string name="act_budge_price">Precio unitario</string>
     <string name="act_budge_qty">Cantidad</string>
-    <string name="act_budge_total">Total %s MXN</string>
+    <string name="act_budge_total">Total $%s MXN</string>
 
 
 </resources>

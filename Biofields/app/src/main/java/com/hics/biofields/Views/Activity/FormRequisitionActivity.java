@@ -112,6 +112,7 @@ public class FormRequisitionActivity extends AppCompatActivity {
     public static final String TAG = FormRequisitionActivity.class.getSimpleName();
     public static final String folderOrigin = Environment.getExternalStorageDirectory() + "/" + Statics.NAME_FOLDER + "/";
     ProgressDialog mProgressDialog;
+    ArrayAdapter<BudgeItemRequest> budgeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,11 +159,12 @@ public class FormRequisitionActivity extends AppCompatActivity {
                                 providersLv.setPadding(0, 0, 0, 0);
                             } else {
                                 listValues.clear();
+                                listValues = RealmManager.findByProviderNotRegister(VendorResponse.class, "name", "Proveedor no registrado");
                                 providersLv.setAdapter(null);
                                 providersLv.setAdapter(new ArrayAdapter<VendorResponse>(FormRequisitionActivity.this,
                                         android.R.layout.simple_list_item_1, listValues));
-                                providersLv.setVisibility(View.GONE);
-                                DesignUtils.warningMessage(FormRequisitionActivity.this, "", "No existen resultados");
+                                providersLv.setVisibility(View.VISIBLE);
+                                //DesignUtils.warningMessage(FormRequisitionActivity.this, "", "No existen resultados");
                             }
                         } else {
                             listValues.clear();
@@ -182,29 +184,30 @@ public class FormRequisitionActivity extends AppCompatActivity {
     void onSentRequisitionClick(){
         if(Connection.isConnected(this)){
             if (validateForm()){
-                Gson gson = new Gson();
-                String json = gson.toJson(createRequisition());
-                Log.d(TAG,"JSON "+json);
-                Call<RequisitionResponse> call = BioApp.getHicsService().createRequisition("Bearer "+RealmManager.token(),createRequisition());
-                mProgressDialog = ProgressDialog.show(this, null, "Enviando...");
-                mProgressDialog.setCancelable(false);
-                call.enqueue(new Callback<RequisitionResponse>() {
-                    @Override
-                    public void onResponse(Call<RequisitionResponse> call, Response<RequisitionResponse> response) {
-                     mProgressDialog.dismiss();
-                        if (response.code() == Statics.code_OK_Get){
-                            //DesignUtils.successMessage(FormRequisitionActivity.this,"Crear Requisición",response.body().getMessage() +" con el número " +response.body().getReqNumber());
-                            uploadFiles(response.body().getReqNumber());
-                        }else{
-                            DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición","por el momento no es posible crear la requisición");
+                    Gson gson = new Gson();
+                    String json = gson.toJson(createRequisition());
+                    Log.d(TAG, "JSON " + json);
+                    Call<RequisitionResponse> call = BioApp.getHicsService().createRequisition("Bearer " + RealmManager.token(), createRequisition());
+                    mProgressDialog = ProgressDialog.show(this, null, "Enviando...");
+                    mProgressDialog.setCancelable(false);
+                    call.enqueue(new Callback<RequisitionResponse>() {
+                        @Override
+                        public void onResponse(Call<RequisitionResponse> call, Response<RequisitionResponse> response) {
+                            mProgressDialog.dismiss();
+                            if (response.code() == Statics.code_OK_Get) {
+                                //DesignUtils.successMessage(FormRequisitionActivity.this,"Crear Requisición",response.body().getMessage() +" con el número " +response.body().getReqNumber());
+                                uploadFiles(response.body().getReqNumber());
+                            } else {
+                                DesignUtils.errorMessage(FormRequisitionActivity.this, "Crear Requisición", "por el momento no es posible crear la requisición");
+                            }
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<RequisitionResponse> call, Throwable t) {
-                        mProgressDialog.dismiss();
-                        DesignUtils.errorMessage(FormRequisitionActivity.this,"Crear Requisición",t.getLocalizedMessage());
-                    }
-                });
+
+                        @Override
+                        public void onFailure(Call<RequisitionResponse> call, Throwable t) {
+                            mProgressDialog.dismiss();
+                            DesignUtils.errorMessage(FormRequisitionActivity.this, "Crear Requisición", t.getLocalizedMessage());
+                        }
+                    });
             }
         }else{
             DesignUtils.errorMessage(this,"Error de Red", "No hay conexión a internet");
@@ -250,14 +253,58 @@ public class FormRequisitionActivity extends AppCompatActivity {
         }
     }
 
-    private void addItems(String file,String name){
-        View child = getLayoutInflater().inflate(R.layout.item_files, null);
+    private void addItems(final String file,String name){
+        final View child = getLayoutInflater().inflate(R.layout.item_files, null);
         TextView budgeItem =  (TextView)child.findViewById(R.id.item_file_form_name);
+        Button deletbTN = (Button)child.findViewById(R.id.item_file_btn);
+        child.setTag(file);
+        deletbTN.setTag(file);
+        deletbTN.setTag(file);
         if (name!= null && !name.isEmpty()){
             budgeItem.setText(name);
         }
+        deletbTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (files.size() > 0){
+                    final AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(FormRequisitionActivity.this);
+                    builder.setTitle("Archivos de Soporte")
+                            .setMessage("¿Desea borrar el archivo?")
+                            .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    int index = getIndexArray(file);
+                                    files.remove(index);
+                                    filesLn.removeView(child);
+
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
+
+
         filesLn.addView(child);
         files.add(file);
+    }
+
+    private int getIndexArray(String file){
+        int index = -1;
+        if (!file.isEmpty()){
+            for (int i = 0; i <files.size(); i++){
+                if (files.get(i).equals(files)){
+                    return index;
+                }
+                index+=1;
+            }
+        }
+        return index;
     }
 
     public void performFileSearch() {
@@ -299,19 +346,71 @@ public class FormRequisitionActivity extends AppCompatActivity {
             return false;
         }else if(!Validators.validateRadioGroup(urgenteRg,this,"¿Pago urgente(Próximo Miércoles)?")){
             return false;
-        }else if(!Validators.validateRadioGroup(poaRg,this,"POA")){
+        }else if(!Validators.validateRadioGroup(poaRg,this,"POA")) {
             return false;
-        }else if(!Validators.validateRadioGroup(includeRg,this,"¿Puede incluirse / reemplazar otra partida?")){
+        }else if(!validateBudgetInfo()){
+            return false;
+        /*}else if(!Validators.validateRadioGroup(includeRg,this,"¿Puede incluirse / reemplazar otra partida?")){
             return false;
         }else if(!Validators.validateRadioGroup(deleteRg,this,"¿Se puede eliminar otra partida?")){
             return false;
         }else if(!Validators.validateRadioGroup(indispensableRg,this,"¿Es indispensable para la operación?")){
-            return false;
+            return false;*/
         }else if(!Validators.validateArrayListString(files,this,"Archivos de Soporte")){
             return false;
         }else if(!Validators.validateArrayList(FormRequisitionActivity.budgeItemRequests,this,"Partidas de Requisición")){
             return false;
-        }else {
+        }
+
+        else {
+            return true;
+        }
+    }
+
+    private boolean validateBudgetInfo(){
+        if (poaRg.getCheckedRadioButtonId() == R.id.act_form_poa_not){
+            if(!Validators.validateRadioGroup(includeRg,this,"¿Puede incluirse / reemplazar otra partida?")){
+                return false;
+            }else if (includeRg.getCheckedRadioButtonId() == R.id.act_form_includereplace_not){
+                if(!Validators.validateRadioGroup(deleteRg,this,"¿Se puede eliminar otra partida?")){
+                    return false;
+                }else if (deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_not){
+                    if(!Validators.validateRadioGroup(indispensableRg,this,"¿Es indispensable para la operación?")){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }else {
+                    return true;
+                }
+            }else if (deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_not){
+                if(!Validators.validateRadioGroup(indispensableRg,this,"¿Es indispensable para la operación?")){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }else if (includeRg.getCheckedRadioButtonId() == R.id.act_form_includereplace_not){
+            if(!Validators.validateRadioGroup(deleteRg,this,"¿Se puede eliminar otra partida?")){
+                return false;
+            }else if (deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_not){
+                if(!Validators.validateRadioGroup(indispensableRg,this,"¿Es indispensable para la operación?")){
+                    return false;
+                }else {
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }else if (deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_not){
+            if(!Validators.validateRadioGroup(indispensableRg,this,"¿Es indispensable para la operación?")){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
             return true;
         }
     }
@@ -394,7 +493,8 @@ public class FormRequisitionActivity extends AppCompatActivity {
     public void onAddBudgeItem(BudgeItemEvent event){
         EventBus.getDefault().removeStickyEvent(event);
         budgeItemRequests.add(event.budgeItemRequest);
-        budgeitemsLv.setAdapter(new ArrayAdapter<BudgeItemRequest>(this,android.R.layout.simple_list_item_1,budgeItemRequests));
+        budgeAdapter = new ArrayAdapter<BudgeItemRequest>(this,android.R.layout.simple_list_item_1,budgeItemRequests);
+        budgeitemsLv.setAdapter(budgeAdapter);
         DesignUtils.setListViewHeightBasedOnChildrenAdapter(budgeitemsLv);
     }
 
@@ -409,15 +509,32 @@ public class FormRequisitionActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case R.id.add:
-                // add stuff here
-                return true;
-            case R.id.edit:
-                // edit stuff here
                 return true;
             case R.id.delete:
+                //budgeAdapter.remove(budgeAdapter.getItem(info.position));
+                if (info.position >= 0 ){
+                    final AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(FormRequisitionActivity.this);
+                    builder.setTitle("Partidas de Requisición")
+                            .setMessage("¿Desea borrar la partida de requisición?")
+                            .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    budgeItemRequests.remove(info.position);
+                                    DesignUtils.setListViewHeightBasedOnChildrenAdapter(budgeitemsLv);
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .show();
+            }
+                return true;
+            case R.id.cancel:
                 // remove stuff here
                 return true;
             default:

@@ -107,7 +107,7 @@ public class RequisitionDetailActivity extends AppCompatActivity {
             budgeItem.setText(budge.getDescBudge());
             qtyItem.setText(budge.getQtyBudge());
 
-            amountItem.setText(DecimalFormat.getNumberInstance(Locale.getDefault()).format(Double.parseDouble(budge.getPriceBudge())));
+            amountItem.setText("$ " + DecimalFormat.getNumberInstance(Locale.getDefault()).format(Double.parseDouble(budge.getPriceBudge())));
             prices.add(Integer.parseInt(budge.getPriceBudge()));
         }
         servicesLn.addView(child);
