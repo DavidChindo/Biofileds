@@ -26,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.galaxyofandroid.awesometablayout.AwesomeTabBar;
 import io.realm.Realm;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, android.widget.SearchView.OnQueryTextListener {
 
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Fabric.with(this, new Crashlytics());
         ButterKnife.bind(this);
         searchView = (android.widget.SearchView) findViewById(R.id.searchview);
         toolbar.setTitle("Requisiciones");

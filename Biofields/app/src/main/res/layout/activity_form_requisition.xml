@@ -178,6 +178,7 @@
                 android:layout_marginStart="@dimen/margin_twelve"/>
 
             <TextView
+                android:id="@+id/billedTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/act_form_billed"
@@ -207,6 +208,7 @@
             </RadioGroup>
 
             <TextView
+                android:id="@+id/urgentTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/act_form_wednesday"

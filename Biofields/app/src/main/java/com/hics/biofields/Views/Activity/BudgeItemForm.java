@@ -156,12 +156,24 @@ public class BudgeItemForm extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!s.toString().trim().isEmpty()){
+                    double qty = Double.parseDouble(s.toString());
+                    if (qty <= 0) {
+                        qtyEdt.setText("");
+                        DesignUtils.errorMessage(BudgeItemForm.this,"","La cantidad debe ser mayor a cero");
+                    }
+                }
                 if (!priceEdt.getText().toString().trim().isEmpty() && !qtyEdt.getText().toString().trim().isEmpty()){
                     double price = Double.parseDouble(priceEdt.getText().toString().trim());
                     double qty = Double.parseDouble(s.toString());
-                    double total = price * qty;
-                    totalTxt.setText(getResources().getString(R.string.act_budge_total, String.valueOf(total)));
-                    totalTxt.setVisibility(View.VISIBLE);
+                    if (qty > 0) {
+                        double total = price * qty;
+                        totalTxt.setText(getResources().getString(R.string.act_budge_total, String.valueOf(total)));
+                        totalTxt.setVisibility(View.VISIBLE);
+                    }else{
+                        qtyEdt.setText("");
+                        DesignUtils.errorMessage(BudgeItemForm.this,"","La cantidad debe ser mayor a cero");
+                    }
                 }
             }
         });
@@ -179,13 +191,28 @@ public class BudgeItemForm extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!s.toString().trim().isEmpty()){
+                    double qty = Double.parseDouble(s.toString());
+                    boolean isvalidprice = isBiofieldsCompany ? qty >= 0 : qty > 0;
+                    if(!isvalidprice) {
+                        priceEdt.setText("");
+                        DesignUtils.errorMessage(BudgeItemForm.this,"","El monto del precio debe ser mayor a cero");
+                    }
+                }
                 if (!priceEdt.getText().toString().trim().isEmpty() && !qtyEdt.getText().toString().trim().isEmpty()){
                     double price = Double.parseDouble(qtyEdt.getText().toString().trim());
                     double qty = Double.parseDouble(s.toString());
-                    double total = price * qty;
-                    totalTxt.setText(getResources().getString(R.string.act_budge_total,String.valueOf(total)));
-                    totalTxt.setVisibility(View.VISIBLE);
+                    boolean isvalidprice = isBiofieldsCompany ? qty >= 0 : qty > 0;
+                    if(isvalidprice) {
+                        double total = price * qty;
+                        totalTxt.setText(getResources().getString(R.string.act_budge_total, String.valueOf(total)));
+                        totalTxt.setVisibility(View.VISIBLE);
+                    }else{
+                        priceEdt.setText("");
+                        DesignUtils.errorMessage(BudgeItemForm.this,"","El monto del precio debe ser mayor a cero");
+                    }
                 }
+
             }
         });
     }

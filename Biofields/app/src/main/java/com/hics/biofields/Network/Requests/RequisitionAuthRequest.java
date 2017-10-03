@@ -13,11 +13,11 @@ public class RequisitionAuthRequest {
     @SerializedName("req_reason_reject")
     private String reasonReject;
     @SerializedName("usrw_id")
-    private int usrwId;
+    private String usrwId;
     @SerializedName("req_number")
     private int reqNumber;
 
-    public RequisitionAuthRequest(int reqNumber, boolean isAccepted, String reasonReject, int usrwId) {
+    public RequisitionAuthRequest(int reqNumber, boolean isAccepted, String reasonReject, String usrwId) {
         this.reqNumber = reqNumber;
         this.isAccepted = isAccepted;
         this.reasonReject = reasonReject;

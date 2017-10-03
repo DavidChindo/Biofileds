@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -102,6 +103,9 @@ public class FormRequisitionActivity extends AppCompatActivity {
     @BindView(R.id.act_form_files_ln)LinearLayout filesLn;
     @BindView(R.id.act_form_budgeitem_lv)ListView budgeitemsLv;
     @BindView(R.id.act_form_add_files)Button addFilesBtn;
+    @BindView(R.id.card_info)CardView infoCard;
+    @BindView(R.id.billedTextView)TextView billedTxt;
+    @BindView(R.id.urgentTextView)TextView urgentTxt;
 
 
     public boolean searching = true;
@@ -113,6 +117,7 @@ public class FormRequisitionActivity extends AppCompatActivity {
     public static final String folderOrigin = Environment.getExternalStorageDirectory() + "/" + Statics.NAME_FOLDER + "/";
     ProgressDialog mProgressDialog;
     ArrayAdapter<BudgeItemRequest> budgeAdapter;
+    public boolean isBiofieldsCompany = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +128,8 @@ public class FormRequisitionActivity extends AppCompatActivity {
     }
 
     private void initFields(){
+        Prefs prefs = Prefs.with(this);
+        isBiofieldsCompany = prefs.getBoolean(Statics.IS_BIOFIELDS_PREFS);
         final Realm realm = Realm.getDefaultInstance();
         spCompany.setAdapter(new ArrayAdapter<CompanyCatResponse>(this,android.R.layout.simple_spinner_dropdown_item, RealmManager.list(realm,CompanyCatResponse.class)));
         spCenter.setAdapter(new ArrayAdapter<CostcenterResponse>(this,android.R.layout.simple_spinner_dropdown_item, RealmManager.list(realm,CostcenterResponse.class)));
@@ -130,9 +137,9 @@ public class FormRequisitionActivity extends AppCompatActivity {
         spSite.setAdapter(new ArrayAdapter<SiteResponse>(this,android.R.layout.simple_spinner_dropdown_item, RealmManager.list(realm,SiteResponse.class)));
         spPayment.setAdapter(new ArrayAdapter<PaymentType>(this,android.R.layout.simple_spinner_dropdown_item, PaymentType.paymentsType()));
         //realm.close();
+        hideFields();
         registerForContextMenu(budgeitemsLv);
-        Prefs prefs = Prefs.with(FormRequisitionActivity.this);
-        if (prefs.getBoolean(Statics.IS_BIOFIELDS_PREFS)) {
+        if (isBiofieldsCompany) {
             providerEdt.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -177,6 +184,17 @@ public class FormRequisitionActivity extends AppCompatActivity {
 
                 }
             });
+        }
+    }
+
+    private void hideFields(){
+        if(!isBiofieldsCompany){
+            billedTxt.setVisibility(View.GONE);
+            urgentTxt.setVisibility(View.GONE);
+            urgenteRg.setVisibility(View.GONE);
+            billedRg.setVisibility(View.GONE);
+            spSite.setVisibility(View.GONE);
+            infoCard.setVisibility(View.GONE);
         }
     }
 

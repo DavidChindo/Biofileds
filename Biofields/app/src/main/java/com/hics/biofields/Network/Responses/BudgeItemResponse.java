@@ -18,6 +18,8 @@ public class BudgeItemResponse {
     private String qtyBudge;
     @SerializedName("reqitem_price")
     private String priceBudge;
+    @SerializedName("reqitem_notas")
+    private String notes;
 
     public String getLineNumberBudge() {
         return lineNumberBudge;
@@ -57,5 +59,13 @@ public class BudgeItemResponse {
 
     public void setPriceBudge(String priceBudge) {
         this.priceBudge = priceBudge;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

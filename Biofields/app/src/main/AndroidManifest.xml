@@ -48,6 +48,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".Views.Activity.BudgeItemForm"
             android:screenOrientation="portrait"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="10ab83236b90258327340f6035e3c082344c69e0"
+            />
     </application>
 
 </manifest>

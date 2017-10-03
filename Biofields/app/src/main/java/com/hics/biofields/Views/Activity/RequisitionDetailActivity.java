@@ -40,9 +40,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -104,7 +102,10 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         TextView qtyItem =  (TextView)child.findViewById(R.id.item_budge_number);
         TextView amountItem =  (TextView)child.findViewById(R.id.item_budge_amount);
         if (budge != null){
-            budgeItem.setText(budge.getDescBudge());
+            String desc = budge.getDescBudge().isEmpty() && budge.getItemIdBudge().isEmpty() ? budge.getNotes() :
+                    !budge.getDescBudge().isEmpty() && budge.getItemIdBudge().isEmpty() ? budge.getNotes() + " " +budge.getDescBudge() :
+                            budge.getNotes() + " " + budge.getItemIdBudge();
+            budgeItem.setText(desc);
             qtyItem.setText(budge.getQtyBudge());
 
             amountItem.setText("$ " + DecimalFormat.getNumberInstance(Locale.getDefault()).format(Double.parseDouble(budge.getPriceBudge())));
@@ -265,7 +266,7 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         if (Connection.isConnected(this)) {
             if (mItemResponse != null) {
                 RequisitionAuthRequest requisitionAuthRequest = new RequisitionAuthRequest(Integer.parseInt(mItemResponse.getNumRequisition()),
-                        isAuthorization, reason, RealmManager.usrID());
+                        isAuthorization, reason, RealmManager.user());
                 Gson gson = new Gson();
                 String json = gson.toJson(requisitionAuthRequest);
                 Log.d("JSONREQUISITION", json);
