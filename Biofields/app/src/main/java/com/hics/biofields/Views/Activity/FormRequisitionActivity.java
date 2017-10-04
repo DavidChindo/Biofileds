@@ -106,6 +106,7 @@ public class FormRequisitionActivity extends AppCompatActivity {
     @BindView(R.id.card_info)CardView infoCard;
     @BindView(R.id.billedTextView)TextView billedTxt;
     @BindView(R.id.urgentTextView)TextView urgentTxt;
+    @BindView(R.id.info_budget_title)TextView infoBudgetTxt;
 
 
     public boolean searching = true;
@@ -195,13 +196,15 @@ public class FormRequisitionActivity extends AppCompatActivity {
             billedRg.setVisibility(View.GONE);
             spSite.setVisibility(View.GONE);
             infoCard.setVisibility(View.GONE);
+            infoBudgetTxt.setVisibility(View.GONE);
         }
     }
 
     @OnClick(R.id.act_form_sent_requisition)
     void onSentRequisitionClick(){
         if(Connection.isConnected(this)){
-            if (validateForm()){
+            boolean validate = isBiofieldsCompany ? validateForm() : validateFormNotBiofields();
+            if (validate){
                     Gson gson = new Gson();
                     String json = gson.toJson(createRequisition());
                     Log.d(TAG, "JSON " + json);
@@ -379,7 +382,33 @@ public class FormRequisitionActivity extends AppCompatActivity {
         }else if(!Validators.validateArrayList(FormRequisitionActivity.budgeItemRequests,this,"Partidas de Requisición")){
             return false;
         }
+        else {
+            return true;
+        }
+    }
 
+    private boolean validateFormNotBiofields(){
+        if (!Validators.validateSpiner(spCompany,this,"Empresa")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Empresa"));
+            return false;
+        }else if(!Validators.validateSpiner(spCenter,this,"Centro del Costo")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Centro del Costo"));
+            return false;
+        }else if (!Validators.validateSpiner(spItemBudge,this,"Partida de presupuesto")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Partida de presupuesto"));
+            return false;
+        }else  if(!Validators.validateEdt(providerEdt,this,"Proveedor")){
+            return false;
+        }else if(!Validators.validateEdt(descriptionEdt,this,"Descripción del requerimiento")){
+            return false;
+        }else if(!Validators.validateSpiner(spPayment,this,"Moneda de pago")){
+            DesignUtils.errorMessage(this,"Campo Obligatorio", getString(R.string.validate_field, "Moneda de pago"));
+            return false;
+        }else if(!Validators.validateArrayListString(files,this,"Archivos de Soporte")){
+            return false;
+        }else if(!Validators.validateArrayList(FormRequisitionActivity.budgeItemRequests,this,"Partidas de Requisición")){
+            return false;
+        }
         else {
             return true;
         }
@@ -645,6 +674,7 @@ public class FormRequisitionActivity extends AppCompatActivity {
                 mProgressDialog.dismiss();
                 if (response.code() == Statics.code_OK_Get){
                     //DesignUtils.successMessage(FormRequisitionActivity.this,"Crear Requisición",response.body().getMessage());
+                    budgeItemRequests.clear();
                     deleteFiles();
                     showDialog("Nueva Requisición","Se ha creado tú requisición "+numRequisition + " y " + response.body().getMessage());
                 }else{
@@ -700,6 +730,8 @@ public class FormRequisitionActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        budgeItemRequests.clear();
+        idCompanyGlobal = "";
         EventBus.getDefault().postSticky(new CloseFormRequisitionEvent(true));
     }
 }
