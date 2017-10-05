@@ -69,7 +69,7 @@ public class FilesDetailAdapter extends ArrayAdapter<FilesReqResponse> {
 
     private String nameFile(String path){
         String name = "";
-        if (!path.isEmpty()){
+        if (path != null && !path.isEmpty()){
             String[] paths = path.split("/");
             name = paths[paths.length-1];
         }

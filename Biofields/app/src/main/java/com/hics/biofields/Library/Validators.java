@@ -67,4 +67,12 @@ public class Validators {
         return true;
     }
 
+    public static String validateString(String word){
+        if (word != null && !word.isEmpty()){
+            return word;
+        } else{
+            return "";
+        }
+    }
+
 }

@@ -324,12 +324,15 @@
                         android:id="@+id/act_form_includereplace_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Si"/>
+                        android:text="Si"
+                        android:enabled="false"
+                        />
                     <RadioButton
                         android:id="@+id/act_form_includereplace_not"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No"/>
+                        android:text="No"
+                        android:enabled="false"/>
                 </RadioGroup>
 
                 <TextView
@@ -353,12 +356,14 @@
                         android:id="@+id/act_form_delet_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Si"/>
+                        android:text="Si"
+                        android:enabled="false"/>
                     <RadioButton
                         android:id="@+id/act_form_delet_not"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No"/>
+                        android:text="No"
+                        android:enabled="false"/>
                 </RadioGroup>
 
                 <TextView
@@ -382,12 +387,14 @@
                         android:id="@+id/act_form_indispensable_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Si"/>
+                        android:text="Si"
+                        android:enabled="false"/>
                     <RadioButton
                         android:id="@+id/act_form_indispensable_not"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No"/>
+                        android:text="No"
+                        android:enabled="false"/>
                 </RadioGroup>
 
             </LinearLayout>

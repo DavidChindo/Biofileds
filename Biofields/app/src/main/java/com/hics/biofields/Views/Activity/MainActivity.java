@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.hics.biofields.Models.Managment.RealmManager;
 import com.hics.biofields.Presenters.Events.CloseFormRequisitionEvent;
+import com.hics.biofields.Presenters.Events.RefreshRequisitionsEvent;
 import com.hics.biofields.Presenters.Events.ResultsRequisitionsOpenSearch;
 import com.hics.biofields.Presenters.Events.ResultsRequisitionsSearch;
 import com.hics.biofields.R;
@@ -83,12 +84,15 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void onCloseForm(CloseFormRequisitionEvent event){
         EventBus.getDefault().removeStickyEvent(event);
         pager.setCurrentItem(0);
+        EventBus.getDefault().postSticky(new RefreshRequisitionsEvent(0));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override

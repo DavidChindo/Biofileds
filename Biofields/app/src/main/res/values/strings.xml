@@ -32,7 +32,7 @@
     <string name="total_budges">$ %s MXN</string>
     <string name="validate_field">%s es requerido</string>
     <string name="involved_name"
-        formatted="false">\u2022 %s | %s </string>
+        formatted="false">\u2022 %s</string>
     <string name="close_sesion">Cerrar Sesión</string>
     <string name="text_version_complete">Version:  %s</string>
     <!-- Splash Activity-->

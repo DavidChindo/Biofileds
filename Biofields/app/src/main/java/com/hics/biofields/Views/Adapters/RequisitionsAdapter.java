@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hics.biofields.Library.Validators;
 import com.hics.biofields.Network.Responses.RequisitionItemResponse;
 import com.hics.biofields.R;
 
@@ -49,15 +50,21 @@ public class RequisitionsAdapter extends ArrayAdapter<RequisitionItemResponse> {
         }
         final RequisitionItemResponse requisition = mRequisitions.get(position);
         holder.num.setText("No. "+requisition.getNumRequisition());
-        holder.title.setText(requisition.getCompanyNameRequisition());
-        holder.description.setText(requisition.getDescRequsition());
+        holder.title.setText(Validators.validateString(requisition.getCompanyNameRequisition()));
+        holder.description.setText(Validators.validateString(requisition.getDescRequsition()));
         //holder.date.setText(requisition.getDateRequisition());
-        holder.providerTxt.setText(requisition.getSalesManNumberRequisition());
-        holder.amount.setText(requisition.getAmountRequsition());
-        if (requisition.getUrgentRequsition().toLowerCase().contains("urgente")){
-            holder.statusBar.setVisibility(View.VISIBLE);
-            holder.urgentTxt.setVisibility(View.VISIBLE);
-            holder.statusBarGray.setVisibility(View.GONE);
+        holder.providerTxt.setText(Validators.validateString(requisition.getSalesManNumberRequisition()));
+        holder.amount.setText(Validators.validateString(requisition.getAmountRequsition()));
+        if (requisition.getUrgentRequsition() != null && !requisition.getUrgentRequsition().isEmpty()) {
+            if (requisition.getUrgentRequsition().toLowerCase().contains("urgente")) {
+                holder.statusBar.setVisibility(View.VISIBLE);
+                holder.urgentTxt.setVisibility(View.VISIBLE);
+                holder.statusBarGray.setVisibility(View.GONE);
+            } else {
+                holder.statusBarGray.setVisibility(View.VISIBLE);
+                holder.statusBar.setVisibility(View.GONE);
+                holder.urgentTxt.setVisibility(View.GONE);
+            }
         }else{
             holder.statusBarGray.setVisibility(View.VISIBLE);
             holder.statusBar.setVisibility(View.GONE);
@@ -89,10 +96,14 @@ public class RequisitionsAdapter extends ArrayAdapter<RequisitionItemResponse> {
     }
 
     private String getStatus(String status){
-        if (status.contains("<br>")){
-            return status.substring(0,status.indexOf("<")-1);
+        if (status != null && !status.isEmpty()) {
+            if (status.contains("<br>")) {
+                return status.substring(0, status.indexOf("<") - 1);
+            } else {
+                return "N/A";
+            }
         }else{
-            return "N/A";
+            return  "N/A";
         }
     }
 

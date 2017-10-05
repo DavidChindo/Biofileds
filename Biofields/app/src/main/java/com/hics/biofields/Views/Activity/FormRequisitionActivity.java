@@ -25,9 +25,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -70,6 +72,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnItemSelected;
@@ -107,7 +110,14 @@ public class FormRequisitionActivity extends AppCompatActivity {
     @BindView(R.id.billedTextView)TextView billedTxt;
     @BindView(R.id.urgentTextView)TextView urgentTxt;
     @BindView(R.id.info_budget_title)TextView infoBudgetTxt;
-
+    @BindView(R.id.act_form_poa_not)RadioButton poaNot;
+    @BindView(R.id.act_form_poa_yes)RadioButton poayes;
+    @BindView(R.id.act_form_includereplace_not)RadioButton includeNot;
+    @BindView(R.id.act_form_includereplace_yes)RadioButton includeYes;
+    @BindView(R.id.act_form_delet_not)RadioButton deleteNot;
+    @BindView(R.id.act_form_delet_yes)RadioButton deleteYes;
+    @BindView(R.id.act_form_indispensable_not)RadioButton indispensableNot;
+    @BindView(R.id.act_form_indispensable_yes)RadioButton indispensableYes;
 
     public boolean searching = true;
     public static String idCompanyGlobal = "";
@@ -273,6 +283,39 @@ public class FormRequisitionActivity extends AppCompatActivity {
             DesignUtils.errorMessage(this,"Archivos","Sólo se permite subir máximo 3 archivos");
         }
     }
+
+    @OnCheckedChanged(R.id.act_form_poa_not)
+    void onCheckedChangedPoa(CompoundButton compoundButton, boolean checked){
+        includeNot.setEnabled(checked);
+        includeYes.setEnabled(checked);
+        if (!checked){
+            includeRg.check(-1);
+        }
+    }
+
+    @OnCheckedChanged(R.id.act_form_includereplace_not)
+    void onCheckedChangedInclude(CompoundButton compoundButton, boolean checked){
+       deleteNot.setEnabled(checked);
+        deleteYes.setEnabled(checked);
+        if (!checked){
+            deleteRg.check(-1);
+            /*deleteNot.setChecked(false);
+            deleteYes.setChecked(false);*/
+        }
+    }
+
+    @OnCheckedChanged(R.id.act_form_delet_not)
+    void onCheckedChangedDelete(CompoundButton compoundButton, boolean checked){
+        indispensableNot.setEnabled(checked);
+        indispensableYes.setEnabled(checked);
+        if (!checked){
+            indispensableRg.check(-1);
+            /*indispensableNot.setChecked(false);
+            indispensableYes.setChecked(false);*/
+        }
+    }
+
+
 
     private void addItems(final String file,String name){
         final View child = getLayoutInflater().inflate(R.layout.item_files, null);
@@ -469,15 +512,20 @@ public class FormRequisitionActivity extends AppCompatActivity {
         int reqRubroId = Integer.parseInt(((BudgetlistResponse)spItemBudge.getSelectedItem()).getRubroId());
         String reqVendedor = providerEdt.getText().toString().trim();
         String reqDesc = descriptionEdt.getText().toString().trim();
-        int reqSite = Integer.parseInt(((SiteResponse)spSite.getSelectedItem()).getSiteId());
+
+        int reqSite = isBiofieldsCompany ? Integer.parseInt(((SiteResponse)spSite.getSelectedItem()).getSiteId()) : -1;
+
         String reqNotes = commentsEdt.getText().toString().trim();
         int reqMonedaId = Integer.parseInt(((PaymentType)spPayment.getSelectedItem()).getId());
-        boolean reqFacturado =billedRg.getCheckedRadioButtonId() == R.id.act_form_billed_yes;
-        int reqUrgente =urgenteRg.getCheckedRadioButtonId() == R.id.act_form_urgent_yes ? 1 : 0;
-        boolean reqPOAa = poaRg.getCheckedRadioButtonId() == R.id.act_form_poa_yes;
-        boolean reqIncluirPOAb = reqPOAa ? includeRg.getCheckedRadioButtonId() == R.id.act_form_includereplace_yes :  Boolean.parseBoolean(null);
-        boolean reqDeletePOAc = reqPOAa ? deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_yes :  Boolean.parseBoolean(null);
-        boolean reqOperaciond = reqPOAa ? indispensableRg.getCheckedRadioButtonId() == R.id.act_form_indispensable_yes :  Boolean.parseBoolean(null);
+        boolean reqFacturado = isBiofieldsCompany ?  billedRg.getCheckedRadioButtonId() == R.id.act_form_billed_yes : Boolean.parseBoolean(null);
+        int reqUrgente = isBiofieldsCompany ?  urgenteRg.getCheckedRadioButtonId() == R.id.act_form_urgent_yes ? 1 : 0 : -1;
+        boolean reqPOAa = isBiofieldsCompany ? poaRg.getCheckedRadioButtonId() == R.id.act_form_poa_yes : Boolean.parseBoolean(null);
+        boolean reqIncluirPOAb = isBiofieldsCompany ?  reqPOAa ? includeRg.getCheckedRadioButtonId() == R.id.act_form_includereplace_yes :
+                Boolean.parseBoolean(null) : Boolean.parseBoolean(null);
+        boolean reqDeletePOAc =  isBiofieldsCompany ? reqPOAa ? deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_yes :
+                Boolean.parseBoolean(null) :  Boolean.parseBoolean(null);
+        boolean reqOperaciond = isBiofieldsCompany ? reqPOAa ? indispensableRg.getCheckedRadioButtonId() == R.id.act_form_indispensable_yes :
+                Boolean.parseBoolean(null) :  Boolean.parseBoolean(null);
         ArrayList<BudgeItemRequest> reqitem = FormRequisitionActivity.budgeItemRequests;
 
         RequisitionRequest requisitionRequest = new RequisitionRequest(reqCompanyId,reqCostCenterId,reqRubroId,reqVendedor,reqDesc,reqSite,reqNotes,reqMonedaId,reqFacturado,reqUrgente,

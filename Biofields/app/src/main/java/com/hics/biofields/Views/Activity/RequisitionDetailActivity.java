@@ -24,6 +24,7 @@ import com.hics.biofields.BioApp;
 import com.hics.biofields.Library.Connection;
 import com.hics.biofields.Library.DesignUtils;
 import com.hics.biofields.Library.Statics;
+import com.hics.biofields.Library.Validators;
 import com.hics.biofields.Models.Managment.RealmManager;
 import com.hics.biofields.Network.Requests.RequisitionAuthRequest;
 import com.hics.biofields.Network.Responses.BudgeItemResponse;
@@ -75,7 +76,7 @@ public class RequisitionDetailActivity extends AppCompatActivity {
     @BindView(R.id.act_detail_ln_involves)LinearLayout involvesLn;
     @BindView(R.id.act_requisition_det_btns)LinearLayout lnBtn;
 
-    private ArrayList<Integer> prices = new ArrayList<Integer>();
+    private ArrayList<Double> prices = new ArrayList<Double>();
     String reason = "";
     RequisitionDetailResponse mItemResponse;
     ProgressDialog mProgressDialog;
@@ -103,19 +104,19 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         TextView amountItem =  (TextView)child.findViewById(R.id.item_budge_amount);
         if (budge != null){
             String desc = budge.getDescBudge().isEmpty() && budge.getItemIdBudge().isEmpty() ? budge.getNotes() :
-                    !budge.getDescBudge().isEmpty() && budge.getItemIdBudge().isEmpty() ? budge.getNotes() + " " +budge.getDescBudge() :
+                    !budge.getDescBudge().isEmpty() && (budge.getItemIdBudge().isEmpty() || budge.getItemIdBudge().equals("-1"))  ? budge.getNotes() + " " +budge.getDescBudge() :
                             budge.getNotes() + " " + budge.getItemIdBudge();
             budgeItem.setText(desc);
             qtyItem.setText(budge.getQtyBudge());
 
             amountItem.setText("$ " + DecimalFormat.getNumberInstance(Locale.getDefault()).format(Double.parseDouble(budge.getPriceBudge())));
-            prices.add(Integer.parseInt(budge.getPriceBudge()));
+            prices.add(Double.parseDouble(budge.getPriceBudge()));
         }
         servicesLn.addView(child);
     }
 
 
-    private void addItemTotal(ArrayList<Integer> mPrices){
+    private void addItemTotal(ArrayList<Double> mPrices,String amountTotal){
         if (!mPrices.isEmpty()) {
             View child = getLayoutInflater().inflate(R.layout.item_detail_total_budge, null);
             TextView totalTxt = (TextView) child.findViewById(R.id.item_total_amount);
@@ -123,17 +124,18 @@ public class RequisitionDetailActivity extends AppCompatActivity {
             for (int i = 0; i < mPrices.size(); i++) {
                 total += mPrices.get(i);
             }
-            totalTxt.setText(getString(R.string.total_budges, DecimalFormat.getNumberInstance(Locale.getDefault()).format(total)));
+            //totalTxt.setText(getString(R.string.total_budges, DecimalFormat.getNumberInstance(Locale.getDefault()).format(total)));
+            totalTxt.setText(amountTotal);
 
             servicesLn.addView(child);
         }
     }
 
-    private void addInvolved(String name,String role){
-        if (!name.isEmpty()){
+    private void addInvolved(String name){
+        if (name != null && !name.isEmpty()){
             View involvedLn = getLayoutInflater().inflate(R.layout.item_involved,null);
             TextView involvedTxt = (TextView) involvedLn.findViewById(R.id.item_involved_name);
-            involvedTxt.setText(getString(R.string.involved_name,name,role));
+            involvedTxt.setText(getString(R.string.involved_name,name));
             involvesLn.addView(involvedLn);
         }
     }
@@ -149,24 +151,25 @@ public class RequisitionDetailActivity extends AppCompatActivity {
         if (itemResponse != null){
             mItemResponse = itemResponse;
             numTxt.setText("No. "+itemResponse.getNumRequisition());
-            companyTxt.setText(itemResponse.getCompanyNameRequisition());
-            descriptionTxt.setText(itemResponse.getDescRequsition());
-            amountTxt.setText(itemResponse.getAmountRequsition());
-            statusBarLn.setVisibility(itemResponse.getUrgentRequsition().toLowerCase().contains("urgente") ? View.VISIBLE : View.GONE);
-            statusTxt.setText(getStatus(itemResponse.getStatusRequisition()));
-            commentsTxt.setText(itemResponse.getDescRequsition());
-            costCenterTxt.setText(itemResponse.getCostCenterRequisition());
-            providerTxt.setText(itemResponse.getSalesManNumberRequisition());
-            billedImg.setImageResource(itemResponse.getBilledRequisition().toLowerCase().contains("no") ? R.drawable.ic_no : R.drawable.ic_yes);
-            billedImg.setColorFilter(itemResponse.getBilledRequisition().toLowerCase().contains("no") ? getResources().getColor(R.color.red) : getResources().getColor(R.color.colorPrimary));
-            urgentPayImg.setImageResource(itemResponse.getUrgentRequsition().toLowerCase().contains("urgente")  ? R.drawable.ic_yes : R.drawable.ic_no);
-            urgentPayImg.setColorFilter(itemResponse.getUrgentRequsition().toLowerCase().contains("urgente") ? getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.red));
-            addInvolved(itemResponse.getApplicantRequisition(),getRole("solicitante"));
-            addInvolved(itemResponse.getTitularRequisition(),getRole("titular"));
-            addInvolved(itemResponse.getDirectorRequisition(),getRole("director"));
-            addInvolved(itemResponse.getBuyerRequisition(),getRole("comprador"));
-            addInvolved(itemResponse.getAuditorRequisition(),getRole("auditor"));
-
+            companyTxt.setText(Validators.validateString(itemResponse.getCompanyNameRequisition()));
+            descriptionTxt.setText(Validators.validateString(itemResponse.getDescRequsition()));
+            amountTxt.setText(Validators.validateString(itemResponse.getAmountRequsition()));
+            statusBarLn.setVisibility(!Validators.validateString(itemResponse.getUrgentRequsition()).isEmpty()  ? itemResponse.getUrgentRequsition().toLowerCase().contains("urgente") ? View.VISIBLE : View.GONE : View.GONE);
+            statusTxt.setText(getStatus(Validators.validateString(itemResponse.getStatusRequisition())));
+            commentsTxt.setText(Validators.validateString(itemResponse.getDescRequsition()));
+            costCenterTxt.setText(Validators.validateString(itemResponse.getCostCenterRequisition()));
+            providerTxt.setText(Validators.validateString(itemResponse.getSalesManNumberRequisition()));
+            billedImg.setImageResource(!itemResponse.getBilledRequisition().isEmpty() ?  itemResponse.getBilledRequisition().toLowerCase().contains("no") ? R.drawable.ic_no : R.drawable.ic_yes : R.drawable.ic_no);
+            billedImg.setColorFilter(!itemResponse.getBilledRequisition().isEmpty() ? itemResponse.getBilledRequisition().toLowerCase().contains("no") ? getResources().getColor(R.color.red) : getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.red));
+            urgentPayImg.setImageResource(!Validators.validateString(itemResponse.getUrgentRequsition()).isEmpty()  ?  itemResponse.getUrgentRequsition().toLowerCase().contains("urgente")  ? R.drawable.ic_yes : R.drawable.ic_no : R.drawable.ic_no);
+            urgentPayImg.setColorFilter(!Validators.validateString(itemResponse.getUrgentRequsition()).isEmpty()  ? itemResponse.getUrgentRequsition().toLowerCase().contains("urgente") ? getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.red) : getResources().getColor(R.color.red));
+            addInvolved(!Validators.validateString(itemResponse.getApplicantRequisition()).isEmpty()  ? itemResponse.getApplicantRequisition() : "N/A");
+            addInvolved(!Validators.validateString(itemResponse.getBuyerRequisition()).isEmpty() ? itemResponse.getBuyerRequisition() : "N/A");
+            addInvolved(!Validators.validateString(itemResponse.getAuditorRequisition()).isEmpty() ?  itemResponse.getAuditorRequisition() : "N/A");
+            addInvolved(!Validators.validateString(itemResponse.getTitularRequisition()).isEmpty() ?  itemResponse.getTitularRequisition() : "N/A");
+            addInvolved(!Validators.validateString(itemResponse.getDirectorRequisition()).isEmpty() ? itemResponse.getDirectorRequisition() : "N/A");
+            addInvolved(!Validators.validateString(itemResponse.getAuthDafRequisition()).isEmpty() ? itemResponse.getAuthDafRequisition() : "N/A");
+            addInvolved(!Validators.validateString(itemResponse.getAuthDgRequisition()).isEmpty() ? itemResponse.getAuthDgRequisition() : "N/A");
             if (!itemResponse.getFiles().isEmpty()){
                 filesLv.setAdapter(new FilesDetailAdapter(this,R.layout.item_files_detail,itemResponse.getFiles()));
                 DesignUtils.setListViewHeightBasedOnChildrenAdapter(filesLv);
@@ -177,7 +180,7 @@ public class RequisitionDetailActivity extends AppCompatActivity {
                     addItems(itemResponse.getItems().get(i));
                 }
             }
-            addItemTotal(prices);
+            addItemTotal(prices,itemResponse.getAmountRequsition());
         }
     }
 

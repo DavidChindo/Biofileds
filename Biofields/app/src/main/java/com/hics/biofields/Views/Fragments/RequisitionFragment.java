@@ -19,6 +19,7 @@ import com.hics.biofields.Library.DesignUtils;
 import com.hics.biofields.Library.Statics;
 import com.hics.biofields.Models.Managment.RealmManager;
 import com.hics.biofields.Network.Responses.RequisitionItemResponse;
+import com.hics.biofields.Presenters.Events.RefreshRequisitionsEvent;
 import com.hics.biofields.Presenters.Events.RequisitionEvent;
 import com.hics.biofields.Presenters.Events.ResultsRequisitionsSearch;
 import com.hics.biofields.R;
@@ -104,7 +105,9 @@ public class RequisitionFragment extends Fragment {
                 public void onResponse(Call<ArrayList<RequisitionItemResponse>> call, Response<ArrayList<RequisitionItemResponse>> response) {
                     if (response.code() == Statics.code_OK_Get) {
                         swiperefresh_auth.setRefreshing(false);
-                        mProgressDialog.dismiss();
+                        if (mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
                         requisitions = response.body();
                         if (response.body().isEmpty() && response.body().size() < 1){
                             annimation(0);
@@ -124,7 +127,9 @@ public class RequisitionFragment extends Fragment {
                         }
                     } else {
                         swiperefresh_auth.setRefreshing(false);
-                        mProgressDialog.dismiss();
+                        if (mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
                         annimation(0);
                         DesignUtils.errorMessage(getActivity(), "Error", "No fue posible obtener las requisiciones");
                     }
@@ -133,7 +138,9 @@ public class RequisitionFragment extends Fragment {
                 @Override
                 public void onFailure(Call<ArrayList<RequisitionItemResponse>> call, Throwable t) {
                     swiperefresh_auth.setRefreshing(false);
-                    mProgressDialog.dismiss();
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
                     annimation(0);
                     DesignUtils.errorMessage(getActivity(), "Error", t.getLocalizedMessage());
                 }
@@ -173,6 +180,14 @@ public class RequisitionFragment extends Fragment {
         }else{
             listView.setVisibility(View.GONE);
             annimation(2);
+        }
+    }
+
+    @Subscribe(sticky = true)
+    public void onRefreshRequisitions(RefreshRequisitionsEvent event){
+        EventBus.getDefault().removeStickyEvent(event);
+        if (event.option == 0){
+            requisitionsAuth();
         }
     }
 

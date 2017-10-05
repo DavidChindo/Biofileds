@@ -15,480 +15,485 @@
         app1:titleTextColor="@color/colorWhite"
         app1:titleTextAppearance="@style/ToolbarAppearanceTitle" />
 
-<ScrollView
-    android:id="@+id/scrollView1"
-    android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:layout_height="match_parent"
-    android:padding="@dimen/margin_sixteen"
-    android:background="@color/blue_background">
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_background"
+        android:fillViewport="true"
+        android:padding="@dimen/margin_sixteen">
 
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardUseCompatPadding="true">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/margin_four">
-                <LinearLayout
-                    android:id="@+id/act_detail_statusbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_four"
-                    android:background="@color/red"
-                    android:orientation="horizontal"/>
+                android:layout_gravity="center"
+                card_view:cardUseCompatPadding="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/margin_four"
-                    android:layout_marginEnd="@dimen/margin_four"
-                    android:layout_marginStart="@dimen/margin_four">
-
-                    <TextView
-                        android:id="@+id/act_detail_num"
-                        style="@style/font_title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="0.7"
-                        android:text="No. 222" />
-
-                    <ImageView
-                        android:id="@+id/act_detail_urgent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/timer_clock"
-                        android:layout_margin="@dimen/margin_eigth"
-                        android:visibility="gone"/>
-                    <TextView
-                        android:id="@+id/act_detail_status"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.4"
-                        android:layout_marginTop="4dp"
-                        android:text="No enviada"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="12sp"
-                        android:background="@drawable/shape_status_not_sent"
-                        android:padding="@dimen/margin_six"
-                        android:textAlignment="center"
-                        android:layout_marginEnd="@dimen/margin_four"
-                        />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/divider"
-                    android:layout_height="1dp"
-                    android:layout_width="match_parent"
-                    android:layout_marginEnd="@dimen/margin_six"
-                    android:layout_marginStart="@dimen/margin_six"
-                    android:layout_marginTop="@dimen/margin_eigth"
-                    android:layout_marginBottom="@dimen/margin_eigth"
-                    android:background="@color/silver">
-                </View>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginEnd="@dimen/margin_four"
-                    android:layout_marginStart="@dimen/margin_four">
-                    <TextView
-                        android:id="@+id/act_detail_factory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_four"
-                        android:layout_marginEnd="@dimen/margin_four"
-                        android:layout_marginTop="@dimen/margin_eigth"
-                        android:text="Procter &amp; Gamble"
-                        style="@style/font_body_light"
-                        android:maxLines="2"
-                        android:gravity="center|start"
-                        android:drawableStart="@drawable/ic_company"
-                        android:drawableTint="@color/gray_icon"
-                        android:drawablePadding="@dimen/margin_four"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/act_detail_provider"
-                        style="@style/font_body_light"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_four"
-                        android:layout_marginStart="@dimen/margin_four"
-                        android:layout_marginTop="@dimen/margin_eigth"
-                        android:drawablePadding="@dimen/margin_four"
-                        android:drawableStart="@drawable/ic_supplier"
-                        android:drawableTint="@color/gray_icon"
-                        android:gravity="center|start"
-                        android:maxLines="2"
-                        android:text="Pago de derecho Pago de derecho Pago de derecho Pago de derecho" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginEnd="@dimen/margin_four"
-                    android:layout_marginStart="@dimen/margin_four">
-                    <TextView
-                        android:id="@+id/act_detail_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_four"
-                        android:layout_marginEnd="@dimen/margin_four"
-                        android:layout_marginTop="@dimen/margin_eigth"
-                        android:text="Pago de derecho Pago de derecho Pago de derecho Pago de derecho"
-                        style="@style/font_body_light"
-                        android:maxLines="2"
-                        android:gravity="center|start"
-                        android:drawableStart="@drawable/ic_info"
-                        android:drawableTint="@color/gray_icon"
-                        android:drawablePadding="@dimen/margin_four"
-                        />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/divider_bottom"
-                    android:layout_height="1dp"
-                    android:layout_width="match_parent"
-                    android:layout_marginEnd="@dimen/margin_six"
-                    android:layout_marginStart="@dimen/margin_six"
-                    android:layout_marginTop="@dimen/margin_eigth"
-                    android:layout_marginBottom="@dimen/margin_eigth"
-                    android:background="@color/silver">
-                </View>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="@dimen/margin_four"
-                    android:layout_marginEnd="@dimen/margin_four"
-                    android:layout_marginStart="@dimen/margin_four">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Monto"
-                        style="@style/font_title_detail"
-                        android:padding="@dimen/margin_six"
-                        android:textStyle="bold"
-                        />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.3"
-                        />
-
-                    <TextView
-                        android:id="@+id/act_detail_amount"
-                        style="@style/font_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="@dimen/margin_two"
-                        android:layout_marginTop="4dp"
-                        android:drawableStart="@drawable/ic_money"
-                        android:drawableTint="@color/gray_icon"
-                        android:drawablePadding="@dimen/margin_four"
-                        android:gravity="center"
-                        android:text="$22,000,000.00 MxN" />
-                </LinearLayout>
-                <View
-                    android:layout_height="1dp"
-                    android:layout_width="match_parent"
-                    android:layout_marginEnd="@dimen/margin_six"
-                    android:layout_marginStart="@dimen/margin_six"
-                    android:layout_marginBottom="@dimen/margin_eigth"
-                    android:background="@color/silver">
-                </View>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/margin_four"
-                android:layout_marginEnd="@dimen/margin_four"
-                android:layout_marginStart="@dimen/margin_four">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Anotaciones"
-                    style="@style/font_title_detail"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/act_detail_comments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Es imposible que tales potencias o seres hayan sobrevivido...
-hayan sobrevivido a una época infinitamente remota donde...
-la conciencia se manifestaba, quizá, bajo cuerpos y formas "
-                    style="@style/font_body_light"
-                   />
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/margin_four"
-                    android:layout_marginEnd="@dimen/margin_four"
-                    android:layout_marginStart="@dimen/margin_four">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Involucrados"
-                        style="@style/font_title_detail"
-                        android:textStyle="bold"/>
-
+                    android:paddingBottom="@dimen/margin_four">
 
                     <LinearLayout
-                        android:id="@+id/act_detail_ln_involves"
+                        android:id="@+id/act_detail_statusbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_four"
+                        android:background="@color/red"
+                        android:orientation="horizontal" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four"
+                        android:layout_marginTop="@dimen/margin_four"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/act_detail_num"
+                            style="@style/font_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_weight="0.7"
+                            android:text="No. 222" />
+
+                        <ImageView
+                            android:id="@+id/act_detail_urgent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_eigth"
+                            android:src="@mipmap/timer_clock"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/act_detail_status"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin_four"
+                            android:layout_marginTop="4dp"
+                            android:layout_weight="0.4"
+                            android:background="@drawable/shape_status_not_sent"
+                            android:padding="@dimen/margin_six"
+                            android:text=""
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/margin_eigth"
+                        android:layout_marginEnd="@dimen/margin_six"
+                        android:layout_marginStart="@dimen/margin_six"
+                        android:layout_marginTop="@dimen/margin_eigth"
+                        android:background="@color/silver"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/act_detail_factory"
+                            style="@style/font_body_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin_four"
+                            android:layout_marginStart="@dimen/margin_four"
+                            android:layout_marginTop="@dimen/margin_eigth"
+                            android:drawablePadding="@dimen/margin_four"
+                            android:drawableStart="@drawable/ic_company"
+                            android:drawableTint="@color/gray_icon"
+                            android:gravity="center|start"
+                            android:maxLines="2"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/act_detail_provider"
+                            style="@style/font_body_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin_four"
+                            android:layout_marginStart="@dimen/margin_four"
+                            android:layout_marginTop="@dimen/margin_eigth"
+                            android:drawablePadding="@dimen/margin_four"
+                            android:drawableStart="@drawable/ic_supplier"
+                            android:drawableTint="@color/gray_icon"
+                            android:gravity="center|start"
+                            android:maxLines="2"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/act_detail_description"
+                            style="@style/font_body_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin_four"
+                            android:layout_marginStart="@dimen/margin_four"
+                            android:layout_marginTop="@dimen/margin_eigth"
+                            android:drawablePadding="@dimen/margin_four"
+                            android:drawableStart="@drawable/ic_info"
+                            android:drawableTint="@color/gray_icon"
+                            android:gravity="center|start"
+                            android:maxLines="2"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/margin_eigth"
+                        android:layout_marginEnd="@dimen/margin_six"
+                        android:layout_marginStart="@dimen/margin_six"
+                        android:layout_marginTop="@dimen/margin_eigth"
+                        android:background="@color/silver"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_four"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/font_title_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:padding="@dimen/margin_six"
+                            android:text="Monto"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.3" />
+
+                        <TextView
+                            android:id="@+id/act_detail_amount"
+                            style="@style/font_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="@dimen/margin_two"
+                            android:layout_marginTop="4dp"
+                            android:drawablePadding="@dimen/margin_four"
+                            android:drawableStart="@drawable/ic_money"
+                            android:drawableTint="@color/gray_icon"
+                            android:gravity="center"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/margin_eigth"
+                        android:layout_marginEnd="@dimen/margin_six"
+                        android:layout_marginStart="@dimen/margin_six"
+                        android:background="@color/silver"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_four"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/font_title_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Anotaciones"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/act_detail_comments"
+                            style="@style/font_body_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_four"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/font_title_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Involucrados"
+                            android:textStyle="bold" />
+
+
+                        <LinearLayout
+                            android:id="@+id/act_detail_ln_involves"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_four"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/font_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Centro de Costos" />
+
+                        <TextView
+                            android:id="@+id/act_detail_center"
+                            style="@style/font_body_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/margin_eigth"
+                        android:layout_marginEnd="@dimen/margin_six"
+                        android:layout_marginStart="@dimen/margin_six"
+                        android:layout_marginTop="@dimen/margin_eigth"
+                        android:background="@color/silver"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_four"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four">
+
+                        <TextView
+                            style="@style/font_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:text="Servicio facturado" />
+
+                        <TextView
+                            android:id="@+id/act_detail_billed"
+                            style="@style/font_body_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="SI"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/act_detail_billed_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="@dimen/margin_eigth"
+                            android:src="@drawable/ic_yes"
+                            android:tint="@color/colorPrimary" />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animation_view"
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:visibility="gone" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/margin_eigth"
+                        android:layout_marginEnd="@dimen/margin_six"
+                        android:layout_marginStart="@dimen/margin_six"
+                        android:layout_marginTop="@dimen/margin_eigth"
+                        android:background="@color/silver"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_four"
+                        android:layout_marginEnd="@dimen/margin_four"
+                        android:layout_marginStart="@dimen/margin_four">
+
+                        <TextView
+                            style="@style/font_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:text="Pago urgente" />
+
+                        <ImageView
+                            android:id="@+id/act_detail_urgent_pay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="@dimen/margin_eigth"
+                            android:src="@drawable/ic_yes"
+                            android:tint="@color/colorPrimary" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                style="@style/font_title_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Archivos de soporte" />
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/car_files"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                card_view:cardUseCompatPadding="true">
+
+                <ListView
+                    android:id="@+id/act_detail_files"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></ListView>
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                style="@style/font_title_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cantidad | Producto/Servicio | Precio Unitario" />
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_itembudge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_four">
+
+                    <LinearLayout
+                        android:id="@+id/act_detail_ln_services"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"></LinearLayout>
 
                 </LinearLayout>
-            <LinearLayout
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_validations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/margin_four"
-                android:layout_marginEnd="@dimen/margin_four"
-                android:layout_marginStart="@dimen/margin_four">
-                <TextView
+                android:layout_gravity="center"
+                android:visibility="gone"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Centro de Costos"
-                    style="@style/font_title"/>
-                <TextView
-                    android:id="@+id/act_detail_center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Direccioón General"
-                    android:maxLines="2"
-                    style="@style/font_body_light"/>
-                </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_four">
 
-                <View
-                    android:layout_height="1dp"
-                    android:layout_width="match_parent"
-                    android:layout_marginEnd="@dimen/margin_six"
-                    android:layout_marginStart="@dimen/margin_six"
-                    android:layout_marginTop="@dimen/margin_eigth"
-                    android:layout_marginBottom="@dimen/margin_eigth"
-                    android:background="@color/silver">
-                </View>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_four"
-                    android:layout_marginEnd="@dimen/margin_four"
-                    android:layout_marginStart="@dimen/margin_four">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Servicio facturado"
-                        style="@style/font_title"
-                        android:layout_alignParentStart="true"/>
-                    <TextView
-                        android:id="@+id/act_detail_billed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SI"
-                        android:maxLines="2"
-                        style="@style/font_body_light"
-                        android:visibility="gone"/>
-                    <ImageView
-                        android:id="@+id/act_detail_billed_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_yes"
-                        android:tint="@color/colorPrimary"
-                        android:layout_margin="@dimen/margin_eigth"
-                        android:layout_alignParentEnd="true"
-                        />
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/animation_view"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentEnd="true"
-                        android:visibility="gone"/>
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_height="1dp"
-                    android:layout_width="match_parent"
-                    android:layout_marginEnd="@dimen/margin_six"
-                    android:layout_marginStart="@dimen/margin_six"
-                    android:layout_marginTop="@dimen/margin_eigth"
-                    android:layout_marginBottom="@dimen/margin_eigth"
-                    android:background="@color/silver">
-                </View>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_four"
-                    android:layout_marginEnd="@dimen/margin_four"
-                    android:layout_marginStart="@dimen/margin_four">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pago urgente"
-                        style="@style/font_title"
-                        android:layout_alignParentStart="true"/>
-
-                    <ImageView
-                        android:id="@+id/act_detail_urgent_pay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_yes"
-                        android:tint="@color/colorPrimary"
-                        android:layout_margin="@dimen/margin_eigth"
-                        android:layout_alignParentEnd="true"
-                        />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Archivos de soporte"
-            style="@style/font_title_detail"
-            />
-
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/car_files"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardUseCompatPadding="true">
-
-           <ListView
-               android:id="@+id/act_detail_files"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               ></ListView>
-        </android.support.v7.widget.CardView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/font_title_detail"
-            android:text="Producto / Servicio / Monto"/>
-
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_itembudge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        card_view:cardUseCompatPadding="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_four">
-
-            <LinearLayout
-                android:id="@+id/act_detail_ln_services"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_validations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardUseCompatPadding="true"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_four">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/act_detail_reason"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:hint="@string/reason"
-                        android:inputType="textNoSuggestions"
-                        android:maxLength="15"/>
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_height="wrap_content">
 
+                        <EditText
+                            android:id="@+id/act_detail_reason"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="@string/reason"
+                            android:inputType="textNoSuggestions"
+                            android:maxLength="15" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/act_requisition_det_btns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_eigth"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/act_detail_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_four"
+                    android:layout_marginStart="@dimen/margin_four"
+                    android:layout_weight=".5"
+                    android:background="@color/red"
+                    android:elevation="@dimen/raised_button"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white_background" />
+
+                <Button
+                    android:id="@+id/act_detail_sent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_four"
+                    android:layout_marginStart="@dimen/margin_four"
+                    android:layout_weight=".5"
+                    android:background="@color/colorPrimary"
+                    android:elevation="@dimen/raised_button"
+                    android:text="@string/accept"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white_background" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/act_requisition_det_btns"
-            android:layout_marginTop="@dimen/margin_eigth">
-            <Button
-                android:id="@+id/act_detail_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:background="@color/red"
-                android:elevation="@dimen/raised_button"
-                android:text="@string/cancel"
-                android:textAllCaps="false"
-                android:layout_marginEnd="@dimen/margin_four"
-                android:layout_marginStart="@dimen/margin_four"
-                android:textColor="@color/white_background"/>
-            <Button
-                android:id="@+id/act_detail_sent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:elevation="@dimen/raised_button"
-                android:text="@string/accept"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white_background"
-                android:layout_marginStart="@dimen/margin_four"
-                android:layout_marginEnd="@dimen/margin_four"
-                android:textAllCaps="false" />
         </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
-    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

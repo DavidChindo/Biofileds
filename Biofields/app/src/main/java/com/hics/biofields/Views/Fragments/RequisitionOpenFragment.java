@@ -18,6 +18,7 @@ import com.hics.biofields.Library.DesignUtils;
 import com.hics.biofields.Library.Statics;
 import com.hics.biofields.Models.Managment.RealmManager;
 import com.hics.biofields.Network.Responses.RequisitionItemResponse;
+import com.hics.biofields.Presenters.Events.RefreshRequisitionsEvent;
 import com.hics.biofields.Presenters.Events.RequisitionEvent;
 
 import com.hics.biofields.Presenters.Events.ResultsRequisitionsOpenSearch;
@@ -176,6 +177,15 @@ public class RequisitionOpenFragment extends Fragment {
             annimation(2);
         }
     }
+
+    @Subscribe(sticky = true)
+    public void onRefreshRequisitions(RefreshRequisitionsEvent event){
+        EventBus.getDefault().removeStickyEvent(event);
+        if (event.option == 1){
+            requisitionsOpen();
+        }
+    }
+
     @Override
     public void onStart() {
         super.onStart();
