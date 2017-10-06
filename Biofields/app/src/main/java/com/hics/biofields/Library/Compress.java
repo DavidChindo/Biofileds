@@ -1,6 +1,8 @@
 package com.hics.biofields.Library;
 
 import android.content.Context;
+import android.text.LoginFilter;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -94,7 +96,6 @@ public class Compress {
                     while ((count = origin.read(data, 0, BUFFER2)) != -1) {
                         out.write(data, 0, count);
                     }
-
                 }
 
             } catch (Exception e) {
@@ -145,6 +146,7 @@ public class Compress {
                     out.write(data, 0, count);
                 }
                 origin.close();
+                Log.d(TAG,"SIZE "+entry.getCompressedSize());
             }
         }
     }

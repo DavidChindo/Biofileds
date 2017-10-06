@@ -67,6 +67,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
@@ -210,11 +211,36 @@ public class FormRequisitionActivity extends AppCompatActivity {
         }
     }
 
+
+
+    public Boolean isSizeValid(File file) {
+        final long MiB = 1024 * 1024;
+        final long KiB = 1024;
+        final long maxSize = (MiB * 5) / MiB;
+
+        if (!file.isFile()) {
+            throw new IllegalArgumentException("Expected a file");
+        }
+        final double length = file.length();
+
+        if (length > MiB) {
+            Log.d("FORMVALIDATION","SIZE "+((length / MiB) > maxSize));
+            return (length / MiB) < maxSize;
+        }
+        if (length > KiB) {
+            return true;
+        }
+        return true;
+    }
+
     @OnClick(R.id.act_form_sent_requisition)
     void onSentRequisitionClick(){
-        if(Connection.isConnected(this)){
-            boolean validate = isBiofieldsCompany ? validateForm() : validateFormNotBiofields();
-            if (validate){
+        String path = zip(files,"2222");
+        File file = new File(path);
+        if (isSizeValid(file)) {
+            if (Connection.isConnected(this)) {
+                boolean validate = isBiofieldsCompany ? validateForm() : validateFormNotBiofields();
+                if (validate) {
                     Gson gson = new Gson();
                     String json = gson.toJson(createRequisition());
                     Log.d(TAG, "JSON " + json);
@@ -239,15 +265,18 @@ public class FormRequisitionActivity extends AppCompatActivity {
                             DesignUtils.errorMessage(FormRequisitionActivity.this, "Crear Requisición", t.getLocalizedMessage());
                         }
                     });
+                }
+            } else {
+                DesignUtils.errorMessage(this, "Error de Red", "No hay conexión a internet");
             }
         }else{
-            DesignUtils.errorMessage(this,"Error de Red", "No hay conexión a internet");
+            DesignUtils.errorMessage(this, "", "Ha superado el peso máximo de archivos, no debe ser mayor a 5 MB. Verifique el tamaño de sus archivos");
         }
     }
 
     @OnItemSelected(R.id.act_form_company)
     void onCompanySelected(int position){
-        if (position > 0) {
+        if (position >= 0) {
             String idCompany = ((CompanyCatResponse) spCompany.getItemAtPosition(position)).getCompanyId();
             FormRequisitionActivity.idCompanyGlobal = idCompany;
             spItemBudge.setVisibility(View.VISIBLE);
@@ -299,8 +328,6 @@ public class FormRequisitionActivity extends AppCompatActivity {
         deleteYes.setEnabled(checked);
         if (!checked){
             deleteRg.check(-1);
-            /*deleteNot.setChecked(false);
-            deleteYes.setChecked(false);*/
         }
     }
 
@@ -310,8 +337,6 @@ public class FormRequisitionActivity extends AppCompatActivity {
         indispensableYes.setEnabled(checked);
         if (!checked){
             indispensableRg.check(-1);
-            /*indispensableNot.setChecked(false);
-            indispensableYes.setChecked(false);*/
         }
     }
 

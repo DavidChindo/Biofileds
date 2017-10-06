@@ -21,6 +21,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
 
 public class RecoveryPasswordActivity extends Activity {
 
@@ -54,12 +55,15 @@ public class RecoveryPasswordActivity extends Activity {
 
     private void recoveryPasswd(String email){
         RecoveryPasswordRequest recoveryPasswordRequest = new RecoveryPasswordRequest(email);
+        //RecoveryPasswordResponse
         Call<RecoveryPasswordResponse> call = BioApp.getHicsService().recoveryPassword(recoveryPasswordRequest);
+        //Call<RecoveryPasswordResponse> call = BioApp.getHicsService().recoveryPassword(email);
         call.enqueue(new Callback<RecoveryPasswordResponse>() {
             @Override
             public void onResponse(Call<RecoveryPasswordResponse> call, Response<RecoveryPasswordResponse> response) {
                 mProgressDialog.dismiss();
                 if (response.code() == Statics.code_OK_Get) {
+                    //Toast.makeText(RecoveryPasswordActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
                     Toast.makeText(RecoveryPasswordActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(RecoveryPasswordActivity.this, "No existe el usuario", Toast.LENGTH_LONG).show();

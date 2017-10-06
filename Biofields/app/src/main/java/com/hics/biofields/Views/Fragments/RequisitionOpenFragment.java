@@ -27,6 +27,8 @@ import com.hics.biofields.R;
 import com.hics.biofields.Views.Activity.FormRequisitionActivity;
 import com.hics.biofields.Views.Activity.RequisitionDetailActivity;
 import com.hics.biofields.Views.Adapters.RequisitionsAdapter;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,10 +50,13 @@ public class RequisitionOpenFragment extends Fragment {
     @BindView(R.id.act_requisitions_open_list)ListView listView;
     @BindView(R.id.fr_requisitions_open_error)TextView errorTxt;
     @BindView(R.id.animation_error_open)LottieAnimationView animationView;
-    @BindView(R.id.swiperefresh_open)SwipeRefreshLayout swiperefresh_open;
+    //@BindView(R.id.swiperefresh_open)SwipeRefreshLayout swiperefresh_open;
+    @BindView(R.id.swiperefresh_open)SwipyRefreshLayout swiperefresh_open;
+
     RequisitionsAdapter msAdapter;
     ArrayList<RequisitionItemResponse> requisitions;
     ProgressDialog mProgressDialog;
+    int id = 1;
 
     public RequisitionOpenFragment() {
     }
@@ -63,13 +68,24 @@ public class RequisitionOpenFragment extends Fragment {
 
         msAdapter = new RequisitionsAdapter(getActivity(), R.layout.item_requisition, requisitions);
         listView.setAdapter(msAdapter);
-        requisitionsOpen();
-        swiperefresh_open.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        requisitionsOpen(true);
+        /*swiperefresh_open.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swiperefresh_open.setRefreshing(true);
                 requisitionsOpen();
             }
+        });*/
+
+        swiperefresh_open.setDirection(SwipyRefreshLayoutDirection.BOTH);
+
+        swiperefresh_open.setColorSchemeColors(R.color.colorPrimary);
+        swiperefresh_open.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+                swiperefresh_open.setRefreshing(true);
+                requisitionsOpen(direction == SwipyRefreshLayoutDirection.TOP);
+                }
         });
     }
 
@@ -83,7 +99,8 @@ public class RequisitionOpenFragment extends Fragment {
 
     @OnItemClick(R.id.act_requisitions_open_list)
     void onOpenRequisition(int position){
-        EventBus.getDefault().postSticky(new RequisitionEvent(Integer.parseInt(requisitions.get(position).getNumRequisition()),false));
+        EventBus.getDefault().postSticky(new RequisitionEvent(Integer.parseInt(((RequisitionItemResponse)listView.getItemAtPosition(position)).getNumRequisition()),false));
+        //EventBus.getDefault().postSticky(new RequisitionEvent(Integer.parseInt(requisitions.get(position).getNumRequisition()),false));
         start(RequisitionDetailActivity.class);
     }
 
@@ -96,9 +113,17 @@ public class RequisitionOpenFragment extends Fragment {
         Intent intent = new Intent(getActivity(), aClass);
         startActivity(intent);
     }
-    private void requisitionsOpen(){
+    private void requisitionsOpen(final boolean isPullToTop){
         if (Connection.isConnected(getActivity())) {
-            Call<ArrayList<RequisitionItemResponse>> call = BioApp.getHicsService().requisitionsOpen("Bearer " + RealmManager.token(), 1);
+
+            if (!isPullToTop) {
+                if (requisitions.size() > 0) {
+                    id = Integer.parseInt(requisitions.get(requisitions.size() - 1).getNumRequisition()) + 1;
+                }
+            }else{
+                id = 1;
+            }
+            Call<ArrayList<RequisitionItemResponse>> call = BioApp.getHicsService().requisitionsOpen("Bearer " + RealmManager.token(), id);
             mProgressDialog = ProgressDialog.show(getActivity(), null, "Cargando...");
             mProgressDialog.setCancelable(false);
             call.enqueue(new Callback<ArrayList<RequisitionItemResponse>>() {
@@ -107,10 +132,15 @@ public class RequisitionOpenFragment extends Fragment {
                     if (response.code() == Statics.code_OK_Get) {
                         swiperefresh_open.setRefreshing(false);
                         mProgressDialog.dismiss();
-                        requisitions = response.body();
-                        if (response.body().isEmpty() && response.body().size() < 1){
+
+                        requisitions.addAll(response.body());
+
+                        if (response.body().isEmpty() && response.body().size() < 1 && requisitions.size() < 1){
                             annimation(0);
                         }else {
+                            if (isPullToTop) {
+                                RealmManager.deleteClass(RequisitionItemResponse.class, "2");
+                            }
                             ArrayList<RequisitionItemResponse> requision = new ArrayList<RequisitionItemResponse>();
                             for (RequisitionItemResponse r : response.body()) {
                                 RequisitionItemResponse rtemp = r;
@@ -121,7 +151,8 @@ public class RequisitionOpenFragment extends Fragment {
                             Realm realm = Realm.getDefaultInstance();
                             RealmManager.insert(realm,requision);
                             realm.close();
-                            msAdapter = new RequisitionsAdapter(getActivity(), R.layout.item_requisition, response.body());
+
+                            msAdapter = new RequisitionsAdapter(getActivity(), R.layout.item_requisition, requisitions);
                             listView.setAdapter(msAdapter);
                         }
                     } else {
@@ -182,7 +213,7 @@ public class RequisitionOpenFragment extends Fragment {
     public void onRefreshRequisitions(RefreshRequisitionsEvent event){
         EventBus.getDefault().removeStickyEvent(event);
         if (event.option == 1){
-            requisitionsOpen();
+            requisitionsOpen(true);
         }
     }
 

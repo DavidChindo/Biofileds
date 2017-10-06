@@ -259,11 +259,10 @@ public class RequisitionDetailActivity extends AppCompatActivity {
                 }
             });
         }else{
-            Toast.makeText(this, "No hay conexión a intern", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No hay conexión a internet", Toast.LENGTH_LONG).show();
             finish();
         }
     }
-
 
     private void sentAuthorization(String reason,boolean isAuthorization){
         if (Connection.isConnected(this)) {
@@ -304,7 +303,6 @@ public class RequisitionDetailActivity extends AppCompatActivity {
             DesignUtils.errorMessage(this,"Autorizar Requisición","No hay conexión a internet");
         }
     }
-
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

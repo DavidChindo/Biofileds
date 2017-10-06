@@ -38,9 +38,16 @@ public class LogicUtils {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        if (nameZip.equals("2222")){
+            File zipTemp = new File(storagePath,nameZip+".zip");
+            if (zipTemp.exists()){
+                Log.d(TAG,"DELETE ZIP "+zipTemp.delete());
+            }
+        }
         final File zipFile = new File(storagePath, nameZip+".zip");
+
         Compress compress = new Compress(context, files, zipFile.getPath());
+
         compress.zipFileAtPath();
 
         if (zipFile.exists()){

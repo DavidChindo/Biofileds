@@ -31,11 +31,12 @@
         android:textSize="@dimen/font_size_16"
         android:layout_marginTop="@dimen/margin_eigth"
         android:visibility="gone"/>
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh_open"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srl_direction="both">
 
     <ListView
         android:id="@+id/act_requisitions_open_list"
@@ -43,7 +44,7 @@
         android:layout_height="match_parent"
         android:divider="@android:color/transparent">
     </ListView>
-</android.support.v4.widget.SwipeRefreshLayout>
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/act_sync_btn_open_sync"

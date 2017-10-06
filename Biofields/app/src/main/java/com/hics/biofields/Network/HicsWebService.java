@@ -31,6 +31,8 @@ import io.realm.RealmList;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -59,8 +61,12 @@ public interface HicsWebService {
     Call<ArrayList<RequisitionDetailResponse>> requisitionDetail(@Header("Authorization") String authorization,
                                                                  @Path("req_id") int id);
 
-    @PUT("PUT/recoverypasswd")
+
+    //Call<RecoveryPasswordResponse> recoveryPassword(@Body RecoveryPasswordRequest recoveryPasswordRequest);
+    @POST("POST/recoverypasswd")
     Call<RecoveryPasswordResponse> recoveryPassword(@Body RecoveryPasswordRequest recoveryPasswordRequest);
+    /*@FormUrlEncoded
+    Call<RecoveryPasswordResponse> recoveryPassword(@Field("email") String email);*/
 
     @POST("POST/logout")
     Call<ResponseGeneric> logout(@Header("Authorization") String authorization);

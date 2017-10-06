@@ -1,6 +1,7 @@
 package com.hics.biofields.Models.Managment;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.hics.biofields.Models.Objects.User;
 import com.hics.biofields.Network.Responses.RequisitionItemResponse;
@@ -39,6 +40,25 @@ public class RealmManager {
                 realm.deleteAll();
             }
         });
+    }
+
+    public static <T extends RealmObject> void deleteClass(final Class<T> aClass,String option){
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<T> realmResults = realm.where(aClass).equalTo("needAuth",option).findAll();
+        try{
+            if (realmResults.size() > 0 ){
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        boolean delete = realmResults.deleteAllFromRealm();
+                        Log.d("REQUISITIONSDELETED", "VALUE " + delete);
+                    }
+                });
+            }
+            realm.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static <T extends RealmObject> RealmList<T> list(Realm realm, Class<T> aClass) {
