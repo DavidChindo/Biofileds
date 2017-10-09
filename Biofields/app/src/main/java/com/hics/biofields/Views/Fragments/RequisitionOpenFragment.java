@@ -133,7 +133,11 @@ public class RequisitionOpenFragment extends Fragment {
                         swiperefresh_open.setRefreshing(false);
                         mProgressDialog.dismiss();
 
-                        requisitions.addAll(response.body());
+                        if (!isPullToTop) {
+                            requisitions.addAll(response.body());
+                        }else{
+                            requisitions = response.body();
+                        }
 
                         if (response.body().isEmpty() && response.body().size() < 1 && requisitions.size() < 1){
                             annimation(0);
