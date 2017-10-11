@@ -33,9 +33,9 @@ public class RequisitionAdapter  extends AwesomeTabBarAdapter
         fragments.add(new SettingsFragment());
 
         titles.add("Por Autorizar");
-        titles.add("Seguimientos");
+        titles.add("Seguimiento");
         titles.add("Solicitud");
-        titles.add("Cerrar Sesión");
+        titles.add("Ajustes");
     }
 
     @Override

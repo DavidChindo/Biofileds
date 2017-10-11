@@ -17,6 +17,7 @@
 
     <!-- URL -->
     <string name="url_qa">http://workflowbf.azurewebsites.net/workflow/v1/index.php/</string>
+    <string name="url_prod">http://workflowbf.azurewebsites.net/workflow/wsprod_v1/index.php</string>
 
     <!-- Generic Text-->
     <string name="accept">Aceptar</string>

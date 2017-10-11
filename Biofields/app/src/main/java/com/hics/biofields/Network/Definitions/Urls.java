@@ -16,7 +16,7 @@ public class Urls {
         if (mode == STAGE_QA) {
             return context.getResources().getString(R.string.url_qa);
         }else if(mode == STAGE_PRODUCTION) {
-            return context.getResources().getString(R.string.url_qa);
+            return context.getResources().getString(R.string.url_prod);
         }else{
             return context.getResources().getString(R.string.url_qa);
         }
