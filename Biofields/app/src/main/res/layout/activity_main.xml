@@ -12,6 +12,10 @@
         android:background="@color/colorPrimary"
         app:subtitleTextAppearance="@style/ToolbarAppearanceSubtitle"
         app:titleTextAppearance="@style/ToolbarAppearanceTitle"
+        android:gravity="end"
+        android:foregroundTint="@color/colorWhite"
+        android:titleTextColor="@color/colorWhite"
+        app:titleTextColor="@color/colorWhite"
         >
         <SearchView
             android:layout_width="wrap_content"
@@ -19,6 +23,7 @@
             android:id="@+id/searchview"
             android:foregroundTint="@color/colorWhite"
             android:backgroundTint="@color/colorWhite"
+            android:gravity="end"
             >
         </SearchView>
     </android.support.v7.widget.Toolbar>

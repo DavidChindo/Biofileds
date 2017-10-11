@@ -25,7 +25,7 @@ public class BioApp extends Application implements ComponentCallbacks2 {
     @Override
     public void onCreate() {
         super.onCreate();
-        hicsService= RetrofitEnvironments.createEnvironment(Urls.initStatics(this, Urls.STAGE_QA));
+        hicsService= RetrofitEnvironments.createEnvironment(Urls.initStatics(this, Urls.STAGE_PRODUCTION));
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().name("workflowmanager.realm").build();
         Realm.setDefaultConfiguration(config);

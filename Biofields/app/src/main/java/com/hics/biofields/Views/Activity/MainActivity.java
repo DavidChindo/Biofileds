@@ -4,12 +4,14 @@ package com.hics.biofields.Views.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.hics.biofields.Models.Managment.RealmManager;
 import com.hics.biofields.Presenters.Events.CloseFormRequisitionEvent;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         Fabric.with(this, new Crashlytics());
         ButterKnife.bind(this);
         searchView = (android.widget.SearchView) findViewById(R.id.searchview);
+
         toolbar.setTitle("Requisiciones");
         AwesomeTabBar tabBar=(AwesomeTabBar)findViewById(R.id.tabBar);
         pager=(ViewPager)findViewById(R.id.pager);
