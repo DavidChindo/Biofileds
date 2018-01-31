@@ -80,6 +80,14 @@
         <item name="android:paddingStart">@dimen/margin_six</item>
     </style>
 
+    <style name="font_body_light_bold">
+        <item name="android:textSize">@dimen/font_size_12</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:paddingBottom">@dimen/margin_four</item>
+        <item name="android:paddingStart">@dimen/margin_six</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="font_body_company">
         <item name="android:textSize">@dimen/font_size_12</item>
         <item name="android:textColor">@color/black</item>

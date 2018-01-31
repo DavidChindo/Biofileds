@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,15 +138,21 @@ public class RequisitionFragment extends Fragment {
                         if (!isPullToTop) {
                             requisitions.addAll(response.body());
                         }else{
+                            Log.d("onRefresh","value before"+ requisitions);
+                            requisitions.clear();
                             requisitions = response.body();
+                            Log.d("onRefresh","value after"+ response.body());
+                            Log.d("onRefresh","value before req"+ requisitions);
                         }
                         if (response.body().isEmpty() && response.body().size() < 1 && requisitions.size() < 1){
+                            listView.setAdapter(null);
                             annimation(0);
                         }else {
                             if (isPullToTop) {
                                 RealmManager.deleteClass(RequisitionItemResponse.class, "1");
                             }
                             ArrayList<RequisitionItemResponse> requision = new ArrayList<RequisitionItemResponse>();
+                            Log.d("onRefresh","value body"+ response.body());
                             for (RequisitionItemResponse r : response.body()) {
                                 RequisitionItemResponse rtemp = r;
                                 rtemp.setNeedAuth("1");
@@ -155,8 +162,10 @@ public class RequisitionFragment extends Fragment {
                             Realm realm = Realm.getDefaultInstance();
                             RealmManager.insert(realm,requision);
                             realm.close();
+                            listView.setAdapter(null);
                             msAdapter = new RequisitionsAdapter(getActivity(), R.layout.item_requisition, requisitions);
                             listView.setAdapter(msAdapter);
+                            animationView.setVisibility(View.GONE);
                         }
                     } else {
                        swiperefresh_auth.setRefreshing(false);
@@ -172,9 +181,16 @@ public class RequisitionFragment extends Fragment {
                 @Override
                 public void onFailure(Call<ArrayList<RequisitionItemResponse>> call, Throwable t) {
                     swiperefresh_auth.setRefreshing(false);
-                    //if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                    //}
+                    try{
+                        if (mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }else{
+                                mProgressDialog.dismiss();
+                            }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                     annimation(0);
                     DesignUtils.errorMessage(getActivity(), "Error", t.getLocalizedMessage());
                     isRequesting = false;
@@ -182,6 +198,12 @@ public class RequisitionFragment extends Fragment {
             });
         }else{
             swiperefresh_auth.setRefreshing(false);
+            try {
+                mProgressDialog.dismiss();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
             DesignUtils.errorMessage(getActivity(),"Error de Red","No hay conexión a internet");
             annimation(1);
             isRequesting = false;
@@ -194,11 +216,10 @@ public class RequisitionFragment extends Fragment {
         if (isEmpty == 1) {
             animationView.setVisibility(View.VISIBLE);
             animationView.setAnimation("network_wifi.json");
-            if (isEmpty == 1) {
-                animationView.setBackgroundColor(R.color.gray_font_form);
-            }
             animationView.loop(true);
             animationView.playAnimation();
+        }else{
+            animationView.setVisibility(View.GONE);
         }
         listView.setVisibility(View.GONE);
     }
@@ -224,9 +245,12 @@ public class RequisitionFragment extends Fragment {
         EventBus.getDefault().removeStickyEvent(event);
         if (event.option == 0){
             if (!isRequesting) {
+                Log.d("onRefresh","value "+ isRequesting);
                 requisitionsAuth(true);
             }
+            Log.d("onRefresh","value "+ isRequesting);
         }
+        Log.d("onRefresh","value "+ event.option);
     }
 
     @Override

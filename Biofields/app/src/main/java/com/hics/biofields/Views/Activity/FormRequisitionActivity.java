@@ -408,7 +408,6 @@ public class FormRequisitionActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType("*/*");
         startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.form_pick_files)), READ_REQUEST_CODE);
-
     }
 
     private boolean validateForm(){
@@ -544,13 +543,17 @@ public class FormRequisitionActivity extends AppCompatActivity {
         int reqMonedaId = Integer.parseInt(((PaymentType)spPayment.getSelectedItem()).getId());
         boolean reqFacturado = isBiofieldsCompany ?  billedRg.getCheckedRadioButtonId() == R.id.act_form_billed_yes : Boolean.parseBoolean(null);
         int reqUrgente = isBiofieldsCompany ?  urgenteRg.getCheckedRadioButtonId() == R.id.act_form_urgent_yes ? 1 : 0 : -1;
-        boolean reqPOAa = isBiofieldsCompany ? poaRg.getCheckedRadioButtonId() == R.id.act_form_poa_yes : Boolean.parseBoolean(null);
-        boolean reqIncluirPOAb = isBiofieldsCompany ?  reqPOAa ? includeRg.getCheckedRadioButtonId() == R.id.act_form_includereplace_yes :
-                Boolean.parseBoolean(null) : Boolean.parseBoolean(null);
-        boolean reqDeletePOAc =  isBiofieldsCompany ? reqPOAa ? deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_yes :
-                Boolean.parseBoolean(null) :  Boolean.parseBoolean(null);
-        boolean reqOperaciond = isBiofieldsCompany ? reqPOAa ? indispensableRg.getCheckedRadioButtonId() == R.id.act_form_indispensable_yes :
-                Boolean.parseBoolean(null) :  Boolean.parseBoolean(null);
+        //boolean reqPOAa = isBiofieldsCompany ? poaRg.getCheckedRadioButtonId() == R.id.act_form_poa_yes : Boolean.parseBoolean(null);
+        boolean reqPOAa = Boolean.parseBoolean(null);
+        //boolean reqIncluirPOAb = isBiofieldsCompany ?  reqPOAa ? includeRg.getCheckedRadioButtonId() == R.id.act_form_includereplace_yes :
+          //      Boolean.parseBoolean(null) : Boolean.parseBoolean(null);
+        boolean reqIncluirPOAb = Boolean.parseBoolean(null);
+        /*boolean reqDeletePOAc =  isBiofieldsCompany ? reqPOAa ? deleteRg.getCheckedRadioButtonId() == R.id.act_form_delet_yes :
+                Boolean.parseBoolean(null) :  Boolean.parseBoolean(null);*/
+        boolean reqDeletePOAc =  Boolean.parseBoolean(null);
+       /* boolean reqOperaciond = isBiofieldsCompany ? reqPOAa ? indispensableRg.getCheckedRadioButtonId() == R.id.act_form_indispensable_yes :
+                Boolean.parseBoolean(null) :  Boolean.parseBoolean(null);*/
+        boolean reqOperaciond = Boolean.parseBoolean(null);
         ArrayList<BudgeItemRequest> reqitem = FormRequisitionActivity.budgeItemRequests;
 
         RequisitionRequest requisitionRequest = new RequisitionRequest(reqCompanyId,reqCostCenterId,reqRubroId,reqVendedor,reqDesc,reqSite,reqNotes,reqMonedaId,reqFacturado,reqUrgente,

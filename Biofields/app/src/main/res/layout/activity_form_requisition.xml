@@ -43,50 +43,49 @@
                 android:id="@+id/act_form_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"
                 app:ms_arrowColor="@color/silver"
                 app:ms_arrowSize="8dp"
                 app:ms_floatingLabelColor="@color/gray_font_form"
                 app:ms_floatingLabelText="Empresa"
                 app:ms_hint="Empresa"
-                app:ms_multiline="true"
-                android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve"/>
+                app:ms_multiline="true" />
 
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/act_form_center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"
                 app:ms_arrowColor="@color/silver"
                 app:ms_arrowSize="8dp"
                 app:ms_floatingLabelColor="@color/gray_font_form"
                 app:ms_floatingLabelText="Centro de costo del autorizador"
                 app:ms_hint="Centro del Costo"
-                app:ms_multiline="true"
-                android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve"/>
+                app:ms_multiline="true" />
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/act_form_itembudge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:visibility="gone"
                 app:ms_arrowColor="@color/silver"
                 app:ms_arrowSize="8dp"
                 app:ms_floatingLabelColor="@color/gray_font_form"
                 app:ms_floatingLabelText="Partida de Presupuesto"
                 app:ms_hint="Partida de Presupuesto"
-                app:ms_multiline="true"
-                android:visibility="gone"
-                android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve"
-                />
+                app:ms_multiline="true" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve">
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:layout_marginTop="8dp">
 
                 <EditText
                     android:id="@+id/act_form_provider"
@@ -95,33 +94,34 @@
                     android:layout_marginTop="8dp"
                     android:hint="Proveedor"
 
-                    android:maxLength="300"/>
+                    android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
+
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardUseCompatPadding="true"
+                android:elevation="8dp"
                 android:padding="16dp"
-                android:elevation="8dp">
+                card_view:cardCornerRadius="4dp"
+                card_view:cardUseCompatPadding="true">
+
                 <ListView
+                    android:id="@+id/act_form_provider_list"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:id="@+id/act_form_provider_list"
-                    android:visibility="gone"
                     android:dividerHeight="2px"
-                    ></ListView>
+                    android:visibility="gone"></ListView>
             </android.support.v7.widget.CardView>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve">
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:layout_marginTop="8dp">
 
                 <EditText
                     android:id="@+id/act_form_description"
@@ -129,30 +129,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="@string/act_form_description"
-                    android:maxLines="4"
+                    android:maxLength="300"
 
-                    android:maxLength="300" />
+                    android:maxLines="4" />
             </android.support.design.widget.TextInputLayout>
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/act_form_site"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"
                 app:ms_arrowColor="@color/silver"
                 app:ms_arrowSize="8dp"
                 app:ms_floatingLabelColor="@color/gray_font_form"
                 app:ms_floatingLabelText="Sitio de entrega"
                 app:ms_hint="Sitio de entrega"
-                app:ms_multiline="true"
-                android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve"/>
+                app:ms_multiline="true" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve">
+                android:layout_marginStart="@dimen/margin_twelve"
+                android:layout_marginTop="8dp">
 
                 <EditText
                     android:id="@+id/act_form_comments"
@@ -168,73 +168,77 @@
                 android:id="@+id/act_form_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_twelve"
+                android:layout_marginStart="@dimen/margin_twelve"
                 app:ms_arrowColor="@color/silver"
                 app:ms_arrowSize="8dp"
                 app:ms_floatingLabelColor="@color/gray_font_form"
                 app:ms_floatingLabelText="Moneda de pago"
                 app:ms_hint="Moneda de pago"
-                app:ms_multiline="true"
-                android:layout_marginEnd="@dimen/margin_twelve"
-                android:layout_marginStart="@dimen/margin_twelve"/>
+                app:ms_multiline="true" />
 
             <TextView
                 android:id="@+id/billedTextView"
+                style="@style/font_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/act_form_billed"
-                style="@style/font_title"
-                android:textStyle="normal"
-                android:textColor="@color/gray_font_form"
+                android:layout_marginEnd="@dimen/margin_twelve"
                 android:layout_marginStart="@dimen/margin_twelve"
-                android:layout_marginEnd="@dimen/margin_twelve"/>
+                android:text="@string/act_form_billed"
+                android:textColor="@color/gray_font_form"
+                android:textStyle="normal" />
 
             <RadioGroup
                 android:id="@+id/act_form_billed_rg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginEnd="@dimen/margin_twelve"
                 android:layout_marginStart="@dimen/margin_twelve"
-                android:layout_marginEnd="@dimen/margin_twelve">
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/act_form_billed_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Si"/>
+                    android:text="Si" />
+
                 <RadioButton
                     android:id="@+id/act_form_billed_not"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No"/>
+                    android:text="No" />
             </RadioGroup>
 
             <TextView
                 android:id="@+id/urgentTextView"
+                style="@style/font_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/act_form_wednesday"
-                style="@style/font_title"
-                android:textStyle="normal"
-                android:textColor="@color/gray_font_form"
+                android:layout_marginEnd="@dimen/margin_twelve"
                 android:layout_marginStart="@dimen/margin_twelve"
-                android:layout_marginEnd="@dimen/margin_twelve"/>
+                android:text="@string/act_form_wednesday"
+                android:textColor="@color/gray_font_form"
+                android:textStyle="normal" />
 
             <RadioGroup
                 android:id="@+id/act_form_urgent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginEnd="@dimen/margin_twelve"
                 android:layout_marginStart="@dimen/margin_twelve"
-                android:layout_marginEnd="@dimen/margin_twelve">
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/act_form_urgent_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Si"/>
+                    android:text="Si" />
+
                 <RadioButton
                     android:id="@+id/act_form_urgent_not"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No"/>
+                    android:text="No" />
             </RadioGroup>
 
         </LinearLayout>
@@ -249,7 +253,9 @@
             android:textColor="@color/black"
             android:textStyle="normal"
             android:layout_marginTop="@dimen/margin_twelve"
-            android:layout_marginBottom="@dimen/margin_eigth"/>
+            android:layout_marginBottom="@dimen/margin_eigth"
+            android:visibility="gone"
+            />
 
         <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -257,7 +263,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            card_view:cardUseCompatPadding="true">
+            card_view:cardUseCompatPadding="true"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"

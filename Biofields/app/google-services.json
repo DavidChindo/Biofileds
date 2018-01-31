@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "895324800757",
+    "firebase_url": "https://biofields-e6f77.firebaseio.com",
+    "project_id": "biofields-e6f77",
+    "storage_bucket": "biofields-e6f77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895324800757:android:78084d136d0ef955",
+        "android_client_info": {
+          "package_name": "com.hics.biofields"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895324800757-9htrfvta3p9lcutpdi7t5ugvdtecpptg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeW7AjLa2jmetxz5VHawhOuAx722FuLHE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

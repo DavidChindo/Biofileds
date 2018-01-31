@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WorkFlow</string>
+    <string name="app_name">Formato de Requisición Digital</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -16,9 +16,9 @@
     </string>
 
     <!-- URL -->
-    <string name="url_qa">http://workflowbf.azurewebsites.net/workflow/v1/index.php/</string>
-    <string name="url_prod">http://workflowbf.azurewebsites.net/workflow/wsprod_v1/index.php/</string>
-
+    <string name="url_qa">http://workflowbf.azurewebsites.net/workflow/qa_v1/index.php/</string>
+    <string name="url_prod">http://workflowmgr.azurewebsites.net/workflow/wsprod_v1/index.php/</string>
+<!--<string name="url_prod">http://workflowbf.azurewebsites.net/workflow/wsprod_v1/index.php/</string> -->
     <!-- Generic Text-->
     <string name="accept">Aceptar</string>
     <string name="reject">Rechazar</string>
@@ -54,7 +54,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Form Requisition Activity -->
-    <string name="act_form_comments">Anotaciones</string>
+    <string name="act_form_comments">Justificación</string>
     <string name="act_form_description">Descripción del requerimiento</string>
     <string name="act_form_info_item">Llenese sólo si conoce la información</string>
     <string name="act_form_poa">A) ¿Esta dentro del Programa de Presupuesto?</string>

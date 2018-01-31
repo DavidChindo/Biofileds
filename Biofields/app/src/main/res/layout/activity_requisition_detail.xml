@@ -233,7 +233,7 @@
                             style="@style/font_title_detail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Anotaciones"
+                            android:text="Justificación"
                             android:textStyle="bold" />
 
                         <TextView

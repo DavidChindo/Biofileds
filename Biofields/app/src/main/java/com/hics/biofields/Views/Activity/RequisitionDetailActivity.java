@@ -133,10 +133,28 @@ public class RequisitionDetailActivity extends AppCompatActivity {
 
     private void addInvolved(String name){
         if (name != null && !name.isEmpty()){
-            View involvedLn = getLayoutInflater().inflate(R.layout.item_involved,null);
-            TextView involvedTxt = (TextView) involvedLn.findViewById(R.id.item_involved_name);
-            involvedTxt.setText(getString(R.string.involved_name,name));
-            involvesLn.addView(involvedLn);
+            TextView involvedTxtView;
+            View involvedItem = null;
+            if(!name.contains("Solicita") || !name.contains("solicita")){
+                if (name.contains("@")){
+                    View involvedLn = getLayoutInflater().inflate(R.layout.item_bold_involved,null);
+                    TextView involvedTxt = (TextView) involvedLn.findViewById(R.id.item_involved_name);
+                    involvedTxtView = involvedTxt;
+                    involvedItem = involvedLn;
+                }else{
+                    View involvedLn = getLayoutInflater().inflate(R.layout.item_involved,null);
+                    TextView involvedTxt = (TextView) involvedLn.findViewById(R.id.item_involved_name);
+                    involvedTxtView = involvedTxt;
+                    involvedItem = involvedLn;
+                }
+            }else{
+                View involvedLn = getLayoutInflater().inflate(R.layout.item_involved,null);
+                TextView involvedTxt = (TextView) involvedLn.findViewById(R.id.item_involved_name);
+                involvedTxtView = involvedTxt;
+                involvedItem = involvedLn;
+            }
+            involvedTxtView.setText(getString(R.string.involved_name,name));
+            involvesLn.addView(involvedItem);
         }
     }
 
@@ -300,6 +318,7 @@ public class RequisitionDetailActivity extends AppCompatActivity {
                 });
             }
         }else{
+            mProgressDialog.dismiss();
             DesignUtils.errorMessage(this,"Autorizar Requisición","No hay conexión a internet");
         }
     }

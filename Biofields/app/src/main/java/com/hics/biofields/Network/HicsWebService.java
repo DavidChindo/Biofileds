@@ -61,12 +61,8 @@ public interface HicsWebService {
     Call<ArrayList<RequisitionDetailResponse>> requisitionDetail(@Header("Authorization") String authorization,
                                                                  @Path("req_id") int id);
 
-
-    //Call<RecoveryPasswordResponse> recoveryPassword(@Body RecoveryPasswordRequest recoveryPasswordRequest);
     @POST("POST/recoverypasswd")
     Call<RecoveryPasswordResponse> recoveryPassword(@Body RecoveryPasswordRequest recoveryPasswordRequest);
-    /*@FormUrlEncoded
-    Call<RecoveryPasswordResponse> recoveryPassword(@Field("email") String email);*/
 
     @POST("POST/logout")
     Call<ResponseGeneric> logout(@Header("Authorization") String authorization);
